@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+.width80{
+    width : 85vw !important;
+    margin : 10px auto !important;
+}
+
+.alert-danger{
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(245, 75, 75);
+    color : white;
+}

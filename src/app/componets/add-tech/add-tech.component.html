@@ -1,0 +1,56 @@
+<div class="ui card main-form width80">
+    <div class="content">
+        <h1 class="header">Add new technology</h1>
+    </div>
+
+    <div *ngIf="error" class="content">
+        <h4 class="alert-danger">{{error}}</h4>
+    </div>
+    <div class="content">
+        <div class="ui large form equal width stackable grid">
+
+            <form class="three column row" #addTechForm="ngForm">
+
+
+                <div class="column field">
+                    <label for="techName">Name</label>
+                    <input type="text" id="techName" name="techName" placeholder="Enter name here"
+                        [(ngModel)]="tech.name" #name="ngModel" required />
+
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
+                            <p *ngIf="name.errors.required">Name is required</p>
+                        </div>
+                </div>
+                
+                <div class="column field">
+                    <label for="techType">Type</label>
+                    <select name="techType" class="ui fluid search selection dropdown" [(ngModel)]="tech.type" #type="ngModel" required>
+                        <option *ngFor="let t of types" class="item" [value]="t">{{ t | uppercase }}</option>
+                    </select>
+
+                        <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert-danger">
+                            <p *ngIf="type.errors.required">Type is required</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                    <label for="techIcon">Icon</label>
+                    <input type="text" id="techIcon" name="techIcon" placeholder="Enter icon url here"
+                        [(ngModel)]="tech.icon" #icon="ngModel" required/>
+
+                        <div *ngIf="icon.invalid && (icon.dirty || icon.touched)" class="alert-danger">
+                            <p *ngIf="icon.errors.required">Icon is required</p>
+                        </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="row">
+            <button class="ui positive right floated button" [disabled]="addTechForm.invalid"
+                (click)="saveTech()">Save</button>
+        </div>
+    </div>
+</div>

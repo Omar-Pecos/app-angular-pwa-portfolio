@@ -1,0 +1,30 @@
+
+ <div *ngIf="error" class="content">
+    <h4 class="alert-danger">{{error}}</h4>
+</div>
+<div *ngIf="seePassConfirmation" class="ui raised very padded text container segment">
+    <h3 class="ui header">Enter omarpv private password</h3>
+    <input type="password" [(ngModel)]="password">
+    <button (click)="deleteTech( this.idToDelete )" class="ui button">
+        Verify
+      </button>
+</div>
+<div class="ui raised very padded text container segment">
+    <h2 class="ui header">Technologies</h2>
+    <p>Several technologies to append to projects and profile</p>
+    <div class="ui buttons">
+        <button *ngIf="!seeTech" class="ui button" (click)="seeTech = true">See</button>
+        <button *ngIf="seeTech" class="ui button" (click)="seeTech = false">Hide</button>
+        <div class="or"></div>
+        <button class="ui positive button" routerLink="/add-tech">Add new</button>
+    </div>
+
+    <div *ngIf="seeTech && Techs$ | async as techs " class="segment">
+        <div  *ngFor="let t of techs">
+            <div *ngIf="!techsDeleted.includes(t._id)"  style="margin: 10px;background-color: darkslategray;color: grey;" >
+                <span (click)="seePrivatePassConfirmation( t._id )" class="alert-danger" style="float:right;">X</span>
+               <p style="white-space: pre;"> {{t | json}} </p>
+            </div>
+        </div>
+    </div>
+  </div>
