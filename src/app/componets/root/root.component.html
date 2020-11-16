@@ -19,12 +19,22 @@
         <button class="ui positive button" routerLink="/add-tech">Add new</button>
     </div>
 
-    <div *ngIf="seeTech && Techs$ | async as techs " class="segment">
+    <ng-container *ngIf="seeTech && Techs$ | async as techs; else loading" class="segment">
         <div  *ngFor="let t of techs">
             <div *ngIf="!techsDeleted.includes(t._id)"  style="margin: 10px;background-color: darkslategray;color: grey;" >
                 <span (click)="seePrivatePassConfirmation( t._id )" class="alert-danger" style="float:right;">X</span>
                <p style="white-space: pre;"> {{t | json}} </p>
             </div>
         </div>
-    </div>
-  </div>
+
+        <ng-template #loading>
+            <h4>Loading ...</h4>
+        </ng-template>
+    </ng-container>
+
+    
+
+</div>
+
+ 
+  

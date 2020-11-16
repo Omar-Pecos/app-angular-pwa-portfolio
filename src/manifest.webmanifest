@@ -1,6 +1,6 @@
 {
-  "name": "omarpv-angular",
-  "short_name": "omarpv-angular",
+  "name": "My Portfolio provider",
+  "short_name": "My Portfolio",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

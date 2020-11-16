@@ -26,5 +26,19 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "omarpv_portfolio_api",
+      "urls": [
+        "http://localhost:9000"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 10000,
+        "maxAge": "10h",
+        "timeout": "5s"
+      }
+    }
   ]
 }
