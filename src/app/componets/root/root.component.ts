@@ -18,7 +18,7 @@ export class RootComponent implements OnInit {
   error : String = '';
 
   techsDeleted : Array<String> = [];
-  idToDelete : String = '';
+  itemToDelete : any = null;
 
   password : string = '';
   seePassConfirmation : boolean = false;
@@ -45,23 +45,23 @@ export class RootComponent implements OnInit {
 
   loadData() {
     //techs
-    this.Techs$ = this._techService.getTechs();
+    this.Techs$ = this._techService.getData();
   }
 
-  seePrivatePassConfirmation(id){
+  seePrivatePassConfirmation(tech : Tech){
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#D9D9D9',
       confirmButtonText: 'Delete'
     })
     .then((result) => {
       if (result.isConfirmed) {
         
-        this.idToDelete = id;
+        this.itemToDelete = tech;
         this.seePassConfirmation = true;
     
         window.scrollTo(0, 0);
@@ -70,39 +70,39 @@ export class RootComponent implements OnInit {
    
   }
 
-  deleteTech(id){
+  deleteTech(tech : Tech){
 
     if (this.password == environment.pass){
       // do the actual delete
-      this._techService.deleteTech(id)
-      .subscribe(
-        res =>{
-          if (res.error){
-            this.error = res.error;
-          }else{
-            this.techsDeleted.push(id);
-            var host = 'API';
-            if (res.local)
-            host = 'LOCAL';
-            
-            console.log("Tech deleted - " + host, res.data.name);
-            this.error = '';
+      this._techService.deleteItem(tech)
+        .subscribe(
+          res =>{
+            if (res.error){
+              this.error = res.error;
+            }else{
+              this.techsDeleted.push(tech._id);
+              var host = 'API';
+              if (res.local)
+              host = 'LOCAL';
+              
+              console.log("Tech deleted - " + host, res.data.name);
+              this.error = '';
 
-            Swal.fire("Good job! - " + host, "Tech deleted in "+ host, "success");
+              Swal.fire("Good job! - " + host, "Tech ''"+ res.data.name +"'' deleted in "+ host, "success");
 
+            }
+          },
+          error =>{
+            console.log(error);
+            this.error = error.message;
           }
-        },
-        error =>{
-          console.log(error);
-          this.error = error.message;
-        }
-      )
+        )
   }else{
     // the password dont match
     this.error = 'Not verified - You are not omarpv ;)'
   }
      
-    this.idToDelete = '';
+    this.itemToDelete = '';
     this.seePassConfirmation = false;
     this.password = '';
     

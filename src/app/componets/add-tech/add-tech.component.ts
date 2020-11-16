@@ -27,7 +27,7 @@ export class AddTechComponent implements OnInit {
   }
 
   saveTech(){
-    this._techService.addTech(  this.tech )
+    this._techService.addItem(  this.tech )
       .subscribe(
         res =>{
           if (res.error){
@@ -37,6 +37,8 @@ export class AddTechComponent implements OnInit {
             if (res.local)
               host = 'LOCAL';
             
+              console.log("RES deleteItem" , res);
+              
             console.log("Tech added - " + host, res.data.name);
 
             //redirect to home
