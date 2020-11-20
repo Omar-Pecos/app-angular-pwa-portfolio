@@ -21,6 +21,7 @@
     "@angular/router": "~10.2.0",
     "@angular/service-worker": "~10.2.0",
     "dexie": "^3.0.2",
+    "ngx-clipboard": "^14.0.1",
     "rxjs": "~6.6.0",
     "sweetalert2": "^10.10.1",
     "tslib": "^2.0.0",

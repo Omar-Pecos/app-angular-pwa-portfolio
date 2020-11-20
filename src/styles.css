@@ -9,3 +9,26 @@
     background-color: rgb(245, 75, 75);
     color : white;
 }
+
+.rowflex{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.badge-tech{
+    color : white;
+    border-radius : 12px;
+    min-width: max-content;
+    padding: 5px;
+    margin: 5px 2px;
+}
+
+.color-red{
+    background: red;
+}
+
+pre {
+    overflow: auto;
+    max-width: 100%;
+  }

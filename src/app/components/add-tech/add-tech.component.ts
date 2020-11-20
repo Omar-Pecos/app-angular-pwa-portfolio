@@ -37,7 +37,7 @@ export class AddTechComponent implements OnInit {
             if (res.local)
               host = 'LOCAL';
             
-              console.log("RES deleteItem" , res);
+              //console.log("RES deleteItem" , res);
               
             console.log("Tech added - " + host, res.data.name);
 
@@ -53,6 +53,15 @@ export class AddTechComponent implements OnInit {
           this.error = error.message;
         }
       )
+  }
+
+  pasteJson(){
+    navigator.clipboard.readText()
+      .then(text =>{
+        this.tech = JSON.parse( text );
+      }).catch(error =>{
+        console.log(error);
+      })
   }
 
 }

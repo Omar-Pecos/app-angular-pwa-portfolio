@@ -4,6 +4,8 @@ import { Tech } from 'src/app/models/Tech';
 import { environment } from 'src/environments/environment';
 import { TechService } from '../../services/tech.service';
 import Swal from 'sweetalert2';
+import { Profile } from 'src/app/models/Profile';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +16,12 @@ export class RootComponent implements OnInit {
   loading : ViewContainerRef;
   
   Techs$ : Observable<Tech[]> = null;
+  Profile$ : Observable<Profile> = null;
   seeTech : boolean = false;
+  seeProfile : boolean = false;
   error : String = '';
 
+  techDisplayed : Tech = null;
   techsDeleted : Array<String> = [];
   itemToDelete : any = null;
 
@@ -26,7 +31,8 @@ export class RootComponent implements OnInit {
   hadBeenReloaded : boolean = false;
 
   constructor(
-    private _techService : TechService
+    private _techService : TechService,
+    private _profileService : ProfileService
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +49,12 @@ export class RootComponent implements OnInit {
       )
   }
 
-  loadData() {
+  loadData(){
+    this.loadTechData();
+    this.loadProfileData();
+  }
+
+  loadTechData() {
     //techs
     this.Techs$ = this._techService.getData();
   }
@@ -87,6 +98,7 @@ export class RootComponent implements OnInit {
               
               console.log("Tech deleted - " + host, res.data.name);
               this.error = '';
+              this.techDisplayed = null;
 
               Swal.fire("Good job! - " + host, "Tech ''"+ res.data.name +"'' deleted in "+ host, "success");
 
@@ -111,10 +123,49 @@ export class RootComponent implements OnInit {
   reload(){
     if (!this.hadBeenReloaded){
       console.log('RELOAD');
-      this.loadData();
+      this.loadTechData();
       this.hadBeenReloaded = true;
     }
+  }
 
+  setColor(type){
+    var color = 'black';
+    switch(type){
+      case 'backend': 
+        color = 'red';
+        break;
+      case 'frontend': 
+        color = 'green';
+        break;
+      case 'native': 
+        color = 'brown';
+        break;
+      case 'desktop':
+        color = 'orange';
+        break;
+      case 'hybrid':
+        color = 'blue';
+        break;
+    }
+    
+    return color;
+  }
+
+  stringify(value){
+    return JSON.stringify(value);
+  }
+
+  hideTech(){
+    this.seeTech = false;
+    this.techDisplayed = null;
+  }
+
+  /* PROFILE */
+  prettify(json){
+   return JSON.stringify(json,null,'\t')
+  }
+  loadProfileData(){
+    this.Profile$ = this._profileService.getOneData();
   }
 
 }

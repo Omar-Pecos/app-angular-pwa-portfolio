@@ -7,7 +7,7 @@ import { ApiResponse } from '../models/ApiResponse';
 import { OnlineOfflineService } from './online-offline.service';
 import Dexie from "dexie";
 import Swal from 'sweetalert2';
-import { element } from 'protractor';
+
 
 export interface IndexedDbItem{
   id : string,
@@ -50,6 +50,13 @@ export abstract class BaseService<T extends {_id : string}> {
 
 
   getData() : Observable<T[]>{
+    return this._http.get(this.APIurl)
+      .pipe(
+        map( (res : ApiResponse ) => res.data)
+      )
+  }
+
+  getOneData() : Observable<T>{
     return this._http.get(this.APIurl)
       .pipe(
         map( (res : ApiResponse ) => res.data)

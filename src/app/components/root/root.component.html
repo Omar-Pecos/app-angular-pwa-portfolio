@@ -1,0 +1,70 @@
+
+ <div *ngIf="error" class="content">
+    <h4 class="alert-danger">{{error}}</h4>
+</div>
+<div *ngIf="seePassConfirmation" class="ui raised very padded text container segment">
+    <h3 class="ui header">Enter omarpv private password</h3>
+    <input type="password" [(ngModel)]="password">
+    <button (click)="deleteTech( this.itemToDelete )" class="ui button">
+        Verify
+      </button>
+</div>
+
+<!-- TECHS -->
+<div class="ui raised very padded text container segment">
+    <h2 class="ui header">Technologies</h2>
+    <p>Several technologies to append to projects and profile</p>
+    <div class="ui buttons">
+        <button *ngIf="!seeTech" class="ui button" (click)="seeTech = true">See</button>
+        <button *ngIf="seeTech" class="ui button" (click)="hideTech()">Hide</button>
+        <div class="or"></div>
+        <button class="ui positive button" routerLink="/add-tech">Add new</button>
+    </div>
+
+    <div *ngIf="seeTech && Techs$ | async as techs"  class="rowflex">
+        <div  *ngFor="let t of techs"  class="badge-tech" [style.background]="setColor(t.type)" [style.display]="techsDeleted.includes(t._id) ? 'none' : 'block'" >
+            <div (click)="techDisplayed = t" class="rowflex" >
+                <img width="20" [src]="t.icon" [alt]="t.name" style="margin-right: 5px;"/>
+                {{ t.name }}
+            </div>
+        </div>
+
+        <div *ngIf="seeTech && !techs">
+            <h4>Loading ...</h4>
+        </div>   
+    </div>
+
+    <!-- Tech displayed -->
+    <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
+        <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">X</span>
+        <pre>
+            <code> {{ techDisplayed | json}} </code>
+        </pre>
+        <button ngxClipboard [cbContent]=" stringify(techDisplayed) " style="float: right;">Copy JSON</button>
+    </div>
+    
+</div>
+
+<!-- PROFILE -->
+<div class="ui raised very padded text container segment">
+    <h2 class="ui header">Profile</h2>
+    <p>Profile for landing page</p>
+    <div class="ui buttons">
+        <button *ngIf="!seeProfile" (click)="seeProfile = true" class="ui button" >See</button>
+        <button *ngIf="seeProfile" (click)="seeProfile = false"  class="ui button" >Hide</button>
+    </div>
+
+    <div *ngIf="seeProfile && Profile$ | async as profile">
+        <div style="width : 100% ; margin: 10px; background-color: darkslategray;color: grey;">
+                <pre>
+                    <code>{{ profile | json }}</code>
+                </pre>
+        </div>
+
+        <button [routerLink]="['/add-profile']" [state]="profile" class="ui positive button" style="float: left;">Add new</button>
+
+    </div>
+   
+</div>
+ 
+  
