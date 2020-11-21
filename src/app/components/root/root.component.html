@@ -5,7 +5,7 @@
 <div *ngIf="seePassConfirmation" class="ui raised very padded text container segment">
     <h3 class="ui header">Enter omarpv private password</h3>
     <input type="password" [(ngModel)]="password">
-    <button (click)="deleteTech( this.itemToDelete )" class="ui button">
+    <button (click)="deleteItem( this.itemToDelete )" class="ui button">
         Verify
       </button>
 </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div *ngIf="seeTech && Techs$ | async as techs"  class="rowflex">
-        <div  *ngFor="let t of techs"  class="badge-tech" [style.background]="setColor(t.type)" [style.display]="techsDeleted.includes(t._id) ? 'none' : 'block'" >
+        <div  *ngFor="let t of techs"  class="badge-tech" [style.background]="setColor(t.type)" [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'" >
             <div (click)="techDisplayed = t" class="rowflex" >
                 <img width="20" [src]="t.icon" [alt]="t.name" style="margin-right: 5px;"/>
                 {{ t.name }}
@@ -66,5 +66,38 @@
     </div>
    
 </div>
- 
+
+<!-- COURSES -->
+<div class="ui raised very padded text container segment">
+    <h2 class="ui header">Courses</h2>
+    <p>Several courses done or in progress</p>
+    <div class="ui buttons">
+        <button *ngIf="!seeCourse" class="ui button" (click)="seeCourse = true">See</button>
+        <button *ngIf="seeCourse" class="ui button" (click)="hideCourse()">Hide</button>
+        <div class="or"></div>
+        <button class="ui positive button" routerLink="/add-course">Add new</button>
+    </div>
+
+    <div *ngIf="seeCourse && Courses$ | async as courses"  class="rowflex">
+        <div  *ngFor="let c of courses"  class="badge-tech" style="background: black;" [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
+            <div (click)="courseDisplayed = c" class="rowflex"  >
+                {{ c.name }} - {{c.platform}} : {{ (c.duration/60) }} h
+            </div>
+        </div>
+
+        <div *ngIf="seeCourse && !courses">
+            <h4>Loading ...</h4>
+        </div>   
+    </div>
+
+    <!-- Course displayed -->
+    <div *ngIf="courseDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
+        <span (click)="seePrivatePassConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">X</span>
+        <pre>
+            <code> {{ courseDisplayed | json}} </code>
+        </pre>
+        <button ngxClipboard [cbContent]=" stringify(courseDisplayed) " style="float: right;">Copy JSON</button>
+    </div>
+    
+</div>
   

@@ -1,0 +1,126 @@
+<p style="text-align: center;">
+    <img style="width: 30vw; margin: 7px;" src="assets/images/courses.png" alt="Profile"/>
+</p>
+
+<div class="ui card main-form width80">
+    <div class="content">
+        <button (click)="pasteJson()" style="float: right;">Paste JSON</button>
+        <h1 class="header">Add new course</h1>
+    </div>
+
+    <div *ngIf="error" class="content">
+        <h4 class="alert-danger">{{error}}</h4>
+    </div>
+
+    <div class="content">
+
+        <div class="ui large form equal width stackable grid">
+
+            <form class="three column row" #addCourseForm="ngForm">
+
+
+                <div class="column field">
+                    <label for="courseName">Name</label>
+                    <input type="text" id="coursename" name="coursename" placeholder="Enter name here"
+                        [(ngModel)]="course.name" #name="ngModel" required />
+
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
+                            <p *ngIf="name.errors.required">Name is required</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                    <label for="courseUrl">Url</label>
+                    <input type="text" id="courseurl" name="courseurl" placeholder="Enter Url here"
+                        [(ngModel)]="course.url"/> 
+                </div>
+                
+                <div class="column field">
+                    <label for="coursePlatform">Platform</label>
+                    <input type="text" id="courseplatform" name="courseplatform" placeholder="Enter platform here"
+                        [(ngModel)]="course.platform" #platform="ngModel" required />
+                        
+                        <div *ngIf="platform.invalid && (platform.dirty || platform.touched)" class="alert-danger">
+                            <p *ngIf="platform.errors.required">Platform is required</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                    <label for="courseDesc">Description</label>
+                    <textarea type="text" id="profiledescription" name="profiledescription" placeholder="Enter description here"
+                        [(ngModel)]="course.description" #description="ngModel" required></textarea>
+
+                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
+                            <p *ngIf="description.errors.required">Description is required</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                    <label for="courseLanguage">Language</label>
+                    <input type="text" id="courselanguage" name="courselanguage" placeholder="Enter language here"
+                        [(ngModel)]="course.language" #language="ngModel" required />
+                        
+                        <div *ngIf="language.invalid && (language.dirty || language.touched)" class="alert-danger">
+                            <p *ngIf="language.errors.required">Language is required</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                    <label for="courseDuration">Duration (min)</label>
+                    <input type="number"  pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$" id="courseduration" name="courseduration"
+                        [(ngModel)]="course.duration" #duration="ngModel" required />
+                        
+                        <div *ngIf="duration.invalid && (duration.dirty || duration.touched)" class="alert-danger">
+                            <p *ngIf="duration.errors.required">Duration is required</p>
+                            <p *ngIf="duration.errors.pattern">Duration has to be greater than 0!</p>
+                        </div>
+                </div>
+
+                <div class="column field">
+                   <select name="courseDone" id="courseDone" [(ngModel)]="course.done" #done="ngModel" required>
+                       <option value="true" selected>Done</option>
+                       <option value="false" selected>Unfinished</option>
+                   </select>
+                </div>
+
+                <div class="column field">
+                    <p style="text-align: center;">
+                        <button *ngIf="!seeAddTechForm" (click)="seeAddTechForm = true" class="ui positive button">Add Tech</button>
+                    </p>
+
+                    <div *ngIf="seeAddTechForm" class="rowflex">
+                        <select placeholder="Placeholder" [(ngModel)]="selectedTechID" name="selectedTechID" style="width: 70%;" required>
+                            <option value="-1">Select tech</option>
+                            <option *ngFor="let tech of techs" [value]="tech._id">
+                                {{ tech.name }}
+                            </option>
+                        </select>
+
+                        <button (click)="addTech()" class="ui positive right floated button" [disabled]="selectedTechID == '-1'" style="margin-top: 3px;">
+                            +</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+            <br/>
+        <h3 *ngIf="course.techs.length > 0" class="header">Techs</h3>
+        <div *ngIf="course.techs.length > 0" class="rowflex">
+           <div *ngFor="let tech of course.techs" style="margin-right: 5px; margin-bottom: 10px">
+               <span  class="badge-tech" [style.background]="setColor(tech.type)">
+                    {{ tech.name }}
+                    <span (click)="deleteTech( tech._id )" style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;" class="alert-danger">x</span>
+               </span>
+           </div>
+        </div>
+        
+    </div>
+    <div class="extra content">
+        <div class="row">
+            <button class="ui positive right floated button" [disabled]="addCourseForm.invalid || course.techs.length == 0"
+                (click)="saveCourse()">Save</button>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { RootComponent } from './components/root/root.component';
 import { AddTechComponent } from './components/add-tech/add-tech.component';
 import { AddProfileComponent } from './components/add-profile/add-profile.component';
+import { AddCourseComponent } from './components/add-course/add-course.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AddProfileComponent } from './components/add-profile/add-profile.compon
     NavComponent,
     RootComponent,
     AddTechComponent,
-    AddProfileComponent
+    AddProfileComponent,
+    AddCourseComponent
   ],
   imports: [
     BrowserModule,
