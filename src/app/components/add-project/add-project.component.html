@@ -1,0 +1,174 @@
+<p style="text-align: center;">
+    <img style="width: 30vw; margin: 7px;" src="assets/images/projects.jpg" alt="Projects" />
+</p>
+
+<div class="ui card main-form width80">
+    <div class="content">
+        <button (click)="pasteJson()" style="float: right;">Paste JSON</button> 
+        <button *ngIf="project._id" (click)="setMakeNew()" style="float: right;">¿Create new?</button>
+        <h1 class="header">Add new project</h1>
+        <h4 *ngIf="makeNew" class="badge-tech" style="background: rgb(221, 160, 221); width: fit-content;">Creating new project from JSON</h4>
+    </div>
+
+    <div *ngIf="error" class="content">
+        <h4 class="alert-danger">{{error}}</h4>
+    </div>
+
+    <div class="content">
+
+        <div class="ui large form equal width stackable grid">
+
+            <form class="three column row" #addProjectForm="ngForm">
+
+
+                <div class="column field">
+                    <label for="projectName">Name</label>
+                    <input type="text" id="projectname" name="projectname" placeholder="Enter name here"
+                        [(ngModel)]="project.name" #name="ngModel" required />
+
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
+                        <p *ngIf="name.errors.required">Name is required</p>
+                    </div>
+                </div>
+
+                <div class="column field">
+                    <label for="techType">Type</label>
+                    <select name="techType" class="ui fluid search selection dropdown" [(ngModel)]="project.type"
+                        #type="ngModel" required>
+                        <option *ngFor="let t of types" class="item" [value]="t">{{ t | uppercase }}</option>
+                    </select>
+
+                    <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert-danger">
+                        <p *ngIf="type.errors.required">Type is required</p>
+                    </div>
+                </div>
+
+                <div class="column field">
+                    <label for="projectUrl">Url</label>
+                    <input type="text" id="projecturl" name="projecturl" placeholder="Enter Url here"
+                        [(ngModel)]="project.url" />
+                </div>
+
+                <div class="column field">
+                    <select name="projectDone" id="projectDone" [(ngModel)]="project.pinned" #done="ngModel" required>
+                        <option value="true" selected>Pinned</option>
+                        <option value="false" selected>Unpinned</option>
+                    </select>
+                </div>
+
+                <div class="column field rowflex" style="margin: 50px 0;">
+                    <!-- Add tech for project.techs -->
+                    <div>
+                        <p style="text-align: center;">
+                            <button *ngIf="!seeAddTechForm" (click)="seeAddTechForm = true"
+                                class="ui positive button">Add
+                                Tech</button>
+                        </p>
+
+                        <div *ngIf="seeAddTechForm" class="rowflex">
+                            <select placeholder="Placeholder" [(ngModel)]="selectedTechID" name="selectedTechID"
+                                style="width: 70%;" required>
+                                <option value="-1">Select tech</option>
+                                <option *ngFor="let tech of techs" [value]="tech._id">
+                                    {{ tech.name }}
+                                </option>
+                            </select>
+
+                            <button (click)="addTech()" class="ui positive right floated button"
+                                [disabled]="selectedTechID == '-1'" style="margin-top: 3px;">
+                                +</button>
+                        </div>
+                    </div>
+                    <!-- Add images for project.images -->
+                    <div >
+                        <p style="text-align: center;">
+                            <button *ngIf="!seeAddImageForm" (click)="seeAddImageForm = true"
+                                class="ui positive button">Add Image</button>
+                        </p>
+
+                        <div *ngIf="seeAddImageForm" class="rowflex">
+                            <input type="text" [(ngModel)]="newImageUrl" name="selectedTechID" style="width: 70%;"
+                                required />
+
+                            <button (click)="addImage()" class="ui positive right floated button"
+                                [disabled]="!newImageUrl" style="margin-top: 3px;">
+                                +</button>
+                        </div>
+                    </div>
+
+                    <!-- Add files for project.files -->
+                    <div >
+                        <p style="text-align: center;">
+                            <button *ngIf="!seeAddFileForm" (click)="seeAddFileForm = true"
+                                class="ui positive button">Add File</button>
+                        </p>
+
+                        <div *ngIf="seeAddFileForm" class="rowflex">
+                            <input type="text" [(ngModel)]="newFileUrl" name="selectedTechID" style="width: 70%;"
+                                required />
+
+                            <button (click)="addFile()" class="ui positive right floated button"
+                                [disabled]="!newFileUrl" style="margin-top: 3px;">
+                                +</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="column field">
+                    <label for="projectDesc">Description</label>
+                    <textarea type="text" id="profiledescription" name="profiledescription"
+                        placeholder="Enter description here" [(ngModel)]="project.description" #description="ngModel"
+                        required></textarea>
+
+                    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
+                        <p *ngIf="description.errors.required">Description is required</p>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <br />
+        <h3 *ngIf="project.techs.length > 0" class="header">Techs</h3>
+        <div *ngIf="project.techs.length > 0" class="rowflex">
+            <div *ngFor="let tech of project.techs" style="margin-right: 5px; margin-bottom: 10px">
+                <span class="badge-tech" [style.background]="setColor(tech.type)">
+                    {{ tech.name }}
+                    <span (click)="deleteTech( tech._id )"
+                        style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;" class="alert-danger">x</span>
+                </span>
+            </div>
+        </div>
+
+        <h3 *ngIf="project.images.length > 0" class="header">Images</h3>
+        <div *ngIf="project.images.length > 0" class="rowflex">
+            <div *ngFor="let image of project.images" style="margin-right: 5px; margin-bottom: 10px">
+                <span class="badge-tech" style="background : black;">
+                    {{ image }}
+                    <span (click)="deleteImage( image )" style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;"
+                        class="alert-danger">x</span>
+                </span>
+            </div>
+        </div>
+
+        <h3 *ngIf="project.files.length > 0" class="header">Files</h3>
+        <div *ngIf="project.files.length > 0" class="rowflex">
+            <div *ngFor="let file of project.files" style="margin-right: 5px; margin-bottom: 10px">
+                <span class="badge-tech" style="background : black;">
+                    {{ file }}
+                    <span (click)="deleteFile( file )" style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;"
+                        class="alert-danger">x</span>
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="extra content">
+        <div class="row">
+            <button class="ui positive right floated button"
+                [disabled]="addProjectForm.invalid || project.techs.length == 0" (click)="saveProject()">Save</button>
+        </div>
+    </div>
+</div>

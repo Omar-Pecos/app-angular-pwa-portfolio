@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
 
+import { ObsWithStatusPipe } from './pipes/obs-with-status.pipe';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -13,6 +15,7 @@ import { RootComponent } from './components/root/root.component';
 import { AddTechComponent } from './components/add-tech/add-tech.component';
 import { AddProfileComponent } from './components/add-profile/add-profile.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
+import { AddProjectComponent } from './components/add-project/add-project.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { AddCourseComponent } from './components/add-course/add-course.component
     RootComponent,
     AddTechComponent,
     AddProfileComponent,
-    AddCourseComponent
+    AddCourseComponent,
+    AddProjectComponent,
+    ObsWithStatusPipe
   ],
   imports: [
     BrowserModule,

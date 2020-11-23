@@ -20,15 +20,31 @@
     color : white;
     border-radius : 12px;
     min-width: max-content;
+    width: fit-content;
     padding: 5px;
     margin: 5px 2px;
-}
-
-.color-red{
-    background: red;
 }
 
 pre {
     overflow: auto;
     max-width: 100%;
+  }
+
+  .preStyle{
+    margin: 10px;
+    background-color: darkslategray;
+    color: grey;
+  }
+
+  .contentPadded{
+      padding: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      font-style: oblique;
+  }
+
+  .focusDiv{
+      margin: 5px !important;
+      border: 5px solid red!important;
+      border-radius: 8px !important;
   }

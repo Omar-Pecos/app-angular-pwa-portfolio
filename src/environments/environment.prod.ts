@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  APIurl : 'http://localhost:9000',
+  APIurl : 'https://api-node-portfolio.omarpv.repl.co',
   pass : 'test_prod'
 };

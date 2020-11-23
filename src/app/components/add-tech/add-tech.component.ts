@@ -11,9 +11,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./add-tech.component.css']
 })
 export class AddTechComponent implements OnInit {
+
   tech : Tech = new Tech();
   types : Array<String>;
   error : string = '';
+
+  makeNew : boolean = false;
 
   constructor(
     private _techService : TechService,
@@ -22,7 +25,7 @@ export class AddTechComponent implements OnInit {
 
   ngOnInit(): void {
     this.types = [
-      'backend','frontend','fullstack','desktop','hybrid','native'
+      'backend','frontend','fullstack','desktop','hybrid','native','game','design'
     ]
   }
 
@@ -39,7 +42,7 @@ export class AddTechComponent implements OnInit {
             
               //console.log("RES deleteItem" , res);
               
-            console.log("Tech added - " + host, res.data.name);
+            //console.log("Tech added - " + host, res.data.name);
 
             //redirect to home
             this.router.navigate(['/home']);
@@ -49,7 +52,7 @@ export class AddTechComponent implements OnInit {
           
         },
         error =>{
-          console.log(error);
+          //console.log(error);
           this.error = error.message;
         }
       )
@@ -60,8 +63,12 @@ export class AddTechComponent implements OnInit {
       .then(text =>{
         this.tech = JSON.parse( text );
       }).catch(error =>{
-        console.log(error);
+        //console.log(error);
       })
   }
 
+  setMakeNew(){
+    this.tech._id = null;
+    this.makeNew = true;
+  }
 }

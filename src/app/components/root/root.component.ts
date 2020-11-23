@@ -8,6 +8,10 @@ import { Profile } from 'src/app/models/Profile';
 import { ProfileService } from '../../services/profile.service';
 import { Course } from 'src/app/models/Course';
 import { CourseService } from '../../services/course.service';
+import { ProjectService } from 'src/app/services/project.service';
+import { Project } from '../../models/Project';
+import { setColor } from '../../utils/helpers';
+import { PassService } from '../../services/pass.service';
 
 @Component({
   selector: 'app-root',
@@ -20,17 +24,22 @@ export class RootComponent implements OnInit {
   Techs$: Observable<Tech[]> = null;
   Profile$: Observable<Profile> = null;
   Courses$: Observable<Course[]> = null;
+  Projects$ : Observable<Project[]> = null;
+
   seeTech: boolean = false;
   seeProfile: boolean = false;
   seeCourse: boolean = false;
+  seeProject : boolean = false;
   error: String = '';
 
   techDisplayed: Tech = null;
   courseDisplayed: Course = null;
+  projectDisplayed: Project = null;
   itemsDeleted: Array<String> = [];
   itemToDelete: any = null;
 
   password: string = '';
+  private PASS : string = environment.pass;
   seePassConfirmation: boolean = false;
 
   hadBeenReloaded: boolean = false;
@@ -38,7 +47,9 @@ export class RootComponent implements OnInit {
   constructor(
     private _techService: TechService,
     private _profileService: ProfileService,
-    private _courseService: CourseService
+    private _courseService: CourseService,
+    private _projectService : ProjectService,
+    private _passService : PassService
   ) { }
 
   ngOnInit(): void {
@@ -46,19 +57,33 @@ export class RootComponent implements OnInit {
     this._techService.reloadWarning
       .subscribe(
         value => {
-          console.log(value);
+          //console.log(value);
           if (value)
             this.reload();
           else
             this.hadBeenReloaded = false;
+
+
+              this._passService.getPass()
+              .subscribe(
+                res => {
+                  this.PASS = res['pass'];
+                },
+                error =>{
+                  //console.log(error);
+                  this.PASS = environment.pass;
+                }
+              )
         }
       )
+
   }
 
   loadData() {
     this.loadTechData();
     this.loadProfileData();
     this.loadCourseData();
+    this.loadProjectsData();
   }
 
   loadTechData() {
@@ -100,11 +125,12 @@ export class RootComponent implements OnInit {
       type = 'Course';
       obs = this._courseService.deleteItem(item);
     }
-    else
+    else{
       type = 'Project'
+      obs = this._projectService.deleteItem(item);
+    }
 
-
-    if (this.password == environment.pass) {
+    if (this.password == this.PASS) {
       // do the actual delete - obs is a observable
      obs
         .subscribe(
@@ -117,18 +143,19 @@ export class RootComponent implements OnInit {
               if (res.local)
                 host = 'LOCAL';
 
-              console.log(type + " deleted - " + host);
+              //console.log(type + " deleted - " + host);
               this.error = '';
 
               this.techDisplayed = null;
               this.courseDisplayed = null;
+              this.projectDisplayed = null;
 
               Swal.fire("Good job! - " + host, type + " deleted in " + host, "success");
 
             }
           },
           error => {
-            console.log(error);
+            //console.log(error);
             this.error = error.message;
           }
         )
@@ -145,34 +172,13 @@ export class RootComponent implements OnInit {
 
   reload() {
     if (!this.hadBeenReloaded) {
-      console.log('RELOAD');
+      //console.log('RELOAD');
       this.loadData();
       this.hadBeenReloaded = true;
     }
   }
 
-  setColor(type) {
-    var color = 'black';
-    switch (type) {
-      case 'backend':
-        color = 'red';
-        break;
-      case 'frontend':
-        color = 'green';
-        break;
-      case 'native':
-        color = 'brown';
-        break;
-      case 'desktop':
-        color = 'orange';
-        break;
-      case 'hybrid':
-        color = 'blue';
-        break;
-    }
-
-    return color;
-  }
+ setColor = setColor
 
   stringify(value) {
     return JSON.stringify(value);
@@ -199,6 +205,16 @@ export class RootComponent implements OnInit {
   hideCourse() {
     this.seeCourse = false;
     this.courseDisplayed = null;
+  }
+
+  /* PROJECTS */
+  loadProjectsData(){
+    this.Projects$ = this._projectService.getData();
+  }
+
+  hideProject(){
+    this.seeProject = false;
+    this.projectDisplayed = null;
   }
 
 }

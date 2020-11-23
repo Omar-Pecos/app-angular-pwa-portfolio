@@ -7,6 +7,7 @@ import { TechService } from '../../services/tech.service';
 import { ProfileService } from '../../services/profile.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { setColor } from './../../utils/helpers';
 
 @Component({
   selector: 'app-add-profile',
@@ -53,28 +54,7 @@ export class AddProfileComponent implements OnInit {
     )
   }
 
-  setColor(type){
-    var color = 'black';
-    switch(type){
-      case 'backend': 
-        color = 'red';
-        break;
-      case 'frontend': 
-        color = 'green';
-        break;
-      case 'native': 
-        color = 'brown';
-        break;
-      case 'desktop':
-        color = 'orange';
-        break;
-      case 'hybrid':
-        color = 'blue';
-        break;
-    }
-    
-    return color;
-  }
+  setColor = setColor;
 
   addSkill(){
     var techData = null;
@@ -98,7 +78,6 @@ export class AddProfileComponent implements OnInit {
   
   saveProfile(){
     this.prepareToPostProfileData();
-    console.log(this.profile);
 
     this._profileService.addItem( this.profile )
     .subscribe(
@@ -110,7 +89,7 @@ export class AddProfileComponent implements OnInit {
           if (res.local)
             host = 'LOCAL';
             
-          console.log("Profile added - " + host);
+          //console.log("Profile added - " + host);
 
           //redirect to home
           this.router.navigate(['/home']);
@@ -120,7 +99,7 @@ export class AddProfileComponent implements OnInit {
         
       },
       error =>{
-        console.log(error);
+        //console.log(error);
         this.error = error.message;
       }
     )

@@ -5,7 +5,9 @@
 <div class="ui card main-form width80">
     <div class="content">
         <button (click)="pasteJson()" style="float: right;">Paste JSON</button>
+        <button *ngIf="course._id" (click)="setMakeNew()" style="float: right;">¿Create new?</button>
         <h1 class="header">Add new course</h1>
+        <h4 *ngIf="makeNew" class="badge-tech" style="background: plum; width: fit-content;">Creating new course from JSON</h4>
     </div>
 
     <div *ngIf="error" class="content">

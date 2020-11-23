@@ -1,13 +1,12 @@
-
- <div *ngIf="error" class="content">
+<div *ngIf="error" class="content">
     <h4 class="alert-danger">{{error}}</h4>
 </div>
-<div *ngIf="seePassConfirmation" class="ui raised very padded text container segment">
+<div *ngIf="seePassConfirmation" class="ui raised very padded text container segment focusDiv">
     <h3 class="ui header">Enter omarpv private password</h3>
     <input type="password" [(ngModel)]="password">
     <button (click)="deleteItem( this.itemToDelete )" class="ui button">
         Verify
-      </button>
+    </button>
 </div>
 
 <!-- TECHS -->
@@ -21,50 +20,76 @@
         <button class="ui positive button" routerLink="/add-tech">Add new</button>
     </div>
 
-    <div *ngIf="seeTech && Techs$ | async as techs"  class="rowflex">
-        <div  *ngFor="let t of techs"  class="badge-tech" [style.background]="setColor(t.type)" [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'" >
-            <div (click)="techDisplayed = t" class="rowflex" >
-                <img width="20" [src]="t.icon" [alt]="t.name" style="margin-right: 5px;"/>
-                {{ t.name }}
-            </div>
-        </div>
+    <ng-container *ngIf="seeTech">
+        <div *ngIf="Techs$ | obsWithStatus | async as techs" class="rowflex">
+            <ng-template [ngIf]="techs.value">
+                <div *ngFor="let t of techs.value" class="badge-tech" [style.background]="setColor(t.type)"
+                    [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'">
+                    <div (click)="techDisplayed = t" class="rowflex">
+                        <img width="20" [src]="t.icon" [alt]="t.name" style="margin-right: 5px;" />
+                        {{ t.name }}
+                    </div>
+                </div>
+            </ng-template>
 
-        <div *ngIf="seeTech && !techs">
-            <h4>Loading ...</h4>
-        </div>   
-    </div>
+            <ng-template [ngIf]="techs.loading">
+                <div class="contentPadded">Loading ...</div>
+            </ng-template>
+
+            <ng-template [ngIf]="!techs.loading && techs.value.length == 0">
+                <div class="contentPadded">No techs yet</div>
+            </ng-template>
+        </div>
+    </ng-container>
 
     <!-- Tech displayed -->
     <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
+        <button ngxClipboard [cbContent]=" stringify(techDisplayed) " >Copy JSON</button>
         <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">X</span>
         <pre>
             <code> {{ techDisplayed | json}} </code>
         </pre>
-        <button ngxClipboard [cbContent]=" stringify(techDisplayed) " style="float: right;">Copy JSON</button>
+        
     </div>
-    
+
 </div>
+
 
 <!-- PROFILE -->
 <div class="ui raised very padded text container segment">
     <h2 class="ui header">Profile</h2>
     <p>Profile for landing page</p>
     <div class="ui buttons">
-        <button *ngIf="!seeProfile" (click)="seeProfile = true" class="ui button" >See</button>
-        <button *ngIf="seeProfile" (click)="seeProfile = false"  class="ui button" >Hide</button>
+        <button *ngIf="!seeProfile" (click)="seeProfile = true" class="ui button">See</button>
+        <button *ngIf="seeProfile" (click)="seeProfile = false" class="ui button">Hide</button>
     </div>
 
-    <div *ngIf="seeProfile && Profile$ | async as profile">
-        <div style="width : 100% ; margin: 10px; background-color: darkslategray;color: grey;">
-                <pre>
-                    <code>{{ profile | json }}</code>
+    <ng-container *ngIf="seeProfile">
+        <div *ngIf="Profile$ | obsWithStatus |  async as profile">
+
+            <ng-template [ngIf]="profile.value">
+                <pre class="preStyle">
+                        <code>{{ profile.value | json }}</code>
                 </pre>
+
+                <button [routerLink]="['/add-profile']" [state]="profile" class="ui positive button"
+                    style="float: left;">Add
+                    new</button>
+            </ng-template>
+
+            <ng-template [ngIf]="profile.loading">
+                <div class="contentPadded">Loading ...</div>
+            </ng-template>
+
+            <ng-template [ngIf]="!profile.loading && !profile.value">
+                <div class="contentPadded">No profile yet</div>
+                <button [routerLink]="['/add-profile']" class="ui positive button">Add new</button>
+            </ng-template>
+
         </div>
 
-        <button [routerLink]="['/add-profile']" [state]="profile" class="ui positive button" style="float: left;">Add new</button>
+    </ng-container>
 
-    </div>
-   
 </div>
 
 <!-- COURSES -->
@@ -78,26 +103,87 @@
         <button class="ui positive button" routerLink="/add-course">Add new</button>
     </div>
 
-    <div *ngIf="seeCourse && Courses$ | async as courses"  class="rowflex">
-        <div  *ngFor="let c of courses"  class="badge-tech" style="background: black;" [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
-            <div (click)="courseDisplayed = c" class="rowflex"  >
-                {{ c.name }} - {{c.platform}} : {{ (c.duration/60) }} h
-            </div>
-        </div>
+    <ng-container *ngIf="seeCourse">
+        <div *ngIf="Courses$ | obsWithStatus | async as courses" class="rowflex">
+            <ng-template [ngIf]="courses.value">
+                <div *ngFor="let c of courses.value" class="badge-tech" style="background: black;"
+                    [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
+                    <div (click)="courseDisplayed = c" class="rowflex">
+                        {{ c.name }} - {{c.platform}} : {{ (c.duration/60) }} h
+                    </div>
+                </div>
+            </ng-template>
 
-        <div *ngIf="seeCourse && !courses">
-            <h4>Loading ...</h4>
-        </div>   
-    </div>
+
+            <ng-template [ngIf]="courses.loading">
+                <div class="contentPadded">Loading ...</div>
+            </ng-template>
+
+            <ng-template [ngIf]="!courses.loading && courses.value.length == 0">
+                <div class="contentPadded">No courses yet</div>
+            </ng-template>
+        </div>
+    </ng-container>
+
 
     <!-- Course displayed -->
     <div *ngIf="courseDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
+        <button ngxClipboard [cbContent]=" stringify(courseDisplayed) ">Copy JSON</button>
         <span (click)="seePrivatePassConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">X</span>
         <pre>
             <code> {{ courseDisplayed | json}} </code>
         </pre>
-        <button ngxClipboard [cbContent]=" stringify(courseDisplayed) " style="float: right;">Copy JSON</button>
+        
     </div>
-    
+
 </div>
-  
+
+
+
+<!-- PROJECTS -->
+<div class="ui raised very padded text container segment">
+    <h2 class="ui header">Projects</h2>
+    <p>Projects that I have developed</p>
+    <div class="ui buttons">
+        <button *ngIf="!seeProject" class="ui button" (click)="seeProject = true">See</button>
+        <button *ngIf="seeProject" class="ui button" (click)="hideProject()">Hide</button>
+        <div class="or"></div>
+        <button class="ui positive button" routerLink="/add-project">Add new</button>
+    </div>
+
+    <ng-container *ngIf="seeProject">
+
+        <div *ngIf="Projects$ | obsWithStatus | async as projects">
+            <ng-template [ngIf]="projects.value" class="rowflex">
+                <div *ngFor="let p of projects.value" class="badge-tech" [style.background]="setColor(p.type)"
+                    [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'">
+                    <div (click)="projectDisplayed = p" class="rowflex">
+                        {{p.name}} - {{p.type | uppercase}}
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template [ngIf]="projects.loading">
+                <div class="contentPadded">Loading ...</div>
+            </ng-template>
+
+            <ng-template [ngIf]="!projects.loading && projects.value.length == 0">
+                <div class="contentPadded">No projects yet</div>
+            </ng-template>
+        </div>
+    </ng-container>
+
+
+    <!-- Project displayed -->
+    <div *ngIf="projectDisplayed" class="preStyle">
+        <button ngxClipboard [cbContent]=" stringify(projectDisplayed) ">Copy JSON</button>
+
+        <span (click)="seePrivatePassConfirmation( projectDisplayed )" class="alert-danger"
+            style="float:right;">X</span>
+        <pre>
+            <code> {{ projectDisplayed | json}} </code>
+        </pre>
+
+    </div>
+
+</div>

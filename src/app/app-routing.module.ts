@@ -4,12 +4,14 @@ import { RootComponent } from './components/root/root.component';
 import { AddTechComponent } from './components/add-tech/add-tech.component';
 import { AddProfileComponent } from './components/add-profile/add-profile.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
+import { AddProjectComponent } from './components/add-project/add-project.component';
 
 const routes: Routes = [
   {path : 'home', pathMatch : 'full', component : RootComponent},
   {path : 'add-tech', component : AddTechComponent},
   {path : 'add-profile', component : AddProfileComponent},
   {path : 'add-course', component : AddCourseComponent},
+  {path : 'add-project', component : AddProjectComponent},
   {path : '**', component : RootComponent}
 ];
 

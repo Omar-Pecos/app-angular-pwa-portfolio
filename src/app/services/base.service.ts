@@ -100,7 +100,7 @@ export abstract class BaseService<T extends {_id : string}> {
       
       return true;
     } catch (error) {
-      console.log('Error adding item to local', error);
+      //console.log('Error adding item to local', error);
       return false;
     }
     
@@ -142,7 +142,7 @@ export abstract class BaseService<T extends {_id : string}> {
         await this.myDb.table('eliminations').add( element )
         return true;
       } catch (error) {
-        console.log('Error adding deleted tech to local', error);
+          //console.log('Error adding deleted tech to local', error);
         return false;
       }
    
@@ -175,37 +175,40 @@ export abstract class BaseService<T extends {_id : string}> {
     //addedItems loop
     for (const item of addedItems){
 
-        this.addItemAPI(item.data)
-          .subscribe(
-            res => console.log(res.status),
-            error => console.log(error)
-          );
+      if (item.model == this.model){
+          this.addItemAPI(item.data)
+            .subscribe(
+              res => console.log(res.status),
+              error => console.log(error)
+            );
       
         await this.myDb.table('additions').delete(item.id)
-        //console.log(`item with id >> ${item.id} was deleted from localDB`);
+        
         numInserted++;
+      }
+       
     }
 
     //deletedItems loop
     for (const item of deletedItems){
 
-        this.deleteItemAPI(item.data)
-          .subscribe(
-            res => console.log(res.status),
-            error => console.log(error)
-          );
-      
-        await this.myDb.table('eliminations').delete(item.id)
-        //console.log(`item with id >> ${item.id} was deleted from localDB`);
-        numDeleted++;
+      if (item.model == this.model){
+          this.deleteItemAPI(item.data)
+              .subscribe(
+                res => console.log(res.status),
+                error => console.log(error)
+              );
+        
+          await this.myDb.table('eliminations').delete(item.id)
+          
+          numDeleted++;
+      }
     }
-
-    /*console.log('INSERTED '+ numInserted +' new items in the API from local data');
-    console.log('DELETED '+ numDeleted +' items in the API from local data');*/
     
     this.reloadWarning.next(true);
     this.reloadWarning.next(false);
+
     // sw alert with inserted/deleted and a warning MAY HAVE STALE DATA - reload?
-    Swal.fire("May have stale data - Reloading ...", 'INSERTED '+ numInserted +' new items in the API from local data && DELETED '+ numDeleted +' items in the API from local data', "warning");
+    Swal.fire("May have stale data - Reloading "+ this.model + "s" , 'INSERTED '+ numInserted +' new items in the API from local data && DELETED '+ numDeleted +' items in the API from local data', "warning");
   }
 }

@@ -6,6 +6,7 @@ import { TechService } from '../../services/tech.service';
 import { CourseService } from '../../services/course.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { setColor } from './../../utils/helpers';
 
 @Component({
   selector: 'app-add-course',
@@ -21,6 +22,8 @@ export class AddCourseComponent implements OnInit {
   techs : Array<Tech>;
   seeAddTechForm : boolean = false;
   selectedTechID : string = '-1';
+
+  makeNew : boolean = false;
 
   constructor(
     private router : Router,
@@ -53,28 +56,7 @@ export class AddCourseComponent implements OnInit {
     this.course.techs.push( newTech );
   }
 
-  setColor(type){
-    var color = 'black';
-    switch(type){
-      case 'backend': 
-        color = 'red';
-        break;
-      case 'frontend': 
-        color = 'green';
-        break;
-      case 'native': 
-        color = 'brown';
-        break;
-      case 'desktop':
-        color = 'orange';
-        break;
-      case 'hybrid':
-        color = 'blue';
-        break;
-    }
-    
-    return color;
-  }
+  setColor = setColor;
 
   deleteTech(id){
     this.course.techs = this.course.techs.filter(item => item._id != id);
@@ -93,7 +75,7 @@ export class AddCourseComponent implements OnInit {
           if (res.local)
             host = 'LOCAL';
             
-          console.log("Course added - " + host, res.data.name);
+          //console.log("Course added - " + host, res.data.name);
 
           //redirect to home
           this.router.navigate(['/home']);
@@ -103,7 +85,7 @@ export class AddCourseComponent implements OnInit {
         
       },
       error =>{
-        console.log(error);
+        //console.log(error);
         this.error = error.message;
       }
     )
@@ -121,8 +103,13 @@ export class AddCourseComponent implements OnInit {
       .then(text =>{
         this.course = JSON.parse( text );
       }).catch(error =>{
-        console.log(error);
+        //console.log(error);
       })
+  }
+
+  setMakeNew(){
+    this.course._id = null;
+    this.makeNew = true;
   }
 
 }
