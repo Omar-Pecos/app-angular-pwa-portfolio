@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APIurl : 'https://api-node-portfolio.omarpv.repl.co',
+  APIurl : 'http://localhost:9000',
   pass : 'test_dev'
 };
 

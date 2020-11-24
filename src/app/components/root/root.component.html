@@ -26,7 +26,7 @@
                 <div *ngFor="let t of techs.value" class="badge-tech" [style.background]="setColor(t.type)"
                     [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'">
                     <div (click)="techDisplayed = t" class="rowflex">
-                        <img width="20" [src]="t.icon" [alt]="t.name" style="margin-right: 5px;" />
+                        <img [src]="t.icon" [alt]="t.name" style="width: 23px;height: 23px;margin-right: 5px;" />
                         {{ t.name }}
                     </div>
                 </div>
@@ -44,12 +44,12 @@
 
     <!-- Tech displayed -->
     <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
-        <button ngxClipboard [cbContent]=" stringify(techDisplayed) " >Copy JSON</button>
+        <button ngxClipboard [cbContent]=" stringify(techDisplayed) ">Copy JSON</button>
         <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">X</span>
         <pre>
             <code> {{ techDisplayed | json}} </code>
         </pre>
-        
+
     </div>
 
 </div>
@@ -72,9 +72,9 @@
                         <code>{{ profile.value | json }}</code>
                 </pre>
 
-                <button [routerLink]="['/add-profile']" [state]="profile" class="ui positive button"
+                <button [routerLink]="['/add-profile']" [state]="profile.value" class="ui positive button"
                     style="float: left;">Add
-                    new</button>
+                    new from this base</button>
             </ng-template>
 
             <ng-template [ngIf]="profile.loading">
@@ -109,7 +109,7 @@
                 <div *ngFor="let c of courses.value" class="badge-tech" style="background: black;"
                     [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
                     <div (click)="courseDisplayed = c" class="rowflex">
-                        {{ c.name }} - {{c.platform}} : {{ (c.duration/60) }} h
+                        {{c.platform | uppercase}} - {{ c.name }} : {{ (c.duration/60).toFixed(2) }} h
                     </div>
                 </div>
             </ng-template>
@@ -133,7 +133,7 @@
         <pre>
             <code> {{ courseDisplayed | json}} </code>
         </pre>
-        
+
     </div>
 
 </div>
@@ -152,13 +152,13 @@
     </div>
 
     <ng-container *ngIf="seeProject">
-
-        <div *ngIf="Projects$ | obsWithStatus | async as projects">
-            <ng-template [ngIf]="projects.value" class="rowflex">
+        <div *ngIf="Projects$ | obsWithStatus | async as projects" class="rowflex">
+            <ng-template [ngIf]="projects.value">
                 <div *ngFor="let p of projects.value" class="badge-tech" [style.background]="setColor(p.type)"
                     [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'">
                     <div (click)="projectDisplayed = p" class="rowflex">
                         {{p.name}} - {{p.type | uppercase}}
+                        <img *ngIf="p.pinned" src="https://icon-icons.com/icons2/153/PNG/32/star_favourite_21830.png" alt="pinned" style="width: 23px;height: 23px;margin-left: 3px;">
                     </div>
                 </div>
             </ng-template>
