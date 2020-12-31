@@ -1,27 +1,27 @@
 export function setColor(type){
     var color = 'black';
     switch(type){
-      case 'backend': 
-        color = 'purple';
-        break;
-      case 'frontend': 
-        color = 'green';
-        break;
-      case 'native': 
-        color = 'brown';
-        break;
-      case 'desktop':
-        color = 'orange';
-        break;
-      case 'hybrid':
-        color = 'blue';
-        break;
+      case 'backend':
+          color = '#C64E4E';
+          break;
+      case 'frontend':
+          color = '#47C163';
+          break;
+      case 'fullstack':
+          color = 'purple';
+          break;
+      case 'design':
+          color = '#808080';
+          break;
       case 'game':
-        color = 'grey';
-        break;
-      case 'design': 
-        color = 'darkslategray';
-        break;
+          color = 'orange';
+          break;
+      case 'native':
+          color = 'plum';
+          break;
+      case 'hybrid':
+          color = '#3F3FB6';
+          break;
     }
     
     return color;

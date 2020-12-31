@@ -104,7 +104,7 @@
     </div>
 
     <ng-container *ngIf="seeCourse">
-        <div *ngIf="Courses$ | obsWithStatus | async as courses" class="rowflex">
+        <div *ngIf="Courses$ | obsWithStatus | async as courses" class="rowflex"  style="overflow-x: auto;">
             <ng-template [ngIf]="courses.value">
                 <div *ngFor="let c of courses.value" class="badge-tech" style="background: black;"
                     [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
@@ -158,7 +158,7 @@
                     [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'">
                     <div (click)="projectDisplayed = p" class="rowflex">
                         {{p.name}} - {{p.type | uppercase}}
-                        <img *ngIf="p.pinned" src="https://icon-icons.com/icons2/153/PNG/32/star_favourite_21830.png" alt="pinned" style="width: 23px;height: 23px;margin-left: 3px;">
+                        <img *ngIf="p.pinned" src="assets/images/star_fav.png" alt="fav" style="width: 23px;height: 23px;margin-left: 3px;">
                     </div>
                 </div>
             </ng-template>
