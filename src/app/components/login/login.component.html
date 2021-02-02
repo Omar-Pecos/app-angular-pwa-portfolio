@@ -1,0 +1,49 @@
+<p style="text-align: center;">
+    <img style="width: 20vw; margin:0 auto;" src="assets/images/techs.png" alt="login image"/>
+</p>
+
+<div class="ui card main-form" style="margin:0 auto;">
+
+    <div *ngIf="error" class="content">
+        <h4 class="alert-danger">{{error}}</h4>
+    </div>
+
+    <div class="content">
+
+        <div class="ui large form equal width stackable grid">
+            <h2>Log In</h2>
+
+            <form class="one column row" #loginForm="ngForm">
+
+
+                <div class="column field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email here"
+                        [(ngModel)]="user.email" #email="ngModel" required />
+
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
+                            <p *ngIf="email.errors.required">Email is required</p>
+                        </div>
+                </div>
+                
+                <div class="column field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password here"
+                        [(ngModel)]="user.password" #password="ngModel" required />
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
+                            <p *ngIf="password.errors.required">Password is required</p>
+                        </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="extra content">
+        <div class="row">
+            <button class="ui positive right floated button" [disabled]="loginForm.invalid"
+                (click)="login()">Enter</button>
+        </div>
+    </div>
+</div>

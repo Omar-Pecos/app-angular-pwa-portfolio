@@ -16,6 +16,7 @@ import { AddTechComponent } from './components/add-tech/add-tech.component';
 import { AddProfileComponent } from './components/add-profile/add-profile.component';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { AddProjectComponent } from './components/add-project/add-project.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
     AddProfileComponent,
     AddCourseComponent,
     AddProjectComponent,
-    ObsWithStatusPipe
+    ObsWithStatusPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
