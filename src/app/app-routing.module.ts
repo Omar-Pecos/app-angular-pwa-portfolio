@@ -8,6 +8,7 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
 import { LoginComponent } from './components/login/login.component';
 
 import { AuthGuard } from './auth/auth.guard';
+import { AdminGuard } from './auth/admin.guard';
 import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
   {
     path : 'add-tech', 
     component : AddTechComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuard,AdminGuard ]
   },
   {
     path : 'add-profile', 
@@ -54,6 +55,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers : [ AuthGuard ]
+  providers : [ AuthGuard,AdminGuard ]
 })
 export class AppRoutingModule { }
