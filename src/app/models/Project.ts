@@ -6,6 +6,7 @@ export class Project{
     images : string[];
     description : string;
     url : string;
+    repo_url : string;
     files : string[];
     pinned : boolean;
 }

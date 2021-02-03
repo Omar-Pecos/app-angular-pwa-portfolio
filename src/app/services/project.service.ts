@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Project } from '../models/Project';
 import { BaseService } from './base.service';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

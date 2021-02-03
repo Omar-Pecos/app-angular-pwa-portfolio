@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { ApiResponse } from '../models/ApiResponse';
 import { OnlineOfflineService } from './online-offline.service';
 import Dexie from "dexie";
 import Swal from 'sweetalert2';
+import { AuthService } from './auth.service';
 
 
 export interface IndexedDbItem{
@@ -25,14 +26,16 @@ export abstract class BaseService<T extends {_id : string}> {
   
   protected _http : HttpClient;
   protected _onlineOfflineService : OnlineOfflineService;
+  protected _authService : AuthService
 
   constructor(
     protected injector : Injector,
     protected model : string,
-    protected APIurl : string
+    protected APIurl : string,
   ) { 
       this._http = this.injector.get(HttpClient);
       this._onlineOfflineService = this.injector.get(OnlineOfflineService);
+      this._authService = this.injector.get(AuthService);
 
       this.openConnectionStatus();
       //initIndexedDB
@@ -49,23 +52,29 @@ export abstract class BaseService<T extends {_id : string}> {
   }
 
 
-  getData() : Observable<T[]>{
-    return this._http.get(this.APIurl)
+  getData(token : string) : Observable<T[]>{
+    let headers = new HttpHeaders({
+      'Authorization' : token
+    })
+    return this._http.get(this.APIurl, {headers : headers})
       .pipe(
         map( (res : ApiResponse ) => res.data)
       )
   }
 
-  getOneData() : Observable<T>{
-    return this._http.get(this.APIurl)
+  getOneData(token : string) : Observable<T>{
+    let headers = new HttpHeaders({
+      'Authorization' : token
+    })
+    return this._http.get(this.APIurl, {headers : headers})
       .pipe(
         map( (res : ApiResponse ) => res.data)
       )
   }
 
-  public addItem(item : T) : Observable<any>{
+  public addItem(item : T, token : string) : Observable<any>{
     if (this._onlineOfflineService.isOnline)
-         return this.addItemAPI(item);
+         return this.addItemAPI(item, token);
     else{
       var done = this.addItemLocal(item);
       return new Observable(observer =>{
@@ -82,8 +91,11 @@ export abstract class BaseService<T extends {_id : string}> {
         
   }
 
-  private addItemAPI(item : T) : Observable<ApiResponse>{
-    return this._http.post<ApiResponse>(this.APIurl, item);
+  private addItemAPI(item : T, token : string) : Observable<ApiResponse>{
+    let headers = new HttpHeaders({
+      'Authorization' : token
+    })
+    return this._http.post<ApiResponse>(this.APIurl, item, {headers : headers});
   }
 
   private async addItemLocal(item : T){
@@ -106,9 +118,9 @@ export abstract class BaseService<T extends {_id : string}> {
     
   }
 
-  deleteItem(item : T) : Observable<any>{
+  deleteItem(item : T, token : string) : Observable<any>{
     if (this._onlineOfflineService.isOnline)
-      return this.deleteItemAPI(item);
+      return this.deleteItemAPI(item,token);
     else{
       var done = this.deleteItemLocal(item);
       
@@ -125,8 +137,11 @@ export abstract class BaseService<T extends {_id : string}> {
     }
   }
 
-  private deleteItemAPI(item : T) : Observable<ApiResponse>{
-    return this._http.delete<ApiResponse>(this.APIurl + '/'+ item._id);
+  private deleteItemAPI(item : T, token : string) : Observable<ApiResponse>{
+    let headers = new HttpHeaders({
+      'Authorization' : token
+    })
+    return this._http.delete<ApiResponse>(this.APIurl + '/'+ item._id, {headers : headers});
   }
 
   private async deleteItemLocal(item : T) {
@@ -154,9 +169,9 @@ export abstract class BaseService<T extends {_id : string}> {
       .subscribe(
         online =>{
           if (online){
-
+            let token = this._authService.getToken();
             console.log('>> Online again >>> Sending data to API from indexedDB');
-            this.sendLocalDataToAPI();
+            this.sendLocalDataToAPI(token);
 
           }else{
             console.log('>> Offline now');
@@ -166,7 +181,7 @@ export abstract class BaseService<T extends {_id : string}> {
   }
 
   //sendLocalDataToAPI
-  private async sendLocalDataToAPI(){
+  private async sendLocalDataToAPI(token : string){
     var numInserted = 0;
     var numDeleted = 0;
     const addedItems = await  this.myDb.table('additions').toArray();
@@ -176,7 +191,7 @@ export abstract class BaseService<T extends {_id : string}> {
     for (const item of addedItems){
 
       if (item.model == this.model){
-          this.addItemAPI(item.data)
+          this.addItemAPI(item.data, token)
             .subscribe(
               res => console.log(res.status),
               error => console.log(error)
@@ -193,7 +208,7 @@ export abstract class BaseService<T extends {_id : string}> {
     for (const item of deletedItems){
 
       if (item.model == this.model){
-          this.deleteItemAPI(item.data)
+          this.deleteItemAPI(item.data,token)
               .subscribe(
                 res => console.log(res.status),
                 error => console.log(error)
