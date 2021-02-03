@@ -60,3 +60,18 @@ pre {
     padding: 10px 15px;
     margin: 0;
   }
+
+  .lottie-container{
+    width:fit-content;
+    margin: 0 auto;
+  }
+
+  .padding-content{
+      padding : 15px !important;
+  }
+
+  @media(min-width: 576px){
+      .padding-content{
+          padding: 3em !important;
+      }
+  }

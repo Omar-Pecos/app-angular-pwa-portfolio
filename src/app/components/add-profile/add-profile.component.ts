@@ -8,6 +8,7 @@ import { ProfileService } from '../../services/profile.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setColor } from './../../utils/helpers';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-add-profile',
@@ -25,6 +26,9 @@ export class AddProfileComponent implements OnInit {
   selectedSkillID : string = '-1';
   selectedPercentage : number = 0;
   seeAddSkillForm : boolean = false;
+  options : AnimationOptions= {
+    path: '/assets/lotties/profile.json',
+  };
 
   constructor(
     private location : Location,

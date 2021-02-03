@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUpBody } from 'src/app/models/SignUpBody';
 import { AuthService } from 'src/app/services/auth.service';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,9 @@ export class RegisterComponent implements OnInit {
   public user : SignUpBody;
   public error : string;
   public message : string;
+  options : AnimationOptions= {
+    path: '/assets/lotties/register.json',
+  };
 
   constructor(
     private _router : Router,

@@ -12,6 +12,7 @@ import { ProjectService } from 'src/app/services/project.service';
 import { Project } from '../../models/Project';
 import { setColor } from '../../utils/helpers';
 import { PassService } from '../../services/pass.service';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +44,13 @@ export class RootComponent implements OnInit {
   seePassConfirmation: boolean = false;
 
   hadBeenReloaded: boolean = false;
+
+  options : AnimationOptions= {
+    path: '/assets/lotties/home.json',
+  };
+  optionsDelete : AnimationOptions= {
+    path: '/assets/lotties/delete.json',
+  };
 
   constructor(
     private _techService: TechService,

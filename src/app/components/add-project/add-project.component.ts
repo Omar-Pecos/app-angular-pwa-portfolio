@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Project } from '../../models/Project';
 import { ProjectService } from '../../services/project.service';
 import { setColor } from './../../utils/helpers';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-add-project',
@@ -31,6 +32,9 @@ export class AddProjectComponent implements OnInit {
   newFileUrl : string = '';
 
   makeNew : boolean = false;
+  options : AnimationOptions= {
+    path: '/assets/lotties/projects.json',
+  };
 
   constructor(
     private router : Router,

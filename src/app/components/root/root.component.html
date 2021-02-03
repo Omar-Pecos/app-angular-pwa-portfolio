@@ -9,8 +9,16 @@
     </button>
 </div>
 
+<div class="lottie-container">
+    <ng-lottie 
+        width="300px"
+        height="200px"
+        [options]="options">
+    </ng-lottie>
+</div>
+
 <!-- TECHS -->
-<div class="ui raised very padded text container segment">
+<div class="ui raised text container segment padding-content">
     <h2 class="ui header">Technologies</h2>
     <p>Several technologies to append to projects and profile</p>
     <div class="ui buttons">
@@ -45,7 +53,13 @@
     <!-- Tech displayed -->
     <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
         <button ngxClipboard [cbContent]=" stringify(techDisplayed) ">Copy JSON</button>
-        <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">X</span>
+        <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">
+            <ng-lottie 
+                width="35px"
+                height="20px"
+                [options]="optionsDelete">
+            </ng-lottie>
+        </span>
         <pre>
             <code> {{ techDisplayed | json}} </code>
         </pre>
@@ -56,7 +70,7 @@
 
 
 <!-- PROFILE -->
-<div class="ui raised very padded text container segment">
+<div class="ui raised text container segment padding-content">
     <h2 class="ui header">Profile</h2>
     <p>Profile for landing page</p>
     <div class="ui buttons">
@@ -93,7 +107,7 @@
 </div>
 
 <!-- COURSES -->
-<div class="ui raised very padded text container segment">
+<div class="ui raised text container segment padding-content">
     <h2 class="ui header">Courses</h2>
     <p>Several courses done or in progress</p>
     <div class="ui buttons">
@@ -129,7 +143,13 @@
     <!-- Course displayed -->
     <div *ngIf="courseDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
         <button ngxClipboard [cbContent]=" stringify(courseDisplayed) ">Copy JSON</button>
-        <span (click)="seePrivatePassConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">X</span>
+        <span (click)="seePrivatePassConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">
+            <ng-lottie 
+                width="35px"
+                height="20px"
+                [options]="optionsDelete">
+            </ng-lottie>
+        </span>
         <pre>
             <code> {{ courseDisplayed | json}} </code>
         </pre>
@@ -141,7 +161,7 @@
 
 
 <!-- PROJECTS -->
-<div class="ui raised very padded text container segment">
+<div class="ui raised text container segment padding-content">
     <h2 class="ui header">Projects</h2>
     <p>Projects that I have developed</p>
     <div class="ui buttons">
@@ -179,7 +199,13 @@
         <button ngxClipboard [cbContent]=" stringify(projectDisplayed) ">Copy JSON</button>
 
         <span (click)="seePrivatePassConfirmation( projectDisplayed )" class="alert-danger"
-            style="float:right;">X</span>
+            style="float:right;">
+            <ng-lottie 
+                width="35px"
+                height="20px"
+                [options]="optionsDelete">
+            </ng-lottie>
+        </span>
         <pre>
             <code> {{ projectDisplayed | json}} </code>
         </pre>

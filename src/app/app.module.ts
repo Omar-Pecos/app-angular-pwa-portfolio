@@ -3,6 +3,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import { LottieModule } from 'ngx-lottie';
 
 import { ObsWithStatusPipe } from './pipes/obs-with-status.pipe';
 
@@ -18,6 +19,10 @@ import { AddCourseComponent } from './components/add-course/add-course.component
 import { AddProjectComponent } from './components/add-project/add-project.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+
+export function playerFactory() {
+  return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
+}
 
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ import { RegisterComponent } from './components/register/register.component';
     HttpClientModule,
     FormsModule,
     ClipboardModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [],
   bootstrap: [AppComponent]

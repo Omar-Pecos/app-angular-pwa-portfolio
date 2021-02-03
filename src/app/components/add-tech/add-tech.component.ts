@@ -3,6 +3,7 @@ import { Tech } from '../../models/Tech';
 import { TechService } from '../../services/tech.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AnimationOptions } from 'ngx-lottie';
 
 
 @Component({
@@ -17,6 +18,9 @@ export class AddTechComponent implements OnInit {
   error : string = '';
 
   makeNew : boolean = false;
+  options : AnimationOptions= {
+    path: '/assets/lotties/techs.json',
+  };
 
   constructor(
     private _techService : TechService,

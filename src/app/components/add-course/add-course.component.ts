@@ -7,6 +7,7 @@ import { CourseService } from '../../services/course.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setColor } from './../../utils/helpers';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-add-course',
@@ -24,6 +25,9 @@ export class AddCourseComponent implements OnInit {
   selectedTechID : string = '-1';
 
   makeNew : boolean = false;
+  options : AnimationOptions= {
+    path: '/assets/lotties/courses.json',
+  };
 
   constructor(
     private router : Router,

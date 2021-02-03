@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInBody } from 'src/app/models/SignInBody';
 import {AuthService} from '../../services/auth.service';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,9 @@ export class LoginComponent implements OnInit {
 
   public user : SignInBody
   public error : string;
+  options : AnimationOptions= {
+    path: '/assets/lotties/login.json',
+  };
 
   constructor(
     private _authService : AuthService,
