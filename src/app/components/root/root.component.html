@@ -1,13 +1,6 @@
 <div *ngIf="error" class="content">
     <h4 class="alert-danger">{{error}}</h4>
 </div>
-<div *ngIf="seePassConfirmation" class="ui raised very padded text container segment focusDiv">
-    <h3 class="ui header">Enter omarpv private password</h3>
-    <input type="password" [(ngModel)]="password">
-    <button (click)="deleteItem( this.itemToDelete )" class="ui button">
-        Verify
-    </button>
-</div>
 
 <div class="lottie-container">
     <ng-lottie 
@@ -24,8 +17,8 @@
     <div class="ui buttons">
         <button *ngIf="!seeTech" class="ui button" (click)="seeTech = true">See</button>
         <button *ngIf="seeTech" class="ui button" (click)="hideTech()">Hide</button>
-        <div class="or"></div>
-        <button class="ui positive button" routerLink="/add-tech">Add new</button>
+        <div *ngIf="identity.role == 1" class="or"></div>
+        <button *ngIf="identity.role == 1" class="ui positive button" routerLink="/add-tech">Add new</button>
     </div>
 
     <ng-container *ngIf="seeTech">
@@ -53,7 +46,7 @@
     <!-- Tech displayed -->
     <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
         <button ngxClipboard [cbContent]=" stringify(techDisplayed) ">Copy JSON</button>
-        <span (click)="seePrivatePassConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">
+        <span *ngIf="identity.role == 1" (click)="seeDeleteConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">
             <ng-lottie 
                 width="35px"
                 height="20px"
@@ -143,7 +136,7 @@
     <!-- Course displayed -->
     <div *ngIf="courseDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
         <button ngxClipboard [cbContent]=" stringify(courseDisplayed) ">Copy JSON</button>
-        <span (click)="seePrivatePassConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">
+        <span (click)="seeDeleteConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">
             <ng-lottie 
                 width="35px"
                 height="20px"
@@ -198,7 +191,7 @@
     <div *ngIf="projectDisplayed" class="preStyle">
         <button ngxClipboard [cbContent]=" stringify(projectDisplayed) ">Copy JSON</button>
 
-        <span (click)="seePrivatePassConfirmation( projectDisplayed )" class="alert-danger"
+        <span (click)="seeDeleteConfirmation( projectDisplayed )" class="alert-danger"
             style="float:right;">
             <ng-lottie 
                 width="35px"

@@ -26,7 +26,7 @@
 
 
                 <div class="column field">
-                    <label for="projectName">Name</label>
+                    <label for="projectName">Name *</label>
                     <input type="text" id="projectname" name="projectname" placeholder="Enter name here"
                         [(ngModel)]="project.name" #name="ngModel" required />
 
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="column field">
-                    <label for="techType">Type</label>
+                    <label for="techType">Type *</label>
                     <select name="techType" class="ui fluid search selection dropdown" [(ngModel)]="project.type"
                         #type="ngModel" required>
                         <option *ngFor="let t of types" class="item" [value]="t">{{ t | uppercase }}</option>
@@ -54,17 +54,36 @@
                 </div>
 
                 <div class="column field">
+                    <label for="projectDesc">Description *</label>
+                    <textarea type="text" id="profiledescription" name="profiledescription"
+                        placeholder="Enter description here" [(ngModel)]="project.description" #description="ngModel"
+                        required></textarea>
+
+                    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
+                        <p *ngIf="description.errors.required">Description is required</p>
+                    </div>
+                </div>
+
+                <div class="column field">
+                    <label for="projecDone">¿Pinned? *</label>
                     <select name="projectDone" id="projectDone" [(ngModel)]="project.pinned" #done="ngModel" required>
                         <option value="true" selected>Pinned</option>
                         <option value="false" selected>Unpinned</option>
                     </select>
                 </div>
 
-                <div class="column field rowflex" style="margin: 50px 0;">
+                <div class="column field">
+                    <label for="projectRepoUrl">Repo Url</label>
+                    <input type="text" id="projectRepoUrl" name="projectRepoUrl" placeholder="Enter Repository Url if one"
+                        [(ngModel)]="project.repo_url" />
+                </div>
+                
+
+                <div class="rowflex project-ops">
                     <!-- Add tech for project.techs -->
                     <div>
                         <p style="text-align: center;">
-                            <button *ngIf="!seeAddTechForm" (click)="seeAddTechForm = true"
+                            <button (click)="seeAddTechForm = true"
                                 class="ui positive button">Add
                                 Tech</button>
                         </p>
@@ -115,18 +134,6 @@
                                 [disabled]="!newFileUrl" style="margin-top: 3px;">
                                 +</button>
                         </div>
-                    </div>
-                </div>
-
-
-                <div class="column field">
-                    <label for="projectDesc">Description</label>
-                    <textarea type="text" id="profiledescription" name="profiledescription"
-                        placeholder="Enter description here" [(ngModel)]="project.description" #description="ngModel"
-                        required></textarea>
-
-                    <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
-                        <p *ngIf="description.errors.required">Description is required</p>
                     </div>
                 </div>
 

@@ -70,8 +70,17 @@ pre {
       padding : 15px !important;
   }
 
+  .project-ops{
+      width: 80%;
+      flex-direction: column;
+      margin : 50px auto;
+  }
+
   @media(min-width: 576px){
       .padding-content{
           padding: 3em !important;
+      }
+      .project-ops{
+          width: 50%;
       }
   }

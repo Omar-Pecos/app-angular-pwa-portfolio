@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Tech } from 'src/app/models/Tech';
@@ -8,14 +8,15 @@ import { Project } from '../../models/Project';
 import { ProjectService } from '../../services/project.service';
 import { setColor } from './../../utils/helpers';
 import { AnimationOptions } from 'ngx-lottie';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.css']
 })
-export class AddProjectComponent implements OnInit {
-
+export class AddProjectComponent implements OnInit, DoCheck {
+  private token;
   error : string = '';
   project : Project = new Project();
 
@@ -39,8 +40,10 @@ export class AddProjectComponent implements OnInit {
   constructor(
     private router : Router,
     private _techService : TechService,
-    private _projectService : ProjectService
+    private _projectService : ProjectService,
+    private _authService : AuthService,
   ) { 
+    this.token = this._authService.getToken();
     this.project.techs = [];
     this.project.images = [];
     this.project.files = [];
@@ -52,10 +55,14 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.Techs$ = this._techService.getData();
+    this.Techs$ = this._techService.getData(this.token);
     this.Techs$.subscribe(
       data => this.techs = data
     )
+  }
+
+  ngDoCheck(){
+    this.token = this._authService.getToken();
   }
 
   addTech(){
@@ -70,7 +77,7 @@ export class AddProjectComponent implements OnInit {
     }
 
     this.project.techs.push( newTech );
-    this.seeAddTechForm = false;
+    this.selectedTechID = '-1';
   }
 
   setColor = setColor;
@@ -82,7 +89,7 @@ export class AddProjectComponent implements OnInit {
   saveProject(){
     this.prepareProjectForSending();
     
-    this._projectService.addItem( this.project ) 
+    this._projectService.addItem( this.project, this.token ) 
     .subscribe(
       res =>{
         if (res.error){

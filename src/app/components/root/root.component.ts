@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Tech } from 'src/app/models/Tech';
 import { environment } from 'src/environments/environment';
@@ -13,13 +13,17 @@ import { Project } from '../../models/Project';
 import { setColor } from '../../utils/helpers';
 import { PassService } from '../../services/pass.service';
 import { AnimationOptions } from 'ngx-lottie';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css']
 })
-export class RootComponent implements OnInit {
+export class RootComponent implements OnInit,DoCheck {
+  public identity;
+  public token;
+
   loading: ViewContainerRef;
 
   Techs$: Observable<Tech[]> = null;
@@ -37,11 +41,6 @@ export class RootComponent implements OnInit {
   courseDisplayed: Course = null;
   projectDisplayed: Project = null;
   itemsDeleted: Array<String> = [];
-  itemToDelete: any = null;
-
-  password: string = '';
-  private PASS : string = environment.pass;
-  seePassConfirmation: boolean = false;
 
   hadBeenReloaded: boolean = false;
 
@@ -57,8 +56,11 @@ export class RootComponent implements OnInit {
     private _profileService: ProfileService,
     private _courseService: CourseService,
     private _projectService : ProjectService,
-    private _passService : PassService
-  ) { }
+    private _passService : PassService,
+    private _authService : AuthService
+  ) {
+      this.loadCredentials();
+   }
 
   ngOnInit(): void {
     this.loadData();
@@ -70,21 +72,17 @@ export class RootComponent implements OnInit {
             this.reload();
           else
             this.hadBeenReloaded = false;
-
-
-              this._passService.getPass()
-              .subscribe(
-                res => {
-                  this.PASS = res['pass'];
-                },
-                error =>{
-                  //console.log(error);
-                  this.PASS = environment.pass;
-                }
-              )
         }
       )
+  }
 
+  ngDoCheck(){
+    this.loadCredentials();
+  }
+
+  loadCredentials(){
+    this.identity = this._authService.getIdentity();
+    this.token = this._authService.getToken();
   }
 
   loadData() {
@@ -96,10 +94,10 @@ export class RootComponent implements OnInit {
 
   loadTechData() {
     //techs
-    this.Techs$ = this._techService.getData();
+    this.Techs$ = this._techService.getData(this.token);
   }
 
-  seePrivatePassConfirmation(item: any) {
+  seeDeleteConfirmation(item: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -112,10 +110,9 @@ export class RootComponent implements OnInit {
       .then((result) => {
         if (result.isConfirmed) {
 
-          this.itemToDelete = item;
-          this.seePassConfirmation = true;
+          //call to delete
+          this.deleteItem(item);
 
-          window.scrollTo(0, 0);
         }
       });
 
@@ -127,25 +124,24 @@ export class RootComponent implements OnInit {
 
     if (item.icon) {
       type = 'Tech';
-      obs = this._techService.deleteItem(item);
+      obs = this._techService.deleteItem(item, this.token);
     }
     else if (item.done) {
       type = 'Course';
-      obs = this._courseService.deleteItem(item);
+      obs = this._courseService.deleteItem(item, this.token);
     }
     else{
       type = 'Project'
-      obs = this._projectService.deleteItem(item);
+      obs = this._projectService.deleteItem(item, this.token);
     }
 
-    if (this.password == this.PASS) {
-      // do the actual delete - obs is a observable
+    // do the actual delete - obs is a observable
      obs
         .subscribe(
           res => {
             if (res.error) {
               this.error = res.error;
-            } else {
+            }else{
               this.itemsDeleted.push(item._id);
               var host = 'API';
               if (res.local)
@@ -164,18 +160,10 @@ export class RootComponent implements OnInit {
           },
           error => {
             //console.log(error);
-            this.error = error.message;
+            let err = error?.error;
+            this.error = err?.error || 'Internal Server Error';
           }
         )
-    } else {
-      // the password dont match
-      this.error = 'Not verified - You are not omarpv ;)'
-    }
-
-    this.itemToDelete = '';
-    this.seePassConfirmation = false;
-    this.password = '';
-
   }
 
   reload() {
@@ -202,12 +190,12 @@ export class RootComponent implements OnInit {
     return JSON.stringify(json, null, '\t')
   }
   loadProfileData() {
-    this.Profile$ = this._profileService.getOneData();
+    this.Profile$ = this._profileService.getOneData(this.token);
   }
 
   /* COURSES */
   loadCourseData() {
-    this.Courses$ = this._courseService.getData();
+    this.Courses$ = this._courseService.getData(this.token);
   }
 
   hideCourse() {
@@ -217,7 +205,7 @@ export class RootComponent implements OnInit {
 
   /* PROJECTS */
   loadProjectsData(){
-    this.Projects$ = this._projectService.getData();
+    this.Projects$ = this._projectService.getData(this.token);
   }
 
   hideProject(){

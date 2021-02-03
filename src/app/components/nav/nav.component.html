@@ -3,7 +3,7 @@
       <a class="item" routerLink="/home" routerLinkActive="active">
         Home
       </a>
-      <a class="item" routerLink="/add-tech"  routerLinkActive="active">
+      <a *ngIf="identity.role == 1" class="item" routerLink="/add-tech"  routerLinkActive="active">
         + Tech
       </a>
       <a routerLink="/add-profile" class="item" routerLinkActive="active">

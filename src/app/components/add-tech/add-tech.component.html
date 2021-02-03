@@ -26,7 +26,7 @@
 
 
                 <div class="column field">
-                    <label for="techName">Name</label>
+                    <label for="techName">Name *</label>
                     <input type="text" id="techName" name="techName" placeholder="Enter name here"
                         [(ngModel)]="tech.name" #name="ngModel" required />
 
@@ -36,7 +36,7 @@
                 </div>
                 
                 <div class="column field">
-                    <label for="techType">Type</label>
+                    <label for="techType">Type *</label>
                     <select name="techType" class="ui fluid search selection dropdown" [(ngModel)]="tech.type" #type="ngModel" required>
                         <option *ngFor="let t of types" class="item" [value]="t">{{ t | uppercase }}</option>
                     </select>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="column field">
-                    <label for="techIcon">Icon</label>
+                    <label for="techIcon">Icon *</label>
                     <input type="text" id="techIcon" name="techIcon" placeholder="Enter icon url here"
                         [(ngModel)]="tech.icon" #icon="ngModel" required/>
 

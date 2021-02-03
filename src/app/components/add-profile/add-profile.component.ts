@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Profile } from '../../models/Profile';
 import { Observable } from 'rxjs';
@@ -9,14 +9,15 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setColor } from './../../utils/helpers';
 import { AnimationOptions } from 'ngx-lottie';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-profile',
   templateUrl: './add-profile.component.html',
   styleUrls: ['./add-profile.component.css']
 })
-export class AddProfileComponent implements OnInit {
-
+export class AddProfileComponent implements OnInit,DoCheck {
+  private token;
   profile : Profile = new Profile();
   error : string = '';
 
@@ -34,8 +35,10 @@ export class AddProfileComponent implements OnInit {
     private location : Location,
     private router : Router,
     private _techService : TechService,
-    private _profileService : ProfileService
+    private _profileService : ProfileService,
+    private _authService : AuthService,
   ) {
+    this.token = this._authService.getToken();
 
     this.profile.intro = '';
     this.profile.about = {
@@ -52,10 +55,14 @@ export class AddProfileComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.Techs$ = this._techService.getData();
+    this.Techs$ = this._techService.getData(this.token);
     this.Techs$.subscribe(
       data => this.techs = data
     )
+  }
+
+  ngDoCheck(){
+    this.token = this._authService.getToken();
   }
 
   setColor = setColor;
@@ -83,7 +90,7 @@ export class AddProfileComponent implements OnInit {
   saveProfile(){
     this.prepareToPostProfileData();
 
-    this._profileService.addItem( this.profile )
+    this._profileService.addItem( this.profile, this.token )
     .subscribe(
       res =>{
         if (res.error){

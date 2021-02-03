@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Course } from '../../models/Course';
 import { Tech } from '../../models/Tech';
 import { Observable } from 'rxjs';
@@ -8,14 +8,15 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { setColor } from './../../utils/helpers';
 import { AnimationOptions } from 'ngx-lottie';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.css']
 })
-export class AddCourseComponent implements OnInit {
-
+export class AddCourseComponent implements OnInit,DoCheck {
+  private token;
   error : string = '';
   course : Course = new Course();
 
@@ -32,17 +33,22 @@ export class AddCourseComponent implements OnInit {
   constructor(
     private router : Router,
     private _techService : TechService,
-    private _courseService : CourseService
+    private _courseService : CourseService,
+    private _authService : AuthService,
   ) { 
+    this.token = this._authService.getToken();
     this.course.techs = [];
     this.course.done = true;
   }
 
   ngOnInit(): void {
-    this.Techs$ = this._techService.getData();
+    this.Techs$ = this._techService.getData(this.token);
     this.Techs$.subscribe(
       data => this.techs = data
     )
+  }
+  ngDoCheck(){
+    this.token = this._authService.getToken();
   }
 
   addTech(){
@@ -69,7 +75,7 @@ export class AddCourseComponent implements OnInit {
   saveCourse(){
     this.prepareCourseForSending();
     
-    this._courseService.addItem( this.course ) 
+    this._courseService.addItem( this.course, this.token ) 
     .subscribe(
       res =>{
         if (res.error){

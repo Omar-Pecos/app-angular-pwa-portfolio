@@ -27,6 +27,12 @@ export class AuthGuard implements CanActivate {
         this._authService.logout();
         return false;
     }), catchError((error) => {
+        let token = this._authService.getToken();
+        if (!navigator.onLine && token){
+          //the validation failed but a token exists and the navigator is offline so I asumme the user is logged with no connection
+          return of(true);
+        }
+      
         this._router.navigate(['/login']);
         // Of takes a value and wraps that value in an observable
         return of(false);

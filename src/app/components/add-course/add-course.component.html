@@ -26,7 +26,7 @@
 
 
                 <div class="column field">
-                    <label for="courseName">Name</label>
+                    <label for="courseName">Name *</label>
                     <input type="text" id="coursename" name="coursename" placeholder="Enter name here"
                         [(ngModel)]="course.name" #name="ngModel" required />
 
@@ -37,12 +37,20 @@
 
                 <div class="column field">
                     <label for="courseUrl">Url</label>
-                    <input type="text" id="courseurl" name="courseurl" placeholder="Enter Url here"
+                    <input type="text" id="courseurl" name="courseurl" placeholder="Enter Url here if one"
                         [(ngModel)]="course.url"/> 
+                </div>
+               
+                <div class="column field">
+                    <label for="courseDone">¿Finished? *</label>
+                   <select name="courseDone" id="courseDone" [(ngModel)]="course.done" #done="ngModel" required>
+                       <option value="true" selected>Done</option>
+                       <option value="false" selected>Unfinished</option>
+                   </select>
                 </div>
                 
                 <div class="column field">
-                    <label for="coursePlatform">Platform</label>
+                    <label for="coursePlatform">Platform *</label>
                     <input type="text" id="courseplatform" name="courseplatform" placeholder="Enter platform here"
                         [(ngModel)]="course.platform" #platform="ngModel" required />
                         
@@ -52,17 +60,7 @@
                 </div>
 
                 <div class="column field">
-                    <label for="courseDesc">Description</label>
-                    <textarea type="text" id="profiledescription" name="profiledescription" placeholder="Enter description here"
-                        [(ngModel)]="course.description" #description="ngModel" required></textarea>
-
-                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
-                            <p *ngIf="description.errors.required">Description is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="courseLanguage">Language</label>
+                    <label for="courseLanguage">Language *</label>
                     <input type="text" id="courselanguage" name="courselanguage" placeholder="Enter language here"
                         [(ngModel)]="course.language" #language="ngModel" required />
                         
@@ -72,7 +70,7 @@
                 </div>
 
                 <div class="column field">
-                    <label for="courseDuration">Duration (min)</label>
+                    <label for="courseDuration">Duration * (min)</label>
                     <input type="number"  pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$" id="courseduration" name="courseduration"
                         [(ngModel)]="course.duration" #duration="ngModel" required />
                         
@@ -83,16 +81,21 @@
                 </div>
 
                 <div class="column field">
-                   <select name="courseDone" id="courseDone" [(ngModel)]="course.done" #done="ngModel" required>
-                       <option value="true" selected>Done</option>
-                       <option value="false" selected>Unfinished</option>
-                   </select>
+                    <label for="courseDesc">Description *</label>
+                    <textarea type="text" id="profiledescription" name="profiledescription" placeholder="Enter description here"
+                        [(ngModel)]="course.description" #description="ngModel" required></textarea>
+
+                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
+                            <p *ngIf="description.errors.required">Description is required</p>
+                        </div>
                 </div>
 
                 <div class="column field">
-                    <p style="text-align: center;">
-                        <button *ngIf="!seeAddTechForm" (click)="seeAddTechForm = true" class="ui positive button">Add Tech</button>
-                    </p>
+                    <br/>
+                        <p style="text-align: center;">
+                            <button (click)="seeAddTechForm = true" class="ui positive button">Add Tech</button>
+                        </p>
+                    <br/>
 
                     <div *ngIf="seeAddTechForm" class="rowflex">
                         <select placeholder="Placeholder" [(ngModel)]="selectedTechID" name="selectedTechID" style="width: 70%;" required>
@@ -111,7 +114,8 @@
 
         </div>
 
-            <br/>
+        <br/>
+
         <h3 *ngIf="course.techs.length > 0" class="header">Techs</h3>
         <div *ngIf="course.techs.length > 0" class="rowflex">
            <div *ngFor="let tech of course.techs" style="margin-right: 5px; margin-bottom: 10px">

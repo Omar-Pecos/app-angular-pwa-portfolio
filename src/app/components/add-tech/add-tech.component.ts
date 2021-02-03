@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Tech } from '../../models/Tech';
 import { TechService } from '../../services/tech.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AnimationOptions } from 'ngx-lottie';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -11,8 +12,8 @@ import { AnimationOptions } from 'ngx-lottie';
   templateUrl: './add-tech.component.html',
   styleUrls: ['./add-tech.component.css']
 })
-export class AddTechComponent implements OnInit {
-
+export class AddTechComponent implements OnInit,DoCheck {
+  private token;
   tech : Tech = new Tech();
   types : Array<String>;
   error : string = '';
@@ -24,8 +25,11 @@ export class AddTechComponent implements OnInit {
 
   constructor(
     private _techService : TechService,
+    private _authService : AuthService,
     private router : Router
-  ) { }
+  ) { 
+    this.token = this._authService.getToken();
+  }
 
   ngOnInit(): void {
     this.types = [
@@ -33,8 +37,12 @@ export class AddTechComponent implements OnInit {
     ]
   }
 
+  ngDoCheck(){
+    this.token = this._authService.getToken();
+  }
+
   saveTech(){
-    this._techService.addItem(  this.tech )
+    this._techService.addItem(  this.tech, this.token )
       .subscribe(
         res =>{
           if (res.error){
