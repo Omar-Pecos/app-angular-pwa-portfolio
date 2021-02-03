@@ -17,7 +17,7 @@
       </a>
     </div>
     <div class="right menu">
-      <div class="rowflex" style="width: fit-content;">
+      <div class="rowflex" style="width: fit-content;height: fit-content;">
         <a *ngIf="identity" class="ui item">
           {{identity.nickname}}
         </a>
@@ -27,7 +27,7 @@
         <a *ngIf="!identity" routerLink="/login" class="ui item"  routerLinkActive="active">
           Log In
         </a>
-        <a *ngIf="!identity" class="ui item">
+        <a *ngIf="!identity" routerLink="/register" class="ui item" routerLinkActive="active">
           Register
         </a>
       </div>

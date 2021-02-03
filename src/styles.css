@@ -10,6 +10,13 @@
     color : white;
 }
 
+.alert-success{
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(64, 177, 36);
+    color : white;
+}
+
 .rowflex{
     display: flex;
     flex-direction: row;
@@ -47,4 +54,9 @@ pre {
       margin: 5px !important;
       border: 5px solid red!important;
       border-radius: 8px !important;
+  }
+
+  .formTitle{
+    padding: 10px 15px;
+    margin: 0;
   }

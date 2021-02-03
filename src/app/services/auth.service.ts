@@ -39,8 +39,8 @@ export class AuthService {
     return this.http.post<ApiResponse>(this.apiUrl + '/api/auth/login',body);
   }
 
-  register(body){
-    return this.http.post(this.apiUrl + '/api/auth/register',body);
+  register(body) : Observable<ApiResponse>{
+    return this.http.post<ApiResponse>(this.apiUrl + '/api/auth/register',body);
   }
 
   logout(){
