@@ -17,7 +17,7 @@ My Porfolio Provider
 
 This project is a **Angular PWA** developed to provide content for my [API portfolio](https://github.com/Omar-Pecos/api-node-portfolio) in a easy and visual way for me. Right now, it supports uploading/editing new content for technologies, profile, courses and projects and it has totally online/offline capabilities.
 
-It uses **@angular/pwa** module and **IndexedDB (Dexie.js)** for the offline operations. I use a abstract BaseService with generic type that can be extended by others services making it so reusable, and in all the application I use **Observables** and **async pipe**, **pipe** and **map** operators in services and **sweetalert** for displaying notifications.
+It uses **@angular/pwa** module and **IndexedDB (Dexie.js)** for the offline operations. I use a abstract BaseService with generic type that can be extended by others services making it so reusable, and in all the application I use **Observables** and **async pipe**, **pipe** and **map** operators in services and **sweetalert** for displaying notifications. It uses **Auth Guards** to protect some routes that only can be only visited by auth users or admins.
 
 The original idea is to provide data to API with this app and then build a static site using [Gridsome](https://gridsome.org/)
 
