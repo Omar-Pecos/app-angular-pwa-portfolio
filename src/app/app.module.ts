@@ -19,6 +19,8 @@ import { AddCourseComponent } from './components/add-course/add-course.component
 import { AddProjectComponent } from './components/add-project/add-project.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UsersComponent } from './components/users/users.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export function playerFactory() {
   return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
@@ -35,7 +37,9 @@ export function playerFactory() {
     AddProjectComponent,
     ObsWithStatusPipe,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UsersComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

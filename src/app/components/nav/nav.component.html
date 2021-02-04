@@ -3,6 +3,9 @@
       <a class="item" routerLink="/home" routerLinkActive="active">
         Home
       </a>
+      <a *ngIf="identity.role == 1" class="item" routerLink="/users" routerLinkActive="active">
+        Users
+      </a>
       <a *ngIf="identity.role == 1" class="item" routerLink="/add-tech"  routerLinkActive="active">
         + Tech
       </a>
@@ -18,7 +21,7 @@
     </div>
     <div class="right menu">
       <div class="rowflex" style="width: fit-content;height: fit-content;">
-        <a *ngIf="identity" class="ui item">
+        <a *ngIf="identity" routerLink="/profile" [state]="identity" class="ui item">
           {{identity.nickname}}
         </a>
         <a *ngIf="identity" class="ui item" (click)="doLogout()">

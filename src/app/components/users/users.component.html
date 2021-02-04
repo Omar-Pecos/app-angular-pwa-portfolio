@@ -1,0 +1,42 @@
+
+<h2 style="text-align: center;margin: 20px;">Users Admin Panel</h2>
+
+<div *ngIf="error" class="content">
+    <h4 class="alert-danger">{{error}}</h4>
+</div>
+
+<div *ngIf="message" class="content">
+    <h4 class="alert-success">{{message}}</h4>
+</div>
+
+<div *ngIf="users" class="width80">
+
+    <table class="ui celled table">
+        <thead>
+        <tr><th>Nickname</th>
+        <th>Email</th>
+        <th>Operations</th>
+        </tr></thead>
+        <tbody>
+        <tr *ngFor="let user of users; index as i;">
+            <td data-label="Nickname">{{user.nickname}}</td>
+            <td data-label="Email">{{user.email}}</td>
+            <td data-label="Operations">
+                <small *ngIf="identity._id == user._id">Only other admins can do operations with your user</small>
+                <div class="rowflex" *ngIf="identity._id != user._id">
+                    <div *ngIf="user.role == 0" (click)="grantUser(user._id, i)"
+                         class="badge-tech" style="background-color: purple;">Grant</div>
+                    <div *ngIf="user.role == 1" (click)="revokeUser(user._id, i)"
+                        class="badge-tech" style="background-color: purple;">Revoke</div>
+                    <div class="badge-tech" style="background-color: peru;" 
+                        routerLink="/profile" [state]="user" >
+                        Edit
+                    </div>
+                    <div  (click)="seeDeleteConfirmation(user, i)"
+                        class="badge-tech" style="background-color: red;" >Delete</div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

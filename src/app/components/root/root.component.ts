@@ -1,7 +1,6 @@
 import { Component, DoCheck, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Tech } from 'src/app/models/Tech';
-import { environment } from 'src/environments/environment';
 import { TechService } from '../../services/tech.service';
 import Swal from 'sweetalert2';
 import { Profile } from 'src/app/models/Profile';
@@ -11,7 +10,6 @@ import { CourseService } from '../../services/course.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from '../../models/Project';
 import { setColor } from '../../utils/helpers';
-import { PassService } from '../../services/pass.service';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -22,7 +20,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RootComponent implements OnInit,DoCheck {
   public identity;
-  public token;
+  private token;
 
   loading: ViewContainerRef;
 
@@ -56,7 +54,6 @@ export class RootComponent implements OnInit,DoCheck {
     private _profileService: ProfileService,
     private _courseService: CourseService,
     private _projectService : ProjectService,
-    private _passService : PassService,
     private _authService : AuthService
   ) {
       this.loadCredentials();

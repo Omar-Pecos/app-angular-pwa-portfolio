@@ -10,6 +10,8 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
 import { RegisterComponent } from './components/register/register.component';
+import { UsersComponent } from './components/users/users.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,16 @@ const routes: Routes = [
   {
     path : 'register', 
     component : RegisterComponent,
+  },
+  {
+    path : 'users', 
+    component : UsersComponent,
+    canActivate: [ AuthGuard, AdminGuard ]
+  },
+  {
+    path : 'profile', 
+    component : ProfileComponent,
+    canActivate : [ AuthGuard ]
   },
   {
     path : '**',
