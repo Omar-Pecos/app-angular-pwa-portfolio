@@ -1,0 +1,176 @@
+@import "./variables.scss";
+
+/* Generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0.5em 1.5em;
+  margin: 0px !important;
+}
+
+.bg-primary {
+  background-color: $primaryColor;
+  color: white;
+}
+.bg-accent {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37);
+}
+
+.mat-card-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.mat-card-content {
+  padding: 10px;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.rowflex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+.columnflex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+
+/* Login */
+.card-form {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 0px !important;
+  margin-bottom: 150px;
+}
+
+.common-form {
+  margin: 0 auto;
+  padding: 1em 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nav */
+#toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+.example-sidenav {
+  width: 60vw;
+  background: $accentColor;
+  z-index: 2;
+}
+
+.width80 {
+  width: 85vw !important;
+  margin: 10px auto !important;
+}
+
+.badge-tech {
+  color: white;
+  border-radius: 12px;
+  min-width: max-content;
+  width: fit-content;
+  padding: 5px;
+  margin: 5px 2px;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+.preStyle {
+  margin: 10px;
+  background-color: darkslategray;
+  color: grey;
+}
+
+.contentPadded {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: oblique;
+}
+
+.focusDiv {
+  margin: 5px !important;
+  border: 5px solid red !important;
+  border-radius: 8px !important;
+}
+
+.formTitle {
+  padding: 10px 15px;
+  margin: 0;
+}
+
+.lottie-container {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.padding-content {
+  padding: 15px !important;
+}
+
+.project-ops {
+  width: 80%;
+  flex-direction: column;
+  margin: 50px auto;
+}
+
+/* Media queries */
+@media (min-width: 576px) {
+  .example-sidenav {
+    width: 40vw;
+  }
+  .card-form {
+    width: 60%;
+  }
+  .padding-content {
+    padding: 3em !important;
+  }
+  .project-ops {
+    width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .example-sidenav {
+    width: 10vw;
+  }
+
+  .card-form {
+    width: 40%;
+  }
+}

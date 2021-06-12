@@ -1,0 +1,78 @@
+<div *ngIf="identity" class="columnflex">
+  <a class="item" routerLink="/home" routerLinkActive="active"> Home </a>
+  <a
+    *ngIf="identity.role == 1"
+    (click)="closeDrawer()"
+    class="item"
+    routerLink="/users"
+    routerLinkActive="active"
+  >
+    Users
+  </a>
+  <a
+    *ngIf="identity.role == 1"
+    (click)="closeDrawer()"
+    class="item"
+    routerLink="/add-tech"
+    routerLinkActive="active"
+  >
+    + Tech
+  </a>
+  <a
+    routerLink="/add-profile"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    + Profile
+  </a>
+  <a
+    routerLink="/add-course"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    + Course
+  </a>
+  <a
+    routerLink="/add-project"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    + Project
+  </a>
+</div>
+<div>
+  <hr style="margin: 10px 0px" />
+  <div class="columnflex">
+    <a
+      *ngIf="identity"
+      (click)="closeDrawer()"
+      routerLink="/profile"
+      [state]="identity"
+      class="ui item"
+    >
+      {{ identity.nickname }}
+    </a>
+    <a *ngIf="identity" class="ui item" (click)="doLogout()"> Logout </a>
+    <a
+      *ngIf="!identity"
+      (click)="closeDrawer()"
+      routerLink="/login"
+      class="ui item"
+      routerLinkActive="active"
+    >
+      Sign In
+    </a>
+    <a
+      *ngIf="!identity"
+      (click)="closeDrawer()"
+      routerLink="/register"
+      class="ui item"
+      routerLinkActive="active"
+    >
+      Sign Up
+    </a>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+@import "~@angular/material/theming";
+@import "./theme-definition.scss";
+
+//theme colors
+$primaryColor: mat-color($primary);
+$accentColor: mat-color($accent);
+$warnColor: mat-color($warn);
+
+//other
+$successColor: rgb(64, 177, 36);

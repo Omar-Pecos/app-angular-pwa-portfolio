@@ -1,17 +1,15 @@
-
-My Porfolio Provider
-===
+# My Porfolio Provider
 
 - [My Porfolio Provider](#my-porfolio-provider)
-  * [Description](#description)
-  * [Installation and Usage](#installation-and-usage)
-      - [Development server](#development-server)
-      - [Build](#build)
-      - [Running unit tests](#running-unit-tests)
-      - [Running end-to-end tests](#running-end-to-end-tests)
-  * [Visuals](#visuals)
-  * [Url of the app deployed](#url-of-the-app-deployed)
-  * [Project Timeline](#project-timeline)
+  - [Description](#description)
+  - [Installation and Usage](#installation-and-usage)
+    - [Development server](#development-server)
+    - [Build](#build)
+    - [Running unit tests](#running-unit-tests)
+    - [Running end-to-end tests](#running-end-to-end-tests)
+  - [Visuals](#visuals)
+  - [Url of the app deployed](#url-of-the-app-deployed)
+  - [Project Timeline](#project-timeline)
 
 ## Description
 
@@ -20,7 +18,6 @@ This project is a **Angular PWA** developed to provide content for my [API portf
 It uses **@angular/pwa** module and **IndexedDB (Dexie.js)** for the offline operations. I use a abstract BaseService with generic type that can be extended by others services making it so reusable, and in all the application I use **Observables** and **async pipe**, **pipe** and **map** operators in services and **sweetalert** for displaying notifications. It uses **Auth Guards** to protect some routes that only can be only visited by auth users or admins.
 
 The original idea is to provide data to API with this app and then build a static site using [Gridsome](https://gridsome.org/)
-
 
 ## Installation and Usage
 
@@ -42,9 +39,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-
-Visuals
----
+## Visuals
 
 ![alt text](https://res.cloudinary.com/omarpvcloud/image/upload/v1606075264/Projects/api-node-portfolio/techs_kznzb3.png "Techs")
 
@@ -52,18 +47,14 @@ Visuals
 
 ![alt text](https://res.cloudinary.com/omarpvcloud/image/upload/v1606075264/Projects/api-node-portfolio/project_dnskc4.png "Add new project")
 
+## Url of the app deployed
 
-
-Url of the app deployed
----
 > [My Portfolio Provider](https://portfolio-provider-pwa.vercel.app/)
 
 Deployed with [Vercel](https://vercel.com/)
 
-Project Timeline
----
+## Project Timeline
 
 ![alt text](https://res.cloudinary.com/omarpvcloud/image/upload/v1606092658/Projects/api-node-portfolio/gantt_portfolioprovider_e5p4j9.png "Gantt Diagram")
-
 
 ###### tags: `Documentation` `Angular` `PWA`

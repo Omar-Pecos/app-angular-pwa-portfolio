@@ -1,0 +1,28 @@
+@import "src/styles/variables.scss";
+
+.alert {
+  text-align: center;
+  padding: 10px;
+  border-radius: 3px;
+  color: white;
+  position: relative;
+
+  .close-icon {
+    font-size: larger;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 2px 5px;
+    cursor: progress;
+    border: 1px solid $accentColor;
+    border-radius: 50%;
+  }
+}
+
+.alert-danger {
+  background-color: $warnColor;
+}
+
+.alert-success {
+  background-color: $successColor;
+}

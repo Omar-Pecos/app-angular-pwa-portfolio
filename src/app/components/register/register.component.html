@@ -1,81 +1,123 @@
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form" style="margin:0 auto;">
+<div class="ui card main-form" style="margin: 0 auto">
+  <div *ngIf="error" class="content">
+    <h4 class="alert-danger">{{ error }}</h4>
+  </div>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
+  <div *ngIf="message" class="content">
+    <h4 class="alert-success">{{ message }}</h4>
+    <div class="row">
+      <button class="ui blue center floated button" (click)="redirectToLogin()">
+        Go to Login
+      </button>
     </div>
+  </div>
 
-    <div *ngIf="message" class="content">
-        <h4 class="alert-success">{{message}}</h4>
-        <div class="row">
-            <button class="ui blue center floated button"
-                (click)="redirectToLogin()">Go to Login</button>
+  <div class="content">
+    <div class="ui large form equal width stackable grid">
+      <h2 class="formTitle">Sign up</h2>
+
+      <form class="one column row" #registerForm="ngForm">
+        <div class="column field">
+          <label for="nickname">Nickname</label>
+          <input
+            type="text"
+            name="nickname"
+            id="nickname"
+            placeholder="Enter your nickname"
+            [(ngModel)]="user.nickname"
+            #nickname="ngModel"
+            required
+          />
+
+          <div
+            *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="nickname.errors.required">Nickname is required</p>
+          </div>
         </div>
-    </div>
 
-    <div class="content">
+        <div class="column field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            [(ngModel)]="user.email"
+            #email="ngModel"
+            required
+          />
 
-        <div class="ui large form equal width stackable grid">
-            <h2 class="formTitle">Register</h2>
-
-            <form class="one column row" #registerForm="ngForm">
-
-                <div class="column field">
-                    <label for="nickname">Nickname</label>
-                    <input type="text" name="nickname" id="nickname" placeholder="Enter your nickname"
-                        [(ngModel)]="user.nickname" #nickname="ngModel" required> 
-
-                        <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="alert-danger">
-                            <p *ngIf="nickname.errors.required">Nickname is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email"
-                        [(ngModel)]="user.email" #email="ngModel" required />
-
-                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
-                            <p *ngIf="email.errors.required">Email is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password"
-                        [(ngModel)]="user.password" #password="ngModel" required />
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
-                            <p *ngIf="password.errors.required">Password is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="passwordConfirmation">Password Confirmation</label>
-                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="Enter password confirmation"
-                        [(ngModel)]="user.passwordConfirmation" #passwordConfirmation="ngModel" required />
-
-                        <div *ngIf="passwordConfirmation.invalid && (passwordConfirmation.dirty || passwordConfirmation.touched)" class="alert-danger">
-                            <p *ngIf="passwordConfirmation.errors.required">Password confirmation is required</p>
-                        </div>
-                </div>
-
-            </form>
+          <div
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="email.errors.required">Email is required</p>
+          </div>
         </div>
-    </div>
 
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="registerForm.invalid"
-                (click)="register()">Register</button>
+        <div class="column field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            [(ngModel)]="user.password"
+            #password="ngModel"
+            required
+          />
+
+          <div
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="password.errors.required">Password is required</p>
+          </div>
         </div>
-    </div>
 
+        <div class="column field">
+          <label for="passwordConfirmation">Password Confirmation</label>
+          <input
+            type="password"
+            id="passwordConfirmation"
+            name="passwordConfirmation"
+            placeholder="Enter password confirmation"
+            [(ngModel)]="user.passwordConfirmation"
+            #passwordConfirmation="ngModel"
+            required
+          />
+
+          <div
+            *ngIf="
+              passwordConfirmation.invalid &&
+              (passwordConfirmation.dirty || passwordConfirmation.touched)
+            "
+            class="alert-danger"
+          >
+            <p *ngIf="passwordConfirmation.errors.required">
+              Password confirmation is required
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="extra content">
+    <div class="row">
+      <button
+        class="ui positive right floated button"
+        [disabled]="registerForm.invalid"
+        (click)="register()"
+      >
+        Register
+      </button>
+    </div>
+  </div>
 </div>

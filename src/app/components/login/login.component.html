@@ -1,59 +1,86 @@
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form" style="margin:0 auto;">
+<div>
+  <mat-card class="card-form">
+    <mat-card-header class="bg-primary">
+      <h2>Sign In</h2>
+    </mat-card-header>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
-    </div>
+    <mat-card-content>
+      <Alert
+        *ngIf="error"
+        type="error"
+        [message]="error"
+        [showCloseBtn]="true"
+        (closeAction)="unsetMessage($event)"
+      ></Alert>
 
-    <div class="content">
+      <Loader *ngIf="loading"></Loader>
 
-        <div class="ui large form equal width stackable grid">
-            <h2 class="formTitle">Log In</h2>
-
-            <form class="one column row" #loginForm="ngForm">
-
-
-                <div class="column field">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter email here"
-                        [(ngModel)]="user.email" #email="ngModel" required />
-
-                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
-                            <p *ngIf="email.errors.required">Email is required</p>
-                        </div>
-                </div>
-                
-                <div class="column field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password here"
-                        [(ngModel)]="user.password" #password="ngModel" required />
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
-                            <p *ngIf="password.errors.required">Password is required</p>
-                        </div>
-                </div>
-
-            </form>
-
-            <small style="margin: 10px;">
-                <a href="mailto:omarpecos@gmail.com">
-                    Contact admin if you don't remember password
-                </a>
-            </small>
-
+      <form class="common-form" #loginForm="ngForm">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="user.email"
+              #email="ngModel"
+              required
+              placeholder="Enter email here"
+            />
+            <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+              <p *ngIf="email.errors.required">Email is required</p>
+            </mat-error>
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
         </div>
-    </div>
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="loginForm.invalid"
-                (click)="login()">Enter</button>
+        <!-- List view de estas material en el drawer, alert component -->
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              type="password"
+              id="password"
+              name="password"
+              [(ngModel)]="user.password"
+              #password="ngModel"
+              required
+              placeholder="Enter password here"
+            />
+            <mat-error
+              *ngIf="password.invalid && (password.dirty || password.touched)"
+            >
+              <p *ngIf="password.errors.required">Password is required</p>
+            </mat-error>
+            <mat-icon matSuffix>password</mat-icon>
+          </mat-form-field>
         </div>
+      </form>
+    </mat-card-content>
+
+    <p style="text-align: center">
+      <small style="margin: 10px 0">
+        <a href="mailto:omarpecos@gmail.com">
+          Contact admin if you don't remember password
+        </a>
+      </small>
+    </p>
+
+    <div class="rowflex">
+      <button
+        mat-flat-button
+        color="accent"
+        [disabled]="loginForm.invalid"
+        (click)="login()"
+      >
+        Enter
+      </button>
     </div>
+  </mat-card>
 </div>
