@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class Sidenav implements DoCheck {
   public identity;
   @Input() drawer;
+  @Input() title;
 
   constructor(private _authService: AuthService, private _router: Router) {
     this.identity = this._authService.getIdentity();
@@ -24,6 +25,7 @@ export class Sidenav implements DoCheck {
   };
 
   doLogout() {
+    this.closeDrawer();
     this._authService.logout();
     this.identity = this._authService.getIdentity();
     this._router.navigateByUrl('/login');

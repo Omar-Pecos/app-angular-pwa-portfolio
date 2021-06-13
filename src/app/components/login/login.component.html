@@ -49,6 +49,7 @@
               id="password"
               name="password"
               [(ngModel)]="user.password"
+              (keyup.enter)="!loginForm.invalid ? login() : ''"
               #password="ngModel"
               required
               placeholder="Enter password here"

@@ -33,6 +33,7 @@ h6 {
   color: rgb(37, 37, 37);
 }
 
+/* Angular material overrides */
 .mat-card-header {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -40,6 +41,13 @@ h6 {
 .mat-card-content {
   padding: 10px;
 }
+.mat-list-item {
+  height: min-content !important;
+}
+.mat-drawer-container {
+  height: 100%;
+}
+
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -59,6 +67,12 @@ h6 {
   align-items: center;
   justify-content: center;
   padding: 7px;
+}
+
+.hr-separator {
+  margin-top: 10px;
+  background: $primaryColor;
+  height: 5px;
 }
 
 /* Login */
@@ -86,9 +100,16 @@ h6 {
   z-index: 1;
 }
 .example-sidenav {
-  width: 60vw;
+  min-width: 60vw;
   background: $accentColor;
   z-index: 2;
+}
+.active {
+  .mat-line {
+    color: $primaryColor;
+    width: min-content;
+    border-bottom: 0.5px solid $primaryColor;
+  }
 }
 
 .width80 {
@@ -152,7 +173,7 @@ pre {
 /* Media queries */
 @media (min-width: 576px) {
   .example-sidenav {
-    width: 40vw;
+    min-width: 40vw;
   }
   .card-form {
     width: 60%;
@@ -167,7 +188,7 @@ pre {
 
 @media (min-width: 768px) {
   .example-sidenav {
-    width: 10vw;
+    min-width: 10vw;
   }
 
   .card-form {
