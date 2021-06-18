@@ -9,16 +9,16 @@ import { Course } from 'src/app/models/Course';
 import { CourseService } from '../../services/course.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from '../../models/Project';
-import { setColor } from '../../utils/helpers';
+import { setColor, types as TypesArr } from '../../utils/helpers';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
-  styleUrls: ['./root.component.css']
+  styleUrls: ['./root.component.css'],
 })
-export class RootComponent implements OnInit,DoCheck {
+export class RootComponent implements OnInit, DoCheck {
   public identity;
   private token;
 
@@ -27,12 +27,12 @@ export class RootComponent implements OnInit,DoCheck {
   Techs$: Observable<Tech[]> = null;
   Profile$: Observable<Profile> = null;
   Courses$: Observable<Course[]> = null;
-  Projects$ : Observable<Project[]> = null;
+  Projects$: Observable<Project[]> = null;
 
   seeTech: boolean = false;
   seeProfile: boolean = false;
   seeCourse: boolean = false;
-  seeProject : boolean = false;
+  seeProject: boolean = false;
   error: String = '';
 
   techDisplayed: Tech = null;
@@ -42,10 +42,12 @@ export class RootComponent implements OnInit,DoCheck {
 
   hadBeenReloaded: boolean = false;
 
-  options : AnimationOptions= {
+  types = TypesArr;
+
+  options: AnimationOptions = {
     path: '/assets/lotties/home.json',
   };
-  optionsDelete : AnimationOptions= {
+  optionsDelete: AnimationOptions = {
     path: '/assets/lotties/delete.json',
   };
 
@@ -53,31 +55,29 @@ export class RootComponent implements OnInit,DoCheck {
     private _techService: TechService,
     private _profileService: ProfileService,
     private _courseService: CourseService,
-    private _projectService : ProjectService,
-    private _authService : AuthService
+    private _projectService: ProjectService,
+    private _authService: AuthService
   ) {
-      this.loadCredentials();
-   }
-
-  ngOnInit(): void {
-    this.loadData();
-    this._techService.reloadWarning
-      .subscribe(
-        value => {
-          //console.log(value);
-          if (value)
-            this.reload();
-          else
-            this.hadBeenReloaded = false;
-        }
-      )
-  }
-
-  ngDoCheck(){
     this.loadCredentials();
   }
 
-  loadCredentials(){
+  ngOnInit(): void {
+    this.loadData();
+    this._techService.reloadWarning.subscribe((value) => {
+      //console.log(value);
+      if (value) this.reload();
+      else this.hadBeenReloaded = false;
+    });
+  }
+
+  ngDoCheck() {
+    this.loadCredentials();
+  }
+
+  platformLogoUrl = (platform) =>
+    `https://res.cloudinary.com/omarpvcloud/image/upload/v1606471573/logos/${platform.toLowerCase()}.png`;
+
+  loadCredentials() {
     this.identity = this._authService.getIdentity();
     this.token = this._authService.getToken();
   }
@@ -102,17 +102,13 @@ export class RootComponent implements OnInit,DoCheck {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#D9D9D9',
-      confirmButtonText: 'Delete'
-    })
-      .then((result) => {
-        if (result.isConfirmed) {
-
-          //call to delete
-          this.deleteItem(item);
-
-        }
-      });
-
+      confirmButtonText: 'Delete',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //call to delete
+        this.deleteItem(item);
+      }
+    });
   }
 
   deleteItem(item: any) {
@@ -122,45 +118,44 @@ export class RootComponent implements OnInit,DoCheck {
     if (item.icon) {
       type = 'Tech';
       obs = this._techService.deleteItem(item, this.token);
-    }
-    else if (item.done) {
+    } else if (item.done) {
       type = 'Course';
       obs = this._courseService.deleteItem(item, this.token);
-    }
-    else{
-      type = 'Project'
+    } else {
+      type = 'Project';
       obs = this._projectService.deleteItem(item, this.token);
     }
 
     // do the actual delete - obs is a observable
-     obs
-        .subscribe(
-          res => {
-            if (res.error) {
-              this.error = res.error;
-            }else{
-              this.itemsDeleted.push(item._id);
-              var host = 'API';
-              if (res.local)
-                host = 'LOCAL';
+    obs.subscribe(
+      (res) => {
+        if (res.error) {
+          this.error = res.error;
+        } else {
+          this.itemsDeleted.push(item._id);
+          var host = 'API';
+          if (res.local) host = 'LOCAL';
 
-              //console.log(type + " deleted - " + host);
-              this.error = '';
+          //console.log(type + " deleted - " + host);
+          this.error = '';
 
-              this.techDisplayed = null;
-              this.courseDisplayed = null;
-              this.projectDisplayed = null;
+          this.techDisplayed = null;
+          this.courseDisplayed = null;
+          this.projectDisplayed = null;
 
-              Swal.fire("Good job! - " + host, type + " deleted in " + host, "success");
-
-            }
-          },
-          error => {
-            //console.log(error);
-            let err = error?.error;
-            this.error = err?.error || 'Internal Server Error';
-          }
-        )
+          Swal.fire(
+            'Good job! - ' + host,
+            type + ' deleted in ' + host,
+            'success'
+          );
+        }
+      },
+      (error) => {
+        //console.log(error);
+        let err = error?.error;
+        this.error = err?.error || 'Internal Server Error';
+      }
+    );
   }
 
   reload() {
@@ -171,7 +166,7 @@ export class RootComponent implements OnInit,DoCheck {
     }
   }
 
- setColor = setColor
+  setColor = setColor;
 
   stringify(value) {
     return JSON.stringify(value);
@@ -184,7 +179,7 @@ export class RootComponent implements OnInit,DoCheck {
 
   /* PROFILE */
   prettify(json) {
-    return JSON.stringify(json, null, '\t')
+    return JSON.stringify(json, null, '\t');
   }
   loadProfileData() {
     this.Profile$ = this._profileService.getOneData(this.token);
@@ -201,13 +196,12 @@ export class RootComponent implements OnInit,DoCheck {
   }
 
   /* PROJECTS */
-  loadProjectsData(){
+  loadProjectsData() {
     this.Projects$ = this._projectService.getData(this.token);
   }
 
-  hideProject(){
+  hideProject() {
     this.seeProject = false;
     this.projectDisplayed = null;
   }
-
 }

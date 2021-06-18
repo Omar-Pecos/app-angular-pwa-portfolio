@@ -52,6 +52,42 @@ h6 {
   flex: 1 1 auto;
 }
 
+// Buttons
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.grey-btn {
+  background-color: $lightGrey;
+  color: rgb(37, 37, 37);
+
+  &:hover {
+    background-color: rgba(37, 37, 37, 0.45);
+  }
+}
+
+.success-btn {
+  background-color: $successColor;
+  color: white;
+
+  &:hover {
+    background-color: rgb(59, 157, 35);
+  }
+}
+
+.accent-btn {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37);
+
+  &:hover {
+    background-color: #dfa907;
+  }
+}
+
 .rowflex {
   display: flex;
   flex-direction: row;
@@ -75,9 +111,27 @@ h6 {
   height: 5px;
 }
 
+.btn-copy-json {
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.btn-delete-item {
+  float: right;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+/* App */
+.router-outlet-container {
+  margin: 10vh 0px;
+}
+
 /* Login */
 .card-form {
-  width: 80%;
+  width: 80vw;
   margin: 2rem auto;
   padding: 0px !important;
   margin-bottom: 150px;
@@ -93,11 +147,28 @@ h6 {
   justify-content: center;
 }
 
+.contact-admin-text {
+  text-align: center;
+
+  small {
+    margin: 10px 0;
+  }
+}
+
 /* Nav */
 #toolbar {
   position: fixed;
   top: 0;
   z-index: 1;
+
+  .logo-span {
+    img {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      margin-right: 10px;
+    }
+  }
 }
 .example-sidenav {
   min-width: 60vw;
@@ -109,6 +180,81 @@ h6 {
     color: $primaryColor;
     width: min-content;
     border-bottom: 0.5px solid $primaryColor;
+  }
+}
+
+/* Root */
+.full-card-form {
+  max-width: 90vw;
+  min-width: 70vw;
+  width: max-content;
+  margin: 2rem auto;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.type-display-item {
+  padding: 10px;
+
+  div {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
+}
+
+.tech-item {
+  img {
+    width: 23px;
+    height: 23px;
+    margin-right: 5px;
+  }
+}
+
+.course-item {
+  background: black;
+  width: fit-content;
+
+  img {
+    width: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  span {
+    max-width: 50vw;
+  }
+}
+
+.project-item {
+  overflow: hidden;
+  padding: 0 !important;
+  padding-right: 10px !important;
+
+  div {
+    padding: 0;
+
+    img {
+      width: 100px;
+      height: 100px;
+      margin-right: 5px;
+      object-fit: cover;
+    }
+
+    .pinned-icon {
+      width: 23px;
+      height: 23px;
+      margin-left: 3px;
+    }
+  }
+}
+
+/* Add tech */
+.custom-select {
+  option {
+    color: white;
   }
 }
 
@@ -124,6 +270,7 @@ h6 {
   width: fit-content;
   padding: 5px;
   margin: 5px 2px;
+  cursor: pointer;
 }
 
 pre {
@@ -134,14 +281,8 @@ pre {
 .preStyle {
   margin: 10px;
   background-color: darkslategray;
-  color: grey;
-}
-
-.contentPadded {
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  font-style: oblique;
+  color: $lightGrey;
+  text-align: left;
 }
 
 .focusDiv {
@@ -176,8 +317,21 @@ pre {
     min-width: 40vw;
   }
   .card-form {
-    width: 60%;
+    width: 60vw;
   }
+  .logo-span {
+    img {
+      width: inherit;
+      height: inherit;
+      padding: 15px;
+      margin-right: 0;
+    }
+  }
+
+  .full-card-form {
+    min-width: 60vw;
+  }
+
   .padding-content {
     padding: 3em !important;
   }
@@ -192,6 +346,10 @@ pre {
   }
 
   .card-form {
-    width: 40%;
+    width: 40vw;
+  }
+
+  .full-card-form {
+    min-width: 40vw;
   }
 }

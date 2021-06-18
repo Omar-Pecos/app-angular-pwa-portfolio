@@ -5,12 +5,12 @@ import { Component, Input } from '@angular/core';
   template: `
     <mat-toolbar id="toolbar" color="primary">
       <mat-toolbar-row>
-        <span class="rowflex" routerLink="/home" style="cursor:pointer;">
-          <img
-            src="assets/icons/icon-72x72.png"
-            alt="OmarPV logo"
-            style="padding:15px;"
-          />
+        <span
+          class="rowflex logo-span"
+          routerLink="/home"
+          style="cursor:pointer;"
+        >
+          <img src="assets/icons/icon-72x72.png" alt="OmarPV logo" />
           <span>{{ title }}</span>
         </span>
         <span class="example-spacer"></span>

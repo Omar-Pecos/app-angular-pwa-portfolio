@@ -1,208 +1,309 @@
 <div *ngIf="error" class="content">
-    <h4 class="alert-danger">{{error}}</h4>
+  <h4 class="alert-danger">{{ error }}</h4>
 </div>
 
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
+</div>
+
+<!-- Types display -->
+<div class="rowflex">
+  <span *ngFor="let type of types" class="columnflex type-display-item">
+    <div [style.background]="setColor(type)"></div>
+    {{ type[0].toUpperCase() + type.substr(1) }}
+  </span>
 </div>
 
 <!-- TECHS -->
-<div class="ui raised text container segment padding-content">
-    <h2 class="ui header">Technologies</h2>
-    <p>Several technologies to append to projects and profile</p>
-    <div class="ui buttons">
-        <button *ngIf="!seeTech" class="ui button" (click)="seeTech = true">See</button>
-        <button *ngIf="seeTech" class="ui button" (click)="hideTech()">Hide</button>
-        <div *ngIf="identity.role == 1" class="or"></div>
-        <button *ngIf="identity.role == 1" class="ui positive button" routerLink="/add-tech">Add new</button>
+<mat-card class="full-card-form">
+  <mat-card-header class="bg-primary">
+    <h2>Technologies</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <h3>Several technologies to append to projects, courses and profile</h3>
+    <div class="rowflex">
+      <button *ngIf="!seeTech" class="btn grey-btn" (click)="seeTech = true">
+        See
+      </button>
+      <button *ngIf="seeTech" class="btn grey-btn" (click)="hideTech()">
+        Hide
+      </button>
+      <div *ngIf="identity.role == 1" class="or"></div>
+      <button
+        *ngIf="identity.role == 1"
+        class="btn accent-btn"
+        routerLink="/add-tech"
+      >
+        Add new
+      </button>
     </div>
 
     <ng-container *ngIf="seeTech">
-        <div *ngIf="Techs$ | obsWithStatus | async as techs" class="rowflex">
-            <ng-template [ngIf]="techs.value">
-                <div *ngFor="let t of techs.value" class="badge-tech" [style.background]="setColor(t.type)"
-                    [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'">
-                    <div (click)="techDisplayed = t" class="rowflex">
-                        <img [src]="t.icon" [alt]="t.name" style="width: 23px;height: 23px;margin-right: 5px;" />
-                        {{ t.name }}
-                    </div>
-                </div>
-            </ng-template>
+      <div *ngIf="Techs$ | obsWithStatus | async as techs" class="rowflex">
+        <ng-template [ngIf]="techs.value">
+          <div
+            *ngFor="let t of techs.value"
+            class="badge-tech tech-item"
+            [style.background]="setColor(t.type)"
+            [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'"
+          >
+            <div (click)="techDisplayed = t" class="rowflex">
+              <img [src]="t.icon" [alt]="t.name" />
+              {{ t.name }}
+            </div>
+          </div>
+        </ng-template>
 
-            <ng-template [ngIf]="techs.loading">
-                <div class="contentPadded">Loading ...</div>
-            </ng-template>
+        <ng-template [ngIf]="techs.loading">
+          <Loader></Loader>
+        </ng-template>
 
-            <ng-template [ngIf]="!techs.loading && techs.value.length == 0">
-                <div class="contentPadded">No techs yet</div>
-            </ng-template>
-        </div>
+        <ng-template [ngIf]="!techs.loading && techs.value.length == 0">
+          <div class="contentPadded">No techs yet</div>
+        </ng-template>
+      </div>
     </ng-container>
 
     <!-- Tech displayed -->
-    <div *ngIf="techDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
-        <button ngxClipboard [cbContent]=" stringify(techDisplayed) ">Copy JSON</button>
-        <span *ngIf="identity.role == 1" (click)="seeDeleteConfirmation( techDisplayed  )" class="alert-danger" style="float:right;">
-            <ng-lottie 
-                width="35px"
-                height="20px"
-                [options]="optionsDelete">
-            </ng-lottie>
-        </span>
-        <pre>
+    <div *ngIf="techDisplayed" class="preStyle">
+      <button
+        ngxClipboard
+        [cbContent]="stringify(techDisplayed)"
+        class="btn-copy-json"
+      >
+        Copy JSON
+      </button>
+      <span
+        *ngIf="identity.role == 1"
+        (click)="seeDeleteConfirmation(techDisplayed)"
+        class="btn-delete-item"
+      >
+        <ng-lottie width="35px" height="20px" [options]="optionsDelete">
+        </ng-lottie>
+      </span>
+      <pre>
             <code> {{ techDisplayed | json}} </code>
         </pre>
-
     </div>
-
-</div>
-
+  </mat-card-content>
+</mat-card>
 
 <!-- PROFILE -->
-<div class="ui raised text container segment padding-content">
-    <h2 class="ui header">Profile</h2>
-    <p>Profile for landing page</p>
-    <div class="ui buttons">
-        <button *ngIf="!seeProfile" (click)="seeProfile = true" class="ui button">See</button>
-        <button *ngIf="seeProfile" (click)="seeProfile = false" class="ui button">Hide</button>
+<mat-card class="full-card-form">
+  <mat-card-header class="bg-primary">
+    <h2>Profile</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <h3>Profile for landing page</h3>
+    <div class="rowflex">
+      <button
+        *ngIf="!seeProfile"
+        (click)="seeProfile = true"
+        class="btn grey-btn"
+      >
+        See
+      </button>
+      <button
+        *ngIf="seeProfile"
+        (click)="seeProfile = false"
+        class="btn grey-btn"
+      >
+        Hide
+      </button>
     </div>
 
     <ng-container *ngIf="seeProfile">
-        <div *ngIf="Profile$ | obsWithStatus |  async as profile">
+      <div *ngIf="Profile$ | obsWithStatus | async as profile">
+        <ng-template [ngIf]="profile.value">
+          <pre class="preStyle">
+              <code>{{ profile.value | json }}</code>
+          </pre>
 
-            <ng-template [ngIf]="profile.value">
-                <pre class="preStyle">
-                        <code>{{ profile.value | json }}</code>
-                </pre>
+          <button
+            [routerLink]="['/add-profile']"
+            [state]="profile.value"
+            class="btn accent-btn"
+          >
+            Add new from this base
+          </button>
+        </ng-template>
 
-                <button [routerLink]="['/add-profile']" [state]="profile.value" class="ui positive button"
-                    style="float: left;">Add
-                    new from this base</button>
-            </ng-template>
+        <ng-template [ngIf]="profile.loading">
+          <Loader></Loader>
+        </ng-template>
 
-            <ng-template [ngIf]="profile.loading">
-                <div class="contentPadded">Loading ...</div>
-            </ng-template>
-
-            <ng-template [ngIf]="!profile.loading && !profile.value">
-                <div class="contentPadded">No profile yet</div>
-                <button [routerLink]="['/add-profile']" class="ui positive button">Add new</button>
-            </ng-template>
-
-        </div>
-
+        <ng-template [ngIf]="!profile.loading && !profile.value">
+          <div>No profile yet</div>
+          <button [routerLink]="['/add-profile']" class="btn accent-btn">
+            Add new
+          </button>
+        </ng-template>
+      </div>
     </ng-container>
-
-</div>
+  </mat-card-content>
+</mat-card>
 
 <!-- COURSES -->
-<div class="ui raised text container segment padding-content">
-    <h2 class="ui header">Courses</h2>
-    <p>Several courses done or in progress</p>
-    <div class="ui buttons">
-        <button *ngIf="!seeCourse" class="ui button" (click)="seeCourse = true">See</button>
-        <button *ngIf="seeCourse" class="ui button" (click)="hideCourse()">Hide</button>
-        <div class="or"></div>
-        <button class="ui positive button" routerLink="/add-course">Add new</button>
+<mat-card class="full-card-form">
+  <mat-card-header class="bg-primary">
+    <h2>Courses</h2>
+  </mat-card-header>
+
+  <mat-card-content>
+    <h3>Several courses done or in progress</h3>
+    <div class="rowflex">
+      <button
+        *ngIf="!seeCourse"
+        class="btn grey-btn"
+        (click)="seeCourse = true"
+      >
+        See
+      </button>
+      <button *ngIf="seeCourse" class="btn grey-btn" (click)="hideCourse()">
+        Hide
+      </button>
+      <div class="or"></div>
+      <button class="btn accent-btn" routerLink="/add-course">Add new</button>
     </div>
 
     <ng-container *ngIf="seeCourse">
-        <div *ngIf="Courses$ | obsWithStatus | async as courses" class="rowflex"  style="overflow-x: auto;">
-            <ng-template [ngIf]="courses.value">
-                <div *ngFor="let c of courses.value" class="badge-tech" style="background: black;"
-                    [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'">
-                    <div (click)="courseDisplayed = c" class="rowflex">
-                        {{c.platform | uppercase}} - {{ c.name }} : {{ (c.duration/60).toFixed(2) }} h
-                    </div>
-                </div>
-            </ng-template>
+      <div *ngIf="Courses$ | obsWithStatus | async as courses" class="rowflex">
+        <ng-template [ngIf]="courses.value">
+          <div
+            *ngFor="let c of courses.value"
+            class="badge-tech course-item"
+            [style.display]="itemsDeleted.includes(c._id) ? 'none' : 'block'"
+          >
+            <div (click)="courseDisplayed = c" class="rowflex">
+              <img [src]="platformLogoUrl(c.platform)" alt="Platform" />
+              <span> {{ c.name }} : {{ (c.duration / 60).toFixed(2) }} h </span>
+            </div>
+          </div>
+        </ng-template>
 
+        <ng-template [ngIf]="courses.loading">
+          <Loader></Loader>
+        </ng-template>
 
-            <ng-template [ngIf]="courses.loading">
-                <div class="contentPadded">Loading ...</div>
-            </ng-template>
-
-            <ng-template [ngIf]="!courses.loading && courses.value.length == 0">
-                <div class="contentPadded">No courses yet</div>
-            </ng-template>
-        </div>
+        <ng-template [ngIf]="!courses.loading && courses.value.length == 0">
+          <div>No courses yet</div>
+        </ng-template>
+      </div>
     </ng-container>
 
-
     <!-- Course displayed -->
-    <div *ngIf="courseDisplayed" style="margin: 10px;background-color: darkslategray;color: grey;">
-        <button ngxClipboard [cbContent]=" stringify(courseDisplayed) ">Copy JSON</button>
-        <span (click)="seeDeleteConfirmation( courseDisplayed )" class="alert-danger" style="float:right;">
-            <ng-lottie 
-                width="35px"
-                height="20px"
-                [options]="optionsDelete">
-            </ng-lottie>
-        </span>
-        <pre>
+    <div *ngIf="courseDisplayed" class="preStyle">
+      <button
+        ngxClipboard
+        [cbContent]="stringify(courseDisplayed)"
+        class="btn-copy-json"
+      >
+        Copy JSON
+      </button>
+      <span
+        (click)="seeDeleteConfirmation(courseDisplayed)"
+        class="btn-delete-item"
+      >
+        <ng-lottie width="35px" height="20px" [options]="optionsDelete">
+        </ng-lottie>
+      </span>
+      <pre>
             <code> {{ courseDisplayed | json}} </code>
         </pre>
-
     </div>
-
-</div>
-
-
+  </mat-card-content>
+</mat-card>
 
 <!-- PROJECTS -->
-<div class="ui raised text container segment padding-content">
-    <h2 class="ui header">Projects</h2>
-    <p>Projects that I have developed</p>
-    <div class="ui buttons">
-        <button *ngIf="!seeProject" class="ui button" (click)="seeProject = true">See</button>
-        <button *ngIf="seeProject" class="ui button" (click)="hideProject()">Hide</button>
-        <div class="or"></div>
-        <button class="ui positive button" routerLink="/add-project">Add new</button>
+<mat-card class="full-card-form">
+  <mat-card-header class="bg-primary">
+    <h2>Projects</h2>
+  </mat-card-header>
+
+  <mat-card-content>
+    <h3>Projects that I have developed</h3>
+    <div class="rowflex">
+      <button
+        *ngIf="!seeProject"
+        class="btn grey-btn"
+        (click)="seeProject = true"
+      >
+        See
+      </button>
+      <button *ngIf="seeProject" class="btn grey-btn" (click)="hideProject()">
+        Hide
+      </button>
+      <div class="or"></div>
+      <button class="btn accent-btn" routerLink="/add-project">Add new</button>
     </div>
 
     <ng-container *ngIf="seeProject">
-        <div *ngIf="Projects$ | obsWithStatus | async as projects" class="rowflex">
-            <ng-template [ngIf]="projects.value">
-                <div *ngFor="let p of projects.value" class="badge-tech" [style.background]="setColor(p.type)"
-                    [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'">
-                    <div (click)="projectDisplayed = p" class="rowflex">
-                        {{p.name}} - {{p.type | uppercase}}
-                        <img *ngIf="p.pinned" src="assets/images/star_fav.png" alt="fav" style="width: 23px;height: 23px;margin-left: 3px;">
-                    </div>
-                </div>
-            </ng-template>
+      <div
+        *ngIf="Projects$ | obsWithStatus | async as projects"
+        class="rowflex"
+      >
+        <ng-template [ngIf]="projects.value">
+          <div
+            *ngFor="let p of projects.value"
+            class="badge-tech project-item"
+            [style.background]="setColor(p.type)"
+            [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'"
+          >
+            <div (click)="projectDisplayed = p" class="rowflex">
+              <img
+                *ngIf="p.images.length"
+                [src]="p.images[0]"
+                alt="thumbnail"
+              />
+              <img
+                *ngIf="!p.images.length"
+                src="https://res.cloudinary.com/omarpvcloud/image/upload/v1623867084/Projects/api-node-portfolio/restdefaultImg_ilfd8v.png"
+                alt="thumbnail"
+              />
+              <span>
+                {{ p.name }}
+              </span>
+              <img
+                class="pinned-icon"
+                *ngIf="p.pinned"
+                src="assets/images/star_fav.png"
+                alt="fav"
+              />
+            </div>
+          </div>
+        </ng-template>
 
-            <ng-template [ngIf]="projects.loading">
-                <div class="contentPadded">Loading ...</div>
-            </ng-template>
+        <ng-template [ngIf]="projects.loading">
+          <Loader></Loader>>
+        </ng-template>
 
-            <ng-template [ngIf]="!projects.loading && projects.value.length == 0">
-                <div class="contentPadded">No projects yet</div>
-            </ng-template>
-        </div>
+        <ng-template [ngIf]="!projects.loading && projects.value.length == 0">
+          <div>No projects yet</div>
+        </ng-template>
+      </div>
     </ng-container>
-
 
     <!-- Project displayed -->
     <div *ngIf="projectDisplayed" class="preStyle">
-        <button ngxClipboard [cbContent]=" stringify(projectDisplayed) ">Copy JSON</button>
+      <button
+        ngxClipboard
+        [cbContent]="stringify(projectDisplayed)"
+        class="btn-copy-json"
+      >
+        Copy JSON
+      </button>
 
-        <span (click)="seeDeleteConfirmation( projectDisplayed )" class="alert-danger"
-            style="float:right;">
-            <ng-lottie 
-                width="35px"
-                height="20px"
-                [options]="optionsDelete">
-            </ng-lottie>
-        </span>
-        <pre>
+      <span
+        (click)="seeDeleteConfirmation(projectDisplayed)"
+        class="alert-danger"
+        class="btn-delete-item"
+      >
+        <ng-lottie width="35px" height="20px" [options]="optionsDelete">
+        </ng-lottie>
+      </span>
+      <pre>
             <code> {{ projectDisplayed | json}} </code>
         </pre>
-
     </div>
-
-</div>
+  </mat-card-content>
+</mat-card>
