@@ -15,7 +15,7 @@
 </div>
 
 <!-- TECHS -->
-<mat-card class="full-card-form">
+<mat-card class="full-card-form" [style.width]="seeTech ? '90vw' : ''">
   <mat-card-header class="bg-primary">
     <h2>Technologies</h2>
   </mat-card-header>
@@ -89,7 +89,7 @@
 </mat-card>
 
 <!-- PROFILE -->
-<mat-card class="full-card-form">
+<mat-card class="full-card-form" [style.width]="seeProfile ? '90vw' : ''">
   <mat-card-header class="bg-primary">
     <h2>Profile</h2>
   </mat-card-header>
@@ -144,7 +144,7 @@
 </mat-card>
 
 <!-- COURSES -->
-<mat-card class="full-card-form">
+<mat-card class="full-card-form" [style.width]="seeCourse ? '90vw' : ''">
   <mat-card-header class="bg-primary">
     <h2>Courses</h2>
   </mat-card-header>
@@ -215,7 +215,7 @@
 </mat-card>
 
 <!-- PROJECTS -->
-<mat-card class="full-card-form">
+<mat-card class="full-card-form" [style.width]="seeProject ? '90vw' : ''">
   <mat-card-header class="bg-primary">
     <h2>Projects</h2>
   </mat-card-header>

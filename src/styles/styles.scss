@@ -14,6 +14,12 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+body {
+  // for firefox scrollbar
+  scrollbar-color: $primaryColor $accentColor;
+  scrollbar-width: thin;
+}
+
 h1,
 h2,
 h3,
@@ -133,6 +139,21 @@ h6 {
   cursor: pointer;
 }
 
+// scrollbar overrides
+*::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: $accentColor !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $primaryColor !important;
+  border-radius: 20px !important;
+  border: transparent !important;
+}
+
 /* App */
 .router-outlet-container {
   margin: 10vh 0px;
@@ -194,12 +215,11 @@ h6 {
 
 /* Root */
 .full-card-form {
-  max-width: 90vw;
-  min-width: 70vw;
-  width: max-content;
+  width: 70vw;
   margin: 2rem auto;
   padding: 0px !important;
   text-align: center;
+  transition: width 0.5s cubic-bezier(0.55, 0.09, 0.68, 0.53) !important;
 }
 
 .type-display-item {
@@ -339,7 +359,7 @@ pre {
   }
 
   .full-card-form {
-    min-width: 60vw;
+    width: 60vw;
   }
 
   .padding-content {
@@ -360,6 +380,6 @@ pre {
   }
 
   .full-card-form {
-    min-width: 40vw;
+    width: 40vw;
   }
 }
