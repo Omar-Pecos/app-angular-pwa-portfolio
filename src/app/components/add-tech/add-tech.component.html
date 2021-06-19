@@ -52,15 +52,11 @@
             [(ngModel)]="tech.type"
             class="custom-select"
             #type="ngModel"
-            [style.background]="tech.type ? setColor(tech.type) : ''"
+            [ngClass]="tech.type ? 'tech-' + tech.type : ''"
             [style.color]="tech.type ? 'white' : ''"
             required
           >
-            <option
-              *ngFor="let t of types"
-              [value]="t"
-              [style.background]="setColor(t)"
-            >
+            <option *ngFor="let t of types" [value]="t" [ngClass]="'tech-' + t">
               {{ t[0].toUpperCase() + t.substr(1) }}
             </option>
           </select>

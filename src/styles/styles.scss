@@ -33,6 +33,15 @@ h6 {
   color: rgb(37, 37, 37);
 }
 
+/* CSS classes generation */
+// Tech styles
+@each $key, $color in $typesColors {
+  .tech-#{$key} {
+    color: white;
+    background-color: $color !important;
+  }
+}
+
 /* Angular material overrides */
 .mat-card-header {
   border-top-left-radius: 5px;
@@ -239,7 +248,7 @@ h6 {
     img {
       width: 100px;
       height: 100px;
-      margin-right: 5px;
+      margin-right: 10px;
       object-fit: cover;
     }
 
@@ -253,6 +262,7 @@ h6 {
 
 /* Add tech */
 .custom-select {
+  width: min-content !important;
   option {
     color: white;
   }

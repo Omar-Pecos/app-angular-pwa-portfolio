@@ -1,86 +1,136 @@
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
 <div class="ui card main-form width80">
-    <div class="content">
-        <h1 class="header">Add new profile</h1>
-    </div>
+  <div class="content">
+    <h1 class="header">Add new profile</h1>
+  </div>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
-    </div>
+  <div *ngIf="error" class="content">
+    <h4 class="alert-danger">{{ error }}</h4>
+  </div>
 
-    <div class="content">
+  <div class="content">
+    <div class="ui large form equal width stackable grid">
+      <form class="three column row" #addProfileForm="ngForm">
+        <div class="column field">
+          <label for="profileIntro">Intro *</label>
+          <textarea
+            type="text"
+            id="profileintro"
+            name="profileintro"
+            placeholder="Enter intro here"
+            [(ngModel)]="profile.intro"
+            #intro="ngModel"
+            required
+          ></textarea>
 
-        <div class="ui large form equal width stackable grid">
-
-            <form class="three column row" #addProfileForm="ngForm">
-
-
-                <div class="column field">
-                    <label for="profileIntro">Intro *</label>
-                    <textarea type="text" id="profileintro" name="profileintro" placeholder="Enter intro here"
-                        [(ngModel)]="profile.intro" #intro="ngModel" required ></textarea>
-
-                        <div *ngIf="intro.invalid && (intro.dirty || intro.touched)" class="alert-danger">
-                            <p *ngIf="intro.errors.required">Intro is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="profileText">Text *</label>
-                    <textarea type="text" id="profileText" name="profileText" placeholder="Enter About text here"
-                        [(ngModel)]="profile.about.text" #text="ngModel" required></textarea>
-
-                        <div *ngIf="text.invalid && (text.dirty || text.touched)" class="alert-danger">
-                            <p *ngIf="text.errors.required">Text is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <p style="text-align: center;">
-                        <button *ngIf="!seeAddSkillForm" (click)="seeAddSkillForm = true" class="ui positive button">Add skill</button>
-                    </p>
-
-                    <div *ngIf="seeAddSkillForm" style="display: inline-flexbox;">
-                        <select placeholder="Placeholder" [(ngModel)]="selectedSkillID" name="selectedSkillID" required>
-                            <option value="-1">Select tech</option>
-                            <option *ngFor="let tech of techs" [value]="tech._id">
-                                {{ tech.name }}
-                            </option>
-                        </select>
-
-                        <input style="width: 70%;" type="number" [(ngModel)]="selectedPercentage" name="selectedPercentage" max="100" min="0" required />
-                        <button (click)="addSkill()" class="ui positive right floated button" [disabled]="selectedSkillID == '-1' || (selectedPercentage < 0 || selectedPercentage > 100)" style="margin-top: 3px;">
-                            +</button>
-                    </div>
-                </div>
-
-            </form>
-
+          <div
+            *ngIf="intro.invalid && (intro.dirty || intro.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="intro.errors.required">Intro is required</p>
+          </div>
         </div>
 
-            <br/>
-        <h3 *ngIf="profile.about.skills.length > 0" class="header">Skills</h3>
-        <div *ngIf="profile.about.skills.length > 0" class="rowflex">
-           <div *ngFor="let skill of profile.about.skills" style="margin-right: 5px; margin-bottom: 10px">
-               <span  class="badge-tech" [style.background]="setColor(skill.tech.type)">
-                    {{ skill.tech.name }} - {{skill.percentage}}%
-                    <span (click)="deleteSkill( skill._id )" style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;" class="alert-danger">x</span>
-               </span>
-           </div>
+        <div class="column field">
+          <label for="profileText">Text *</label>
+          <textarea
+            type="text"
+            id="profileText"
+            name="profileText"
+            placeholder="Enter About text here"
+            [(ngModel)]="profile.about.text"
+            #text="ngModel"
+            required
+          ></textarea>
+
+          <div
+            *ngIf="text.invalid && (text.dirty || text.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="text.errors.required">Text is required</p>
+          </div>
         </div>
-        
-    </div>
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="addProfileForm.invalid || profile.about.skills.length == 0"
-                (click)="saveProfile()">Save</button>
+
+        <div class="column field">
+          <p style="text-align: center">
+            <button
+              *ngIf="!seeAddSkillForm"
+              (click)="seeAddSkillForm = true"
+              class="ui positive button"
+            >
+              Add skill
+            </button>
+          </p>
+
+          <div *ngIf="seeAddSkillForm" style="display: inline-flexbox">
+            <select
+              placeholder="Placeholder"
+              [(ngModel)]="selectedSkillID"
+              name="selectedSkillID"
+              required
+            >
+              <option value="-1">Select tech</option>
+              <option *ngFor="let tech of techs" [value]="tech._id">
+                {{ tech.name }}
+              </option>
+            </select>
+
+            <input
+              style="width: 70%"
+              type="number"
+              [(ngModel)]="selectedPercentage"
+              name="selectedPercentage"
+              max="100"
+              min="0"
+              required
+            />
+            <button
+              (click)="addSkill()"
+              class="ui positive right floated button"
+              [disabled]="
+                selectedSkillID == '-1' ||
+                selectedPercentage < 0 || selectedPercentage > 100
+              "
+              style="margin-top: 3px"
+            >
+              +
+            </button>
+          </div>
         </div>
+      </form>
     </div>
+
+    <br />
+    <h3 *ngIf="profile.about.skills.length > 0" class="header">Skills</h3>
+    <div *ngIf="profile.about.skills.length > 0" class="rowflex">
+      <div
+        *ngFor="let skill of profile.about.skills"
+        style="margin-right: 5px; margin-bottom: 10px"
+      >
+        <span class="badge-tech" [ngClass]="'tech-' + skill.tech.type">
+          {{ skill.tech.name }} - {{ skill.percentage }}%
+          <span
+            (click)="deleteSkill(skill._id)"
+            style="border-radius: 30px; margin-left: 5px; padding: 3px 7px"
+            class="alert-danger"
+            >x</span
+          >
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="extra content">
+    <div class="row">
+      <button
+        class="ui positive right floated button"
+        [disabled]="addProfileForm.invalid || profile.about.skills.length == 0"
+        (click)="saveProfile()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
 </div>

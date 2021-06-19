@@ -9,7 +9,7 @@
 <!-- Types display -->
 <div class="rowflex">
   <span *ngFor="let type of types" class="columnflex type-display-item">
-    <div [style.background]="setColor(type)"></div>
+    <div [ngClass]="'tech-' + type"></div>
     {{ type[0].toUpperCase() + type.substr(1) }}
   </span>
 </div>
@@ -44,7 +44,7 @@
           <div
             *ngFor="let t of techs.value"
             class="badge-tech tech-item"
-            [style.background]="setColor(t.type)"
+            [ngClass]="'tech-' + t.type"
             [style.display]="itemsDeleted.includes(t._id) ? 'none' : 'block'"
           >
             <div (click)="techDisplayed = t" class="rowflex">
@@ -246,7 +246,7 @@
           <div
             *ngFor="let p of projects.value"
             class="badge-tech project-item"
-            [style.background]="setColor(p.type)"
+            [ngClass]="'tech-' + p.type"
             [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'"
           >
             <div (click)="projectDisplayed = p" class="rowflex">

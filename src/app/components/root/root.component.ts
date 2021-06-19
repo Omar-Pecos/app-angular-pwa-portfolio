@@ -9,7 +9,7 @@ import { Course } from 'src/app/models/Course';
 import { CourseService } from '../../services/course.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from '../../models/Project';
-import { setColor, types as TypesArr } from '../../utils/helpers';
+import { types as TypesArr } from '../../utils/helpers';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -165,8 +165,6 @@ export class RootComponent implements OnInit, DoCheck {
       this.hadBeenReloaded = true;
     }
   }
-
-  setColor = setColor;
 
   stringify(value) {
     return JSON.stringify(value);

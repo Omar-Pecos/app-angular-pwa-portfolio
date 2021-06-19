@@ -5,10 +5,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
-import {
-  setColor as setColorHelper,
-  types as TypesArr,
-} from '../../utils/helpers';
+import { types as TypesArr } from '../../utils/helpers';
 
 @Component({
   selector: 'app-add-tech',
@@ -39,8 +36,6 @@ export class AddTechComponent implements OnInit, DoCheck {
   ngDoCheck() {
     this.token = this._authService.getToken();
   }
-
-  setColor = setColorHelper;
 
   saveTech() {
     this._techService.addItem(this.tech, this.token).subscribe(
