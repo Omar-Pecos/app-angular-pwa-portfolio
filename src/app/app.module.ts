@@ -27,6 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { LoaderComponent } from './components/loader/loader.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { btnCopyJSON } from './components/buttons/btn-copy-json/btn-copy-json.component';
+import { btnPasteJSON } from './components/buttons/btn-paste-json/btn-paste-json.component';
 
 export function playerFactory() {
   return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web');
@@ -49,6 +51,8 @@ export function playerFactory() {
     ProfileComponent,
     LoaderComponent,
     AlertComponent,
+    btnCopyJSON,
+    btnPasteJSON,
   ],
   imports: [
     BrowserModule,

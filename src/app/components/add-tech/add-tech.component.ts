@@ -67,19 +67,16 @@ export class AddTechComponent implements OnInit, DoCheck {
     );
   }
 
-  pasteJson() {
-    navigator.clipboard
-      .readText()
-      .then((text) => {
-        this.tech = JSON.parse(text);
-      })
-      .catch((error) => {
-        //console.log(error);
-      });
-  }
-
   setMakeNew() {
     this.tech._id = null;
     this.makeNew = true;
   }
+
+  receiveFromClipboard = (e) => {
+    const { item } = e;
+
+    if (item) {
+      this.tech = item;
+    }
+  };
 }

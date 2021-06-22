@@ -34,7 +34,7 @@
         class="btn accent-btn"
         routerLink="/add-tech"
       >
-        Add new
+        Add new / Edit
       </button>
     </div>
 
@@ -66,13 +66,7 @@
 
     <!-- Tech displayed -->
     <div *ngIf="techDisplayed" class="preStyle">
-      <button
-        ngxClipboard
-        [cbContent]="stringify(techDisplayed)"
-        class="btn-copy-json"
-      >
-        Copy JSON
-      </button>
+      <btnCopyJSON [cbContent]="stringify(techDisplayed)"> </btnCopyJSON>
       <span
         *ngIf="identity.role == 1"
         (click)="seeDeleteConfirmation(techDisplayed)"
@@ -193,13 +187,7 @@
 
     <!-- Course displayed -->
     <div *ngIf="courseDisplayed" class="preStyle">
-      <button
-        ngxClipboard
-        [cbContent]="stringify(courseDisplayed)"
-        class="btn-copy-json"
-      >
-        Copy JSON
-      </button>
+      <btnCopyJSON [cbContent]="stringify(techDisplayed)"> </btnCopyJSON>
       <span
         (click)="seeDeleteConfirmation(courseDisplayed)"
         class="btn-delete-item"
@@ -285,13 +273,7 @@
 
     <!-- Project displayed -->
     <div *ngIf="projectDisplayed" class="preStyle">
-      <button
-        ngxClipboard
-        [cbContent]="stringify(projectDisplayed)"
-        class="btn-copy-json"
-      >
-        Copy JSON
-      </button>
+      <btnCopyJSON [cbContent]="stringify(techDisplayed)"> </btnCopyJSON>
 
       <span
         (click)="seeDeleteConfirmation(projectDisplayed)"

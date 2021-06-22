@@ -131,12 +131,45 @@ h6 {
   margin-left: 5px;
   padding: 5px 10px;
   cursor: pointer;
+
+  img {
+    width: 20px;
+    margin-bottom: -4px;
+  }
+}
+
+.btn-paste-json {
+  margin-left: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: right;
+  height: 35px;
+
+  img {
+    width: 20px;
+    margin-bottom: -4px;
+  }
+}
+
+.btn-create-new {
+  margin-left: 5px;
+  padding: 5px 10px;
+  min-height: 35px;
+  cursor: pointer;
+  float: right;
 }
 
 .btn-delete-item {
   float: right;
   margin-top: 7px;
   cursor: pointer;
+}
+
+.creating-new-message {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37) !important;
+  padding: 5px 10px !important;
+  cursor: default !important;
 }
 
 // scrollbar overrides
@@ -175,6 +208,10 @@ h6 {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+
+  .input-container {
+    margin: 0px 5px;
+  }
 }
 
 .contact-admin-text {
@@ -282,9 +319,10 @@ h6 {
 
 /* Add tech */
 .custom-select {
-  width: min-content !important;
+  color: black;
+
   option {
-    color: white;
+    color: white !important;
   }
 }
 

@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
+        //console.log(error);
         this.loading = false;
         const err = error?.error;
         this.error = err?.error || 'Internal Server Error';

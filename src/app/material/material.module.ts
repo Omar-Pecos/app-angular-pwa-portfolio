@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 //forms
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 // Toolbar/sidenav
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,6 +19,7 @@ const modules = [
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSelectModule,
   MatToolbarModule,
   MatSidenavModule,
   MatIconModule,
