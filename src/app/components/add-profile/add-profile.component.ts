@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Location } from '@angular/common';
 import { Profile } from '../../models/Profile';
 import { Observable } from 'rxjs';
@@ -16,6 +17,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./add-profile.component.css'],
 })
 export class AddProfileComponent implements OnInit, DoCheck {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private token;
   profile: Profile = new Profile();
   error: string = '';
@@ -74,6 +76,7 @@ export class AddProfileComponent implements OnInit, DoCheck {
     };
 
     this.profile.about.skills.push(skill);
+    this.selectedSkillID = '-1';
   }
 
   deleteSkill(id) {
@@ -118,4 +121,21 @@ export class AddProfileComponent implements OnInit, DoCheck {
     });
     this.profile.version++;
   }
+
+  filterTechs = () => {
+    if (this.profile.about.skills.length) {
+      if (this.techs.length) {
+        return this.techs.filter(
+          ({ _id }) =>
+            this.profile.about.skills.findIndex(
+              ({ _id: techId }) => techId === _id
+            ) === -1
+        );
+      } else {
+        return [];
+      }
+    } else {
+      return this.techs;
+    }
+  };
 }

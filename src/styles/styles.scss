@@ -74,6 +74,10 @@ h6 {
   border: none;
   margin: 5px;
   cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .grey-btn {
@@ -211,6 +215,10 @@ h6 {
 
   .input-container {
     margin: 0px 5px;
+
+    .mat-form-field {
+      width: 100% !important;
+    }
   }
 }
 
@@ -326,9 +334,67 @@ h6 {
   }
 }
 
-.width80 {
-  width: 85vw !important;
-  margin: 10px auto !important;
+/* Add profile */
+.see-add-skill-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5vw;
+
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
+}
+.span-close-danger {
+  border-radius: 30px;
+  margin-left: 5px;
+  margin-right: -2px;
+  margin-top: -2px;
+  width: fit-content;
+  height: fit-content;
+  padding: 0px 7px;
+  padding-bottom: 2px;
+  background-color: $warnColor;
+}
+
+.badge-tech-with-percentage {
+  display: inline-flex;
+  cursor: default !important;
+
+  img {
+    width: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+  }
+  small {
+    font-size: 80%;
+    position: relative;
+    bottom: 1.5px;
+    font-weight: lighter;
+  }
+
+  .percentage-track {
+    height: 7px;
+    width: 100%;
+    background-color: $accentColor;
+    border: 1px solid $accentColor;
+    border-radius: 5px;
+
+    .percentage-progress {
+      border-radius: 5px;
+      height: 5px;
+      background-color: $primaryColor;
+    }
+  }
+
+  .span-close-danger {
+    cursor: pointer;
+  }
+}
+
+.width80vw {
+  width: 80vw !important;
 }
 
 .badge-tech {
