@@ -136,4 +136,12 @@ export class AddProfileComponent implements OnInit, DoCheck {
       return this.techs;
     }
   };
+
+  formatLabel(value: number) {
+    if (value >= 5) {
+      return `${value}%`;
+    }
+
+    return value;
+  }
 }

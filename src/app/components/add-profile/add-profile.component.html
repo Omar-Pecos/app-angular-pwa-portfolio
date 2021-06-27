@@ -99,27 +99,21 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Percentage</mat-label>
-          <input
-            matInput
-            type="number"
-            [(ngModel)]="selectedPercentage"
-            name="selectedPercentage"
-            max="100"
-            min="0"
-            required
-          />
-        </mat-form-field>
+        <mat-slider
+          thumbLabel
+          [displayWith]="formatLabel"
+          [(ngModel)]="selectedPercentage"
+          name="selectedPercentage"
+          step="5"
+          min="0"
+          max="100"
+          aria-label="units"
+        ></mat-slider>
       </div>
       <button
         (click)="addSkill()"
         class="btn success-btn"
-        [disabled]="
-          selectedSkillID == '-1' ||
-          selectedPercentage <= 0 ||
-          selectedPercentage > 100
-        "
+        [disabled]="selectedSkillID == '-1' || selectedPercentage === 0"
       >
         +
       </button>
