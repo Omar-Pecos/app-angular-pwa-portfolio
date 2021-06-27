@@ -65,24 +65,22 @@ export class AddProfileComponent implements OnInit, DoCheck {
   }
 
   addSkill() {
-    var techData = null;
-    this.techs.map((tech) => {
-      if (tech._id == this.selectedSkillID) techData = tech;
-    });
-    var skill = {
-      _id: techData._id,
-      tech: techData,
-      percentage: this.selectedPercentage,
-    };
-
-    this.profile.about.skills.push(skill);
-    this.selectedSkillID = '-1';
+    const techFound = this.techs.find(({ _id }) => _id == this.selectedSkillID);
+    if (techFound) {
+      this.profile.about.skills.push({
+        _id: techFound._id,
+        tech: techFound,
+        percentage: this.selectedPercentage,
+      });
+      this.selectedSkillID = '-1';
+    }
   }
 
   deleteSkill(id) {
     this.profile.about.skills = this.profile.about.skills.filter(
-      (item) => item._id != id
+      (item) => item._id !== id
     );
+    this.selectedSkillID = '-1';
   }
 
   saveProfile() {

@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Course } from '../../models/Course';
 import { Tech } from '../../models/Tech';
 import { Observable } from 'rxjs';
@@ -15,6 +16,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./add-course.component.css'],
 })
 export class AddCourseComponent implements OnInit, DoCheck {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private token;
   error: string = '';
   course: Course = new Course();
@@ -49,21 +51,16 @@ export class AddCourseComponent implements OnInit, DoCheck {
   }
 
   addTech() {
-    var techData = null;
-    this.techs.map((tech) => {
-      if (tech._id == this.selectedTechID) techData = tech;
-    });
-
-    var newTech = {
-      _id: techData._id,
-      ...techData,
-    };
-
-    this.course.techs.push(newTech);
+    const techFound = this.techs.find(({ _id }) => _id === this.selectedTechID);
+    if (techFound) {
+      this.course.techs.push(techFound);
+      this.selectedTechID = '-1';
+    }
   }
 
   deleteTech(id) {
-    this.course.techs = this.course.techs.filter((item) => item._id != id);
+    this.course.techs = this.course.techs.filter((item) => item._id !== id);
+    this.selectedTechID = '-1';
   }
 
   saveCourse() {
@@ -103,19 +100,32 @@ export class AddCourseComponent implements OnInit, DoCheck {
     this.course.techs = newTechsArray;
   }
 
-  pasteJson() {
-    navigator.clipboard
-      .readText()
-      .then((text) => {
-        this.course = JSON.parse(text);
-      })
-      .catch((error) => {
-        //console.log(error);
-      });
-  }
-
   setMakeNew() {
     this.course._id = null;
     this.makeNew = true;
   }
+
+  receiveFromClipboard = (e) => {
+    const { item } = e;
+
+    if (item) {
+      this.course = item;
+    }
+  };
+
+  filterTechs = () => {
+    if (this.course.techs.length) {
+      if (this.techs.length) {
+        return this.techs.filter(
+          ({ _id }) =>
+            this.course.techs.findIndex(({ _id: techId }) => techId === _id) ===
+            -1
+        );
+      } else {
+        return [];
+      }
+    } else {
+      return this.techs;
+    }
+  };
 }

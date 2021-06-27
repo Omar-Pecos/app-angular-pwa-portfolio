@@ -157,7 +157,9 @@
         Hide
       </button>
       <div class="or"></div>
-      <button class="btn accent-btn" routerLink="/add-course">Add new</button>
+      <button class="btn accent-btn" routerLink="/add-course">
+        Add new / Edit
+      </button>
     </div>
 
     <ng-container *ngIf="seeCourse">
@@ -187,7 +189,7 @@
 
     <!-- Course displayed -->
     <div *ngIf="courseDisplayed" class="preStyle">
-      <btnCopyJSON [cbContent]="stringify(techDisplayed)"> </btnCopyJSON>
+      <btnCopyJSON [cbContent]="stringify(courseDisplayed)"> </btnCopyJSON>
       <span
         (click)="seeDeleteConfirmation(courseDisplayed)"
         class="btn-delete-item"
@@ -273,7 +275,7 @@
 
     <!-- Project displayed -->
     <div *ngIf="projectDisplayed" class="preStyle">
-      <btnCopyJSON [cbContent]="stringify(techDisplayed)"> </btnCopyJSON>
+      <btnCopyJSON [cbContent]="stringify(projectDisplayed)"> </btnCopyJSON>
 
       <span
         (click)="seeDeleteConfirmation(projectDisplayed)"

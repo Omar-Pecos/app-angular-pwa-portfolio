@@ -59,6 +59,7 @@
               *ngFor="let t of types"
               [value]="t"
               [ngClass]="'tech-' + t"
+              style="color: white"
             >
               {{ t[0].toUpperCase() + t.substr(1) }}
             </mat-option>

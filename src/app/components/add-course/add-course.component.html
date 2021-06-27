@@ -2,32 +2,37 @@
   <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form width80">
-  <div class="content">
-    <button (click)="pasteJson()" style="float: right">Paste JSON</button>
-    <button *ngIf="course._id" (click)="setMakeNew()" style="float: right">
-      ¿Create new?
-    </button>
-    <h1 class="header">Add new course</h1>
-    <h4
-      *ngIf="makeNew"
-      class="badge-tech"
-      style="background: plum; width: fit-content"
+<mat-card class="card-form" style="width: 90vw">
+  <mat-card-header class="bg-primary">
+    <h1>{{ course._id ? "Edit" : "Add" }} course</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="height: 50px">
+      <btnPasteJSON (sendItem)="receiveFromClipboard($event)"></btnPasteJSON>
+      <button *ngIf="course._id" (click)="setMakeNew()" class="btn-create-new">
+        ¿Create new?
+      </button>
+
+      <h4
+        *ngIf="makeNew && !course._id"
+        class="badge-tech creating-new-message"
+      >
+        Creating new course from JSON
+      </h4>
+    </div>
+
+    <Alert *ngIf="error" [message]="error" [type]="error"> </Alert>
+
+    <form
+      class="common-form"
+      style="flex-direction: revert"
+      #addCourseForm="ngForm"
     >
-      Creating new course from JSON
-    </h4>
-  </div>
-
-  <div *ngIf="error" class="content">
-    <h4 class="alert-danger">{{ error }}</h4>
-  </div>
-
-  <div class="content">
-    <div class="ui large form equal width stackable grid">
-      <form class="three column row" #addCourseForm="ngForm">
-        <div class="column field">
-          <label for="courseName">Name *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
           <input
+            matInput
             type="text"
             id="coursename"
             name="coursename"
@@ -37,42 +42,44 @@
             required
           />
 
-          <div
-            *ngIf="name.invalid && (name.dirty || name.touched)"
-            class="alert-danger"
-          >
+          <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
             <p *ngIf="name.errors.required">Name is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="courseUrl">Url</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Url</mat-label>
           <input
+            matInput
             type="text"
             id="courseurl"
             name="courseurl"
             placeholder="Enter Url here if one"
             [(ngModel)]="course.url"
           />
-        </div>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="courseDone">¿Finished? *</label>
-          <select
-            name="courseDone"
-            id="courseDone"
-            [(ngModel)]="course.done"
-            #done="ngModel"
-            required
-          >
-            <option value="true" selected>Done</option>
-            <option value="false" selected>Unfinished</option>
-          </select>
-        </div>
+      <div class="input-container">
+        <mat-slide-toggle
+          color="accent"
+          [checked]="course.done"
+          name="courseDone"
+          id="courseDone"
+          [(ngModel)]="course.done"
+          #done="ngModel"
+        >
+          ¿Finished?
+        </mat-slide-toggle>
+      </div>
 
-        <div class="column field">
-          <label for="coursePlatform">Platform *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Platform</mat-label>
           <input
+            matInput
             type="text"
             id="courseplatform"
             name="courseplatform"
@@ -82,17 +89,19 @@
             required
           />
 
-          <div
+          <mat-error
             *ngIf="platform.invalid && (platform.dirty || platform.touched)"
-            class="alert-danger"
           >
             <p *ngIf="platform.errors.required">Platform is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="courseLanguage">Language *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
           <input
+            matInput
             type="text"
             id="courselanguage"
             name="courselanguage"
@@ -102,17 +111,19 @@
             required
           />
 
-          <div
+          <mat-error
             *ngIf="language.invalid && (language.dirty || language.touched)"
-            class="alert-danger"
           >
             <p *ngIf="language.errors.required">Language is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="courseDuration">Duration * (min)</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Duration (min)</mat-label>
           <input
+            matInput
             type="number"
             pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
             id="courseduration"
@@ -122,20 +133,26 @@
             required
           />
 
-          <div
+          <mat-error
             *ngIf="duration.invalid && (duration.dirty || duration.touched)"
-            class="alert-danger"
           >
             <p *ngIf="duration.errors.required">Duration is required</p>
             <p *ngIf="duration.errors.pattern">
               Duration has to be greater than 0!
             </p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="courseDesc">Description *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
           <textarea
+            matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
             type="text"
             id="profiledescription"
             name="profiledescription"
@@ -145,55 +162,59 @@
             required
           ></textarea>
 
-          <div
+          <mat-error
             *ngIf="
               description.invalid && (description.dirty || description.touched)
             "
-            class="alert-danger"
           >
             <p *ngIf="description.errors.required">Description is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
 
-        <div class="column field">
-          <br />
-          <p style="text-align: center">
-            <button (click)="seeAddTechForm = true" class="ui positive button">
-              Add Tech
-            </button>
-          </p>
-          <br />
+    <p style="text-align: center">
+      <button (click)="seeAddTechForm = true" class="btn success-btn">
+        Add Tech
+      </button>
+    </p>
 
-          <div *ngIf="seeAddTechForm" class="rowflex">
-            <select
-              placeholder="Placeholder"
-              [(ngModel)]="selectedTechID"
-              name="selectedTechID"
-              style="width: 70%"
-              required
+    <div *ngIf="seeAddTechForm" class="see-add-skill-form">
+      <div class="rowflex">
+        <mat-form-field appearance="outline">
+          <mat-label>Tech</mat-label>
+          <mat-select
+            class="custom-select"
+            [(ngModel)]="selectedTechID"
+            name="selectedSkillID"
+            required
+          >
+            <mat-option class="tech-desktop" value="-1">Select tech</mat-option>
+            <mat-option
+              *ngFor="let tech of filterTechs()"
+              [value]="tech._id"
+              [ngClass]="'tech-' + tech.type"
+              style="color: white"
             >
-              <option value="-1">Select tech</option>
-              <option *ngFor="let tech of techs" [value]="tech._id">
-                {{ tech.name }}
-              </option>
-            </select>
-
-            <button
-              (click)="addTech()"
-              class="ui positive right floated button"
-              [disabled]="selectedTechID == '-1'"
-              style="margin-top: 3px"
-            >
-              +
-            </button>
-          </div>
-        </div>
-      </form>
+              {{ tech.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button
+        (click)="addTech()"
+        class="btn success-btn"
+        [disabled]="selectedTechID === '-1'"
+      >
+        +
+      </button>
     </div>
 
     <br />
 
-    <h3 *ngIf="course.techs.length > 0" class="header">Techs</h3>
+    <h3 *ngIf="course.techs.length > 0" style="text-align: center">
+      Course techs
+    </h3>
     <div *ngIf="course.techs.length > 0" class="rowflex">
       <div
         *ngFor="let tech of course.techs"
@@ -201,25 +222,20 @@
       >
         <span class="badge-tech" [ngClass]="'tech-' + tech.type">
           {{ tech.name }}
-          <span
-            (click)="deleteTech(tech._id)"
-            style="border-radius: 30px; margin-left: 5px; padding: 3px 7px"
-            class="alert-danger"
-            >x</span
-          >
+          <span (click)="deleteTech(tech._id)" class="span-close-danger">
+            x
+          </span>
         </span>
       </div>
     </div>
-  </div>
-  <div class="extra content">
-    <div class="row">
+    <div class="rowflex">
       <button
-        class="ui positive right floated button"
+        class="btn success-btn"
         [disabled]="addCourseForm.invalid || course.techs.length == 0"
         (click)="saveCourse()"
       >
         Save
       </button>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

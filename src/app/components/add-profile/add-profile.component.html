@@ -92,6 +92,7 @@
               *ngFor="let tech of filterTechs()"
               [value]="tech._id"
               [ngClass]="'tech-' + tech.type"
+              style="color: white"
             >
               {{ tech.name }}
             </mat-option>

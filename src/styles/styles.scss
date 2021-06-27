@@ -131,6 +131,7 @@ h6 {
 }
 
 .btn-copy-json {
+  border-radius: 5px;
   margin-top: 5px;
   margin-left: 5px;
   padding: 5px 10px;
@@ -143,6 +144,7 @@ h6 {
 }
 
 .btn-paste-json {
+  border-radius: 5px;
   margin-left: 5px;
   padding: 5px 10px;
   cursor: pointer;
@@ -156,6 +158,7 @@ h6 {
 }
 
 .btn-create-new {
+  border-radius: 5px;
   margin-left: 5px;
   padding: 5px 10px;
   min-height: 35px;
@@ -218,6 +221,12 @@ h6 {
 
     .mat-form-field {
       width: 100% !important;
+      min-width: 250px !important;
+    }
+
+    .mat-slide-toggle {
+      position: relative !important;
+      top: -10px;
     }
   }
 }
@@ -327,9 +336,12 @@ h6 {
 
 /* Add tech */
 .custom-select {
-  color: black;
+  .mat-select-value-text {
+    color: $primaryColor !important;
+  }
 
-  option {
+  option,
+  .mat-option-text {
     color: white !important;
   }
 }
@@ -485,5 +497,11 @@ pre {
 
   .full-card-form {
     width: 40vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-form {
+    max-width: 50vw;
   }
 }
