@@ -2,32 +2,37 @@
   <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form width80">
-  <div class="content">
-    <button (click)="pasteJson()" style="float: right">Paste JSON</button>
-    <button *ngIf="project._id" (click)="setMakeNew()" style="float: right">
-      ¿Create new?
-    </button>
-    <h1 class="header">Add new project</h1>
-    <h4
-      *ngIf="makeNew"
-      class="badge-tech"
-      style="background: rgb(221, 160, 221); width: fit-content"
+<mat-card class="card-form" style="width: 90vw">
+  <mat-card-header class="bg-primary">
+    <h1>{{ project._id ? "Edit" : "Add" }} project</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="height: 50px">
+      <btnPasteJSON (sendItem)="receiveFromClipboard($event)"></btnPasteJSON>
+      <button *ngIf="project._id" (click)="setMakeNew()" class="btn-create-new">
+        ¿Create new?
+      </button>
+
+      <h4
+        *ngIf="makeNew && !project._id"
+        class="badge-tech creating-new-message"
+      >
+        Creating new project from JSON
+      </h4>
+    </div>
+
+    <Alert *ngIf="error" [message]="error" [type]="error"> </Alert>
+
+    <form
+      class="common-form"
+      style="flex-direction: revert"
+      #addProjectForm="ngForm"
     >
-      Creating new project from JSON
-    </h4>
-  </div>
-
-  <div *ngIf="error" class="content">
-    <h4 class="alert-danger">{{ error }}</h4>
-  </div>
-
-  <div class="content">
-    <div class="ui large form equal width stackable grid">
-      <form class="three column row" #addProjectForm="ngForm">
-        <div class="column field">
-          <label for="projectName">Name *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
           <input
+            matInput
             type="text"
             id="projectname"
             name="projectname"
@@ -37,50 +42,48 @@
             required
           />
 
-          <div
-            *ngIf="name.invalid && (name.dirty || name.touched)"
-            class="alert-danger"
-          >
+          <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
             <p *ngIf="name.errors.required">Name is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="techType">Type *</label>
-          <select
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select
             name="techType"
-            class="ui fluid search selection dropdown"
+            class="custom-select"
             [(ngModel)]="project.type"
             #type="ngModel"
             required
           >
-            <option *ngFor="let t of types" class="item" [value]="t">
-              {{ t | uppercase }}
-            </option>
-          </select>
+            <mat-option
+              *ngFor="let t of types"
+              class="item"
+              [value]="t"
+              [ngClass]="'tech-' + t"
+              style="color: white"
+            >
+              {{ t | onlyFirstLetterUpper }}
+            </mat-option>
+          </mat-select>
 
-          <div
-            *ngIf="type.invalid && (type.dirty || type.touched)"
-            class="alert-danger"
-          >
+          <mat-error *ngIf="type.invalid && (type.dirty || type.touched)">
             <p *ngIf="type.errors.required">Type is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="projectUrl">Url</label>
-          <input
-            type="text"
-            id="projecturl"
-            name="projecturl"
-            placeholder="Enter Url here"
-            [(ngModel)]="project.url"
-          />
-        </div>
-
-        <div class="column field">
-          <label for="projectDesc">Description *</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
           <textarea
+            matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
             type="text"
             id="profiledescription"
             name="profiledescription"
@@ -90,146 +93,182 @@
             required
           ></textarea>
 
-          <div
+          <mat-error
             *ngIf="
               description.invalid && (description.dirty || description.touched)
             "
-            class="alert-danger"
           >
             <p *ngIf="description.errors.required">Description is required</p>
-          </div>
-        </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-        <div class="column field">
-          <label for="projecDone">¿Pinned? *</label>
-          <select
-            name="projectDone"
-            id="projectDone"
-            [(ngModel)]="project.pinned"
-            #done="ngModel"
-            required
-          >
-            <option value="true" selected>Pinned</option>
-            <option value="false" selected>Unpinned</option>
-          </select>
-        </div>
-
-        <div class="column field">
-          <label for="projectRepoUrl">Repo Url</label>
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Url</mat-label>
           <input
+            matInput
+            type="text"
+            id="projecturl"
+            name="projecturl"
+            placeholder="Enter Url here"
+            [(ngModel)]="project.url"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Repo Url</mat-label>
+          <input
+            matInput
             type="text"
             id="projectRepoUrl"
             name="projectRepoUrl"
             placeholder="Enter Repository Url if one"
             [(ngModel)]="project.repo_url"
           />
-        </div>
+        </mat-form-field>
+      </div>
 
-        <div class="rowflex project-ops">
-          <!-- Add tech for project.techs -->
-          <div>
-            <p style="text-align: center">
-              <button
-                (click)="seeAddTechForm = true"
-                class="ui positive button"
-              >
-                Add Tech
-              </button>
-            </p>
+      <div class="input-container">
+        <mat-slide-toggle
+          color="accent"
+          [checked]="project.pinned"
+          name="projectDone"
+          id="projectDone"
+          [(ngModel)]="project.pinned"
+          #done="ngModel"
+        >
+          ¿Pinned?
+        </mat-slide-toggle>
+      </div>
+    </form>
 
-            <div *ngIf="seeAddTechForm" class="rowflex">
-              <select
-                placeholder="Placeholder"
+    <div class="columnflex">
+      <!-- Add tech for project.techs -->
+      <div>
+        <p style="text-align: center">
+          <button
+            *ngIf="!seeAddTechForm"
+            (click)="seeAddTechForm = true"
+            class="btn success-btn"
+          >
+            Add Tech
+          </button>
+        </p>
+
+        <div *ngIf="seeAddTechForm" class="see-add-skill-form">
+          <div class="rowflex">
+            <mat-form-field appearance="outline">
+              <mat-label>Tech</mat-label>
+              <mat-select
+                class="custom-select"
                 [(ngModel)]="selectedTechID"
-                name="selectedTechID"
-                style="width: 70%"
+                name="selectedSkillID"
                 required
               >
-                <option value="-1">Select tech</option>
-                <option *ngFor="let tech of techs" [value]="tech._id">
+                <mat-option class="tech-desktop" value="-1"
+                  >Select tech</mat-option
+                >
+                <mat-option
+                  *ngFor="let tech of filterTechs()"
+                  [value]="tech._id"
+                  [ngClass]="'tech-' + tech.type"
+                  style="color: white"
+                >
                   {{ tech.name }}
-                </option>
-              </select>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <button
-                (click)="addTech()"
-                class="ui positive right floated button"
-                [disabled]="selectedTechID == '-1'"
-                style="margin-top: 3px"
-              >
-                +
-              </button>
-            </div>
+            <button
+              (click)="addTech()"
+              class="btn success-btn"
+              [disabled]="selectedTechID == '-1'"
+            >
+              +
+            </button>
           </div>
-          <!-- Add images for project.images -->
-          <div>
-            <p style="text-align: center">
-              <button
-                *ngIf="!seeAddImageForm"
-                (click)="seeAddImageForm = true"
-                class="ui positive button"
-              >
-                Add Image
-              </button>
-            </p>
+        </div>
+      </div>
+      <!-- Add images for project.images -->
+      <div>
+        <p style="text-align: center">
+          <button
+            *ngIf="!seeAddImageForm"
+            (click)="seeAddImageForm = true"
+            class="btn success-btn"
+          >
+            Add Image
+          </button>
+        </p>
 
-            <div *ngIf="seeAddImageForm" class="rowflex">
+        <div *ngIf="seeAddImageForm" class="see-add-skill-form">
+          <div class="rowflex">
+            <mat-form-field appearance="outline">
               <input
+                matInput
                 type="text"
+                placeholder="Enter image url here"
                 [(ngModel)]="newImageUrl"
                 name="selectedTechID"
-                style="width: 70%"
                 required
               />
+            </mat-form-field>
 
-              <button
-                (click)="addImage()"
-                class="ui positive right floated button"
-                [disabled]="!newImageUrl"
-                style="margin-top: 3px"
-              >
-                +
-              </button>
-            </div>
-          </div>
-
-          <!-- Add files for project.files -->
-          <div>
-            <p style="text-align: center">
-              <button
-                *ngIf="!seeAddFileForm"
-                (click)="seeAddFileForm = true"
-                class="ui positive button"
-              >
-                Add File
-              </button>
-            </p>
-
-            <div *ngIf="seeAddFileForm" class="rowflex">
-              <input
-                type="text"
-                [(ngModel)]="newFileUrl"
-                name="selectedTechID"
-                style="width: 70%"
-                required
-              />
-
-              <button
-                (click)="addFile()"
-                class="ui positive right floated button"
-                [disabled]="!newFileUrl"
-                style="margin-top: 3px"
-              >
-                +
-              </button>
-            </div>
+            <button
+              (click)="addImage()"
+              class="btn success-btn"
+              [disabled]="!newImageUrl"
+            >
+              +
+            </button>
           </div>
         </div>
-      </form>
+      </div>
+
+      <!-- Add files for project.files -->
+      <div>
+        <p style="text-align: center">
+          <button
+            *ngIf="!seeAddFileForm"
+            (click)="seeAddFileForm = true"
+            class="btn success-btn"
+          >
+            Add File
+          </button>
+        </p>
+
+        <div *ngIf="seeAddFileForm" class="see-add-skill-form">
+          <div class="rowflex">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="newFileUrl"
+                placeholder="Enter file url here"
+                name="selectedTechID"
+                required
+              />
+            </mat-form-field>
+
+            <button
+              (click)="addFile()"
+              class="btn success-btn"
+              [disabled]="!newFileUrl"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <br />
-    <h3 *ngIf="project.techs.length > 0" class="header">Techs</h3>
+    <h3 *ngIf="project.techs.length > 0" style="text-align: center">
+      Project techs
+    </h3>
     <div *ngIf="project.techs.length > 0" class="rowflex">
       <div
         *ngFor="let tech of project.techs"
@@ -237,61 +276,40 @@
       >
         <span class="badge-tech" [ngClass]="'tech-' + tech.type">
           {{ tech.name }}
-          <span
-            (click)="deleteTech(tech._id)"
-            style="border-radius: 30px; margin-left: 5px; padding: 3px 7px"
-            class="alert-danger"
+          <span (click)="deleteTech(tech._id)" class="span-close-danger"
             >x</span
           >
         </span>
       </div>
     </div>
 
-    <h3 *ngIf="project.images.length > 0" class="header">Images</h3>
+    <h3 *ngIf="project.images.length > 0" style="text-align: center">Images</h3>
     <div *ngIf="project.images.length > 0" class="rowflex">
-      <div
-        *ngFor="let image of project.images"
-        style="margin-right: 5px; margin-bottom: 10px"
-      >
-        <span class="badge-tech" style="background: black">
+      <div *ngFor="let image of project.images" class="project-item">
+        <img class="thumbnail" [src]="image" />
+        <span class="link-clamp">
           {{ image }}
-          <span
-            (click)="deleteImage(image)"
-            style="border-radius: 30px; margin-left: 5px; padding: 3px 7px"
-            class="alert-danger"
-            >x</span
-          >
         </span>
+        <span (click)="deleteImage(image)" class="span-close-danger">x</span>
       </div>
     </div>
 
-    <h3 *ngIf="project.files.length > 0" class="header">Files</h3>
+    <h3 *ngIf="project.files.length > 0" style="text-align: center">Files</h3>
     <div *ngIf="project.files.length > 0" class="rowflex">
-      <div
-        *ngFor="let file of project.files"
-        style="margin-right: 5px; margin-bottom: 10px"
-      >
-        <span class="badge-tech" style="background: black">
-          {{ file }}
-          <span
-            (click)="deleteFile(file)"
-            style="border-radius: 30px; margin-left: 5px; padding: 3px 7px"
-            class="alert-danger"
-            >x</span
-          >
-        </span>
+      <div *ngFor="let file of project.files" class="project-item">
+        <img width="30" src="assets/images/file.png" />
+        <span class="link-clamp">{{ file }}</span>
+        <span (click)="deleteFile(file)" class="span-close-danger">x</span>
       </div>
     </div>
-  </div>
-  <div class="extra content">
-    <div class="row">
+    <div class="rowflex">
       <button
-        class="ui positive right floated button"
+        class="btn success-btn"
         [disabled]="addProjectForm.invalid || project.techs.length == 0"
         (click)="saveProject()"
       >
         Save
       </button>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

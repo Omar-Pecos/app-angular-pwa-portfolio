@@ -48,6 +48,34 @@ h6 {
   }
 }
 
+//Other general styles shared
+.badge-tech {
+  color: white;
+  border-radius: 12px;
+  min-width: max-content;
+  width: fit-content;
+  padding: 5px;
+  margin: 5px 2px;
+  cursor: pointer;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+.preStyle {
+  margin: 10px;
+  background-color: darkslategray;
+  color: $lightGrey;
+  text-align: left;
+}
+
+.lottie-container {
+  width: fit-content;
+  margin: 0 auto;
+}
+
 /* Angular material overrides */
 .mat-card-header {
   border-top-left-radius: 5px;
@@ -182,6 +210,13 @@ h6 {
 // scrollbar overrides
 *::-webkit-scrollbar {
   width: 5px !important;
+}
+
+textarea {
+  &::-webkit-scrollbar {
+    width: 1px !important;
+    margin-left: 3px;
+  }
 }
 
 *::-webkit-scrollbar-track {
@@ -346,6 +381,14 @@ h6 {
   }
 }
 
+.icon-display {
+  text-align: center;
+  img {
+    width: 50px;
+    object-fit: contain;
+  }
+}
+
 /* Add profile */
 .see-add-skill-form {
   display: flex;
@@ -405,56 +448,32 @@ h6 {
   }
 }
 
-.width80vw {
-  width: 80vw !important;
-}
-
-.badge-tech {
-  color: white;
-  border-radius: 12px;
-  min-width: max-content;
-  width: fit-content;
+/* Add project */
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
   padding: 5px;
-  margin: 5px 2px;
-  cursor: pointer;
-}
+  margin-right: 5px;
+  margin-bottom: 10px;
+  width: 90%;
 
-pre {
+  .span-close-danger {
+    cursor: pointer;
+  }
+  .thumbnail {
+    width: 100px;
+    object-fit: contain;
+  }
+}
+.link-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: horizontal;
   overflow: auto;
-  max-width: 100%;
-}
-
-.preStyle {
-  margin: 10px;
-  background-color: darkslategray;
-  color: $lightGrey;
-  text-align: left;
-}
-
-.focusDiv {
-  margin: 5px !important;
-  border: 5px solid red !important;
-  border-radius: 8px !important;
-}
-
-.formTitle {
-  padding: 10px 15px;
-  margin: 0;
-}
-
-.lottie-container {
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.padding-content {
-  padding: 15px !important;
-}
-
-.project-ops {
-  width: 80%;
-  flex-direction: column;
-  margin: 50px auto;
+  max-width: 70%;
 }
 
 /* Media queries */
@@ -476,13 +495,6 @@ pre {
 
   .full-card-form {
     width: 60vw;
-  }
-
-  .padding-content {
-    padding: 3em !important;
-  }
-  .project-ops {
-    width: 50%;
   }
 }
 

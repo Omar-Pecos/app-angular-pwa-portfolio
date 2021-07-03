@@ -61,7 +61,7 @@
               [ngClass]="'tech-' + t"
               style="color: white"
             >
-              {{ t[0].toUpperCase() + t.substr(1) }}
+              {{ t | onlyFirstLetterUpper }}
             </mat-option>
           </mat-select>
 
@@ -91,6 +91,10 @@
         </mat-form-field>
       </div>
     </form>
+
+    <div *ngIf="tech.icon" class="icon-display">
+      <img [src]="tech.icon" alt="tech-icon" />
+    </div>
 
     <div class="rowflex">
       <button

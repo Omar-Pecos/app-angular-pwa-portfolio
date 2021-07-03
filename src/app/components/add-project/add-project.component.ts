@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Tech } from 'src/app/models/Tech';
@@ -8,6 +9,7 @@ import { Project } from '../../models/Project';
 import { ProjectService } from '../../services/project.service';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
+import { types as TypesArr } from '../../utils/helpers';
 
 @Component({
   selector: 'app-add-project',
@@ -15,13 +17,14 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./add-project.component.css'],
 })
 export class AddProjectComponent implements OnInit, DoCheck {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private token;
   error: string = '';
   project: Project = new Project();
 
   Techs$: Observable<Tech[]> = null;
   techs: Array<Tech>;
-  types: string[];
+  types: string[] = TypesArr;
 
   seeAddTechForm: boolean = false;
   seeAddImageForm: boolean = false;
@@ -47,17 +50,6 @@ export class AddProjectComponent implements OnInit, DoCheck {
     this.project.images = [];
     this.project.files = [];
     this.project.pinned = false;
-
-    this.types = [
-      'backend',
-      'frontend',
-      'fullstack',
-      'desktop',
-      'hybrid',
-      'native',
-      'game',
-      'design',
-    ];
   }
 
   ngOnInit(): void {
@@ -70,21 +62,16 @@ export class AddProjectComponent implements OnInit, DoCheck {
   }
 
   addTech() {
-    var techData = null;
-    this.techs.map((tech) => {
-      if (tech._id == this.selectedTechID) techData = tech;
-    });
-
-    var newTech = {
-      ...techData,
-    };
-
-    this.project.techs.push(newTech);
-    this.selectedTechID = '-1';
+    const techFound = this.techs.find(({ _id }) => _id == this.selectedTechID);
+    if (techFound) {
+      this.project.techs.push(techFound);
+      this.selectedTechID = '-1';
+    }
   }
 
   deleteTech(id) {
     this.project.techs = this.project.techs.filter((item) => item._id != id);
+    this.selectedTechID = '-1';
   }
 
   saveProject() {
@@ -124,17 +111,6 @@ export class AddProjectComponent implements OnInit, DoCheck {
     this.project.techs = newTechsArray;
   }
 
-  pasteJson() {
-    navigator.clipboard
-      .readText()
-      .then((text) => {
-        this.project = JSON.parse(text);
-      })
-      .catch((error) => {
-        //console.log(error);
-      });
-  }
-
   addImage() {
     this.project.images.push(this.newImageUrl);
     this.newImageUrl = '';
@@ -159,4 +135,29 @@ export class AddProjectComponent implements OnInit, DoCheck {
     this.project._id = null;
     this.makeNew = true;
   }
+
+  receiveFromClipboard = (e) => {
+    const { item } = e;
+
+    if (item) {
+      this.project = item;
+    }
+  };
+
+  filterTechs = () => {
+    if (this.project.techs.length) {
+      if (this.techs.length) {
+        return this.techs.filter(
+          ({ _id }) =>
+            this.project.techs.findIndex(
+              ({ _id: techId }) => techId === _id
+            ) === -1
+        );
+      } else {
+        return [];
+      }
+    } else {
+      return this.techs;
+    }
+  };
 }

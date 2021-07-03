@@ -6,6 +6,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { LottieModule } from 'ngx-lottie';
 
 import { ObsWithStatusPipe } from './pipes/obs-with-status.pipe';
+import { OnlyFirstLetterUpperPipe } from './pipes/only-first-letter-upper.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,6 +54,7 @@ export function playerFactory() {
     AlertComponent,
     btnCopyJSON,
     btnPasteJSON,
+    OnlyFirstLetterUpperPipe,
   ],
   imports: [
     BrowserModule,
