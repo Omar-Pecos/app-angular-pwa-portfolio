@@ -15,6 +15,7 @@ export class UsersComponent implements OnInit {
   public users = null;
   public error = '';
   public message = '';
+  public displayedColumns: string[] = ['nickname', 'email', 'operations'];
 
   constructor(
     private _userService: UserService,

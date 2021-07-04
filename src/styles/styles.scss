@@ -76,6 +76,10 @@ pre {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Angular material overrides */
 .mat-card-header {
   border-top-left-radius: 5px;
@@ -346,7 +350,7 @@ textarea {
   }
 }
 
-.project-item {
+.project-card {
   overflow: hidden;
   padding: 0 !important;
   padding-right: 10px !important;
@@ -474,6 +478,20 @@ textarea {
   -webkit-box-orient: horizontal;
   overflow: auto;
   max-width: 70%;
+}
+
+/* Users section */
+.users-container {
+  margin: 10px 0px;
+
+  table {
+    margin: 20px auto;
+    width: 100%;
+
+    .mat-header-cell {
+      text-align: center !important;
+    }
+  }
 }
 
 /* Media queries */

@@ -15,6 +15,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 //List
 import { MatListModule } from '@angular/material/list';
+//Table
+import { MatTableModule } from '@angular/material/table';
 
 const modules = [
   MatCardModule,
@@ -28,6 +30,7 @@ const modules = [
   MatListModule,
   MatSlideToggleModule,
   MatSliderModule,
+  MatTableModule,
 ];
 
 @NgModule({

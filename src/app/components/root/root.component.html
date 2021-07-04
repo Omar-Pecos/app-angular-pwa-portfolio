@@ -237,7 +237,7 @@
         <ng-template [ngIf]="projects.value">
           <div
             *ngFor="let p of projects.value"
-            class="badge-tech project-item"
+            class="badge-tech project-card"
             [ngClass]="'tech-' + p.type"
             [style.display]="itemsDeleted.includes(p._id) ? 'none' : 'block'"
           >
