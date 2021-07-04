@@ -5,82 +5,78 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AnimationOptions } from 'ngx-lottie';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { types as TypesArr } from '../../utils/helpers';
 
 @Component({
   selector: 'app-add-tech',
   templateUrl: './add-tech.component.html',
-  styleUrls: ['./add-tech.component.css']
+  styleUrls: ['./add-tech.component.css'],
 })
-export class AddTechComponent implements OnInit,DoCheck {
+export class AddTechComponent implements OnInit, DoCheck {
   private token;
-  tech : Tech = new Tech();
-  types : Array<String>;
-  error : string = '';
+  tech: Tech = new Tech();
+  types: Array<String> = TypesArr;
+  error: string = '';
 
-  makeNew : boolean = false;
-  options : AnimationOptions= {
+  makeNew: boolean = false;
+  options: AnimationOptions = {
     path: '/assets/lotties/techs.json',
   };
 
   constructor(
-    private _techService : TechService,
-    private _authService : AuthService,
-    private router : Router
-  ) { 
+    private _techService: TechService,
+    private _authService: AuthService,
+    private router: Router
+  ) {
     this.token = this._authService.getToken();
   }
 
-  ngOnInit(): void {
-    this.types = [
-      'backend','frontend','fullstack','desktop','hybrid','native','game','design'
-    ]
-  }
+  ngOnInit(): void {}
 
-  ngDoCheck(){
+  ngDoCheck() {
     this.token = this._authService.getToken();
   }
 
-  saveTech(){
-    this._techService.addItem(  this.tech, this.token )
-      .subscribe(
-        res =>{
-          if (res.error){
-            this.error = res.error;
-          }else{
-            var host = 'API';
-            if (res.local)
-              host = 'LOCAL';
-            
-              //console.log("RES deleteItem" , res);
-              
-            //console.log("Tech added - " + host, res.data.name);
+  saveTech() {
+    this._techService.addItem(this.tech, this.token).subscribe(
+      (res) => {
+        if (res.error) {
+          this.error = res.error;
+        } else {
+          var host = 'API';
+          if (res.local) host = 'LOCAL';
 
-            //redirect to home
-            this.router.navigate(['/home']);
-            //sw alert
-            Swal.fire("Good job! - " + host, "Tech ''"+ res.data.name +"'' added in "+ host, "success");
-          }
-          
-        },
-        error =>{
-          //console.log(error);
-          this.error = error.message;
+          //console.log("RES deleteItem" , res);
+
+          //console.log("Tech added - " + host, res.data.name);
+
+          //redirect to home
+          this.router.navigate(['/home']);
+          //sw alert
+          Swal.fire(
+            'Good job! - ' + host,
+            "Tech ''" + res.data.name + "'' added in " + host,
+            'success'
+          );
         }
-      )
-  }
-
-  pasteJson(){
-    navigator.clipboard.readText()
-      .then(text =>{
-        this.tech = JSON.parse( text );
-      }).catch(error =>{
+      },
+      (error) => {
         //console.log(error);
-      })
+        this.error = error.message;
+      }
+    );
   }
 
-  setMakeNew(){
+  setMakeNew() {
     this.tech._id = null;
     this.makeNew = true;
   }
+
+  receiveFromClipboard = (e) => {
+    const { item } = e;
+
+    if (item) {
+      this.tech = item;
+    }
+  };
 }

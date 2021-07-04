@@ -1,0 +1,23 @@
+@import "~@angular/material/theming";
+@import "./theme-definition.scss";
+
+//theme colors
+$primaryColor: mat-color($primary);
+$accentColor: mat-color($accent);
+$warnColor: mat-color($warn);
+
+//other
+$successColor: rgb(64, 177, 36);
+$lightGrey: #aeaeae;
+
+/* Tech color classes generation! */
+$typesColors: (
+  "backend": #c64e4e,
+  "design": #808080,
+  "desktop": black,
+  "frontend": #47c163,
+  "fullstack": purple,
+  "game": orange,
+  "hybrid": #3f3fb6,
+  "native": rgb(218, 72, 177),
+);

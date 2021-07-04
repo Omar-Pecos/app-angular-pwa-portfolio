@@ -1,0 +1,13 @@
+<div
+  class="alert"
+  [ngClass]="type === 'error' ? 'alert-danger' : 'alert-success'"
+>
+  <h4>{{ message }}</h4>
+  <span *ngIf="showCloseBtn" class="close-icon" (click)="doAction()">x</span>
+
+  <div *ngIf="showAcceptBtn" class="rowflex">
+    <button mat-flat-button color="accent" (click)="doAcceptAction()">
+      {{ acceptButtonText }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,537 @@
+@import "./variables.scss";
+
+/* Generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  // for firefox scrollbar
+  scrollbar-color: $primaryColor $accentColor;
+  scrollbar-width: thin;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0.5em 1.5em;
+  margin: 0px !important;
+}
+
+.bg-primary {
+  background-color: $primaryColor;
+  color: white;
+}
+.bg-accent {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37);
+}
+
+/* CSS classes generation */
+// Tech styles
+@each $key, $color in $typesColors {
+  .tech-#{$key} {
+    color: white;
+    background-color: $color !important;
+  }
+}
+
+//Other general styles shared
+.badge-tech {
+  color: white;
+  border-radius: 12px;
+  min-width: max-content;
+  width: fit-content;
+  padding: 5px;
+  margin: 5px 2px;
+  cursor: pointer;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+.preStyle {
+  margin: 10px;
+  background-color: darkslategray;
+  color: $lightGrey;
+  text-align: left;
+}
+
+.lottie-container {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Angular material overrides */
+.mat-card-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.mat-card-content {
+  padding: 10px;
+}
+.mat-list-item {
+  height: min-content !important;
+}
+.mat-drawer-container {
+  height: 100%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+// Buttons
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.grey-btn {
+  background-color: $lightGrey;
+  color: rgb(37, 37, 37);
+
+  &:hover {
+    background-color: rgba(37, 37, 37, 0.45);
+  }
+}
+
+.success-btn {
+  background-color: $successColor;
+  color: white;
+
+  &:hover {
+    background-color: rgb(59, 157, 35);
+  }
+}
+
+.accent-btn {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37);
+
+  &:hover {
+    background-color: #dfa907;
+  }
+}
+
+.rowflex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+.columnflex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+
+.hr-separator {
+  margin-top: 10px;
+  background: $primaryColor;
+  height: 5px;
+}
+
+.btn-copy-json {
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    margin-bottom: -4px;
+  }
+}
+
+.btn-paste-json {
+  border-radius: 5px;
+  margin-left: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: right;
+  height: 35px;
+
+  img {
+    width: 20px;
+    margin-bottom: -4px;
+  }
+}
+
+.btn-create-new {
+  border-radius: 5px;
+  margin-left: 5px;
+  padding: 5px 10px;
+  min-height: 35px;
+  cursor: pointer;
+  float: right;
+}
+
+.btn-delete-item {
+  float: right;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+.creating-new-message {
+  background-color: $accentColor;
+  color: rgb(37, 37, 37) !important;
+  padding: 5px 10px !important;
+  cursor: default !important;
+}
+
+// scrollbar overrides
+*::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+textarea {
+  &::-webkit-scrollbar {
+    width: 1px !important;
+    margin-left: 3px;
+  }
+}
+
+*::-webkit-scrollbar-track {
+  background: $accentColor !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $primaryColor !important;
+  border-radius: 20px !important;
+  border: transparent !important;
+}
+
+/* App */
+.router-outlet-container {
+  margin: 10vh 0px;
+}
+
+/* Login */
+.card-form {
+  width: 80vw;
+  margin: 2rem auto;
+  padding: 0px !important;
+  margin-bottom: 150px;
+}
+
+.common-form {
+  margin: 0 auto;
+  padding: 1em 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  .input-container {
+    margin: 0px 5px;
+
+    .mat-form-field {
+      width: 100% !important;
+      min-width: 250px !important;
+    }
+
+    .mat-slide-toggle {
+      position: relative !important;
+      top: -10px;
+    }
+  }
+}
+
+.contact-admin-text {
+  text-align: center;
+
+  small {
+    margin: 10px 0;
+  }
+}
+
+/* Nav */
+#toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+
+  .logo-span {
+    img {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      margin-right: 10px;
+    }
+  }
+}
+.example-sidenav {
+  min-width: 60vw;
+  background: $accentColor;
+  z-index: 2;
+}
+.active {
+  .mat-line {
+    color: $primaryColor;
+    width: min-content;
+    border-bottom: 0.5px solid $primaryColor;
+  }
+}
+
+/* Root */
+.full-card-form {
+  width: 70vw;
+  margin: 2rem auto;
+  padding: 0px !important;
+  text-align: center;
+  transition: width 0.5s cubic-bezier(0.55, 0.09, 0.68, 0.53) !important;
+}
+
+.type-display-item {
+  padding: 10px;
+
+  div {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
+}
+
+.tech-item {
+  img {
+    width: 23px;
+    height: 23px;
+    margin-right: 5px;
+  }
+}
+
+.course-item {
+  background: black;
+  width: fit-content;
+
+  img {
+    width: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  span {
+    max-width: 50vw;
+  }
+}
+
+.project-card {
+  overflow: hidden;
+  padding: 0 !important;
+  padding-right: 10px !important;
+
+  div {
+    padding: 0;
+
+    img {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .pinned-icon {
+      width: 23px;
+      height: 23px;
+      margin-left: 3px;
+    }
+  }
+}
+
+/* Add tech */
+.custom-select {
+  .mat-select-value-text {
+    color: $primaryColor !important;
+  }
+
+  option,
+  .mat-option-text {
+    color: white !important;
+  }
+}
+
+.icon-display {
+  text-align: center;
+  img {
+    width: 50px;
+    object-fit: contain;
+  }
+}
+
+/* Add profile */
+.see-add-skill-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5vw;
+
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
+}
+.span-close-danger {
+  border-radius: 30px;
+  margin-left: 5px;
+  margin-right: -2px;
+  margin-top: -2px;
+  width: fit-content;
+  height: fit-content;
+  padding: 0px 7px;
+  padding-bottom: 2px;
+  background-color: $warnColor;
+}
+
+.badge-tech-with-percentage {
+  display: inline-flex;
+  cursor: default !important;
+
+  img {
+    width: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+  }
+  small {
+    font-size: 80%;
+    position: relative;
+    bottom: 1.5px;
+    font-weight: lighter;
+  }
+
+  .percentage-track {
+    height: 7px;
+    width: 100%;
+    background-color: $accentColor;
+    border: 1px solid $accentColor;
+    border-radius: 5px;
+
+    .percentage-progress {
+      border-radius: 5px;
+      height: 5px;
+      background-color: $primaryColor;
+    }
+  }
+
+  .span-close-danger {
+    cursor: pointer;
+  }
+}
+
+/* Add project */
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  width: 90%;
+
+  .span-close-danger {
+    cursor: pointer;
+  }
+  .thumbnail {
+    width: 100px;
+    object-fit: contain;
+  }
+}
+.link-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: horizontal;
+  overflow: auto;
+  max-width: 70%;
+}
+
+/* Users section */
+.users-container {
+  margin: 10px 0px;
+
+  table {
+    margin: 20px auto;
+    width: 100%;
+
+    .mat-header-cell {
+      text-align: center !important;
+    }
+  }
+}
+
+/* Media queries */
+@media (min-width: 576px) {
+  .example-sidenav {
+    min-width: 40vw;
+  }
+  .card-form {
+    width: 60vw;
+  }
+  .logo-span {
+    img {
+      width: inherit;
+      height: inherit;
+      padding: 15px;
+      margin-right: 0;
+    }
+  }
+
+  .full-card-form {
+    width: 60vw;
+  }
+}
+
+@media (min-width: 768px) {
+  .example-sidenav {
+    min-width: 10vw;
+  }
+
+  .card-form {
+    width: 40vw;
+  }
+
+  .full-card-form {
+    width: 40vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-form {
+    max-width: 50vw;
+  }
+}

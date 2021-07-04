@@ -1,0 +1,50 @@
+@import "src/styles/variables.scss";
+
+/* Progress Loader */
+.loader {
+  background: $accentColor;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 10px auto;
+  position: relative;
+  animation: 1.5s infinite ease-in-out loadingSpinner;
+
+  .donut {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: $primaryColor;
+  }
+  #up {
+    top: 0;
+  }
+  #down {
+    bottom: 0;
+  }
+}
+
+@keyframes loadingSpinner {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  50% {
+    transform: rotateZ(180deg) skewX(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg) skewX(85deg);
+  }
+}

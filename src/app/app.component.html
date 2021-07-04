@@ -1,3 +1,12 @@
-<app-nav></app-nav>
+<mat-drawer-container [hasBackdrop]="true">
+  <mat-drawer #drawer class="example-sidenav" mode="over">
+    <Sidenav [title]="title" [drawer]="drawer"></Sidenav>
+  </mat-drawer>
 
-  <router-outlet></router-outlet>
+  <mat-drawer-content>
+    <Toolbar [title]="title" [drawer]="drawer"></Toolbar>
+    <div class="router-outlet-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

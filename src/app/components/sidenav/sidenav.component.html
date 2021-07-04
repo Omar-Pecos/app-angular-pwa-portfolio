@@ -1,0 +1,113 @@
+<mat-list *ngIf="identity">
+  <a
+    mat-list-item
+    class="item"
+    routerLink="/home"
+    routerLinkActive="active"
+    (click)="closeDrawer()"
+  >
+    <mat-icon matListIcon color="primary">home</mat-icon>
+    <h4 matLine>{{ title }}</h4>
+  </a>
+  <a
+    mat-list-item
+    *ngIf="identity.role == 1"
+    (click)="closeDrawer()"
+    class="item"
+    routerLink="/users"
+    routerLinkActive="active"
+  >
+    <mat-icon matListIcon color="primary">people</mat-icon>
+    <p matLine>Users</p>
+  </a>
+  <a
+    mat-list-item
+    *ngIf="identity.role == 1"
+    (click)="closeDrawer()"
+    class="item"
+    routerLink="/add-tech"
+    routerLinkActive="active"
+  >
+    <mat-icon matListIcon color="primary">biotech</mat-icon>
+    <p matLine>Add tech</p>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/add-profile"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    <mat-icon matListIcon color="primary">badge</mat-icon>
+    <p matLine>Add profile</p>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/add-course"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    <mat-icon matListIcon color="primary">school</mat-icon>
+    <p matLine>Add course</p>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/add-project"
+    class="item"
+    (click)="closeDrawer()"
+    routerLinkActive="active"
+  >
+    <mat-icon matListIcon color="primary">interests</mat-icon>
+    <p matLine>Add project</p>
+  </a>
+</mat-list>
+<div>
+  <hr *ngIf="identity" class="hr-separator" />
+  <mat-list>
+    <a
+      mat-list-item
+      *ngIf="identity"
+      (click)="closeDrawer()"
+      routerLink="/profile"
+      routerLinkActive="active"
+      [state]="identity"
+      class="ui item"
+    >
+      <mat-icon matListIcon color="primary">manage_accounts</mat-icon>
+      <p matLine>{{ identity.nickname }}</p>
+    </a>
+    <a
+      mat-list-item
+      *ngIf="identity"
+      class="ui item"
+      (click)="doLogout()"
+      style="cursor: pointer"
+    >
+      <mat-icon matListIcon color="primary">logout</mat-icon>
+      <p matLine>Disconnect</p>
+    </a>
+    <a
+      mat-list-item
+      *ngIf="!identity"
+      (click)="closeDrawer()"
+      routerLink="/login"
+      class="ui item"
+      routerLinkActive="active"
+    >
+      <mat-icon matListIcon color="primary">password</mat-icon>
+      <p matLine>Sign In</p>
+    </a>
+    <a
+      mat-list-item
+      *ngIf="!identity"
+      (click)="closeDrawer()"
+      routerLink="/register"
+      class="ui item"
+      routerLinkActive="active"
+    >
+      <mat-icon matListIcon color="primary">app_registration</mat-icon>
+      <p matLine>Sign Up</p>
+    </a>
+  </mat-list>
+</div>

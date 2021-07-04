@@ -1,42 +1,76 @@
+<mat-card class="full-card-form" style="width: 90vw; margin: 10vw auto">
+  <mat-card-header class="bg-primary">
+    <h2>Users Admin Panel</h2>
+  </mat-card-header>
 
-<h2 style="text-align: center;margin: 20px;">Users Admin Panel</h2>
+  <mat-card-content>
+    <Alert *ngIf="error" [message]="error" type="error"></Alert>
+    <Alert *ngIf="message" [message]="message"></Alert>
 
-<div *ngIf="error" class="content">
-    <h4 class="alert-danger">{{error}}</h4>
-</div>
+    <div *ngIf="users" class="users-container">
+      <table mat-table [dataSource]="users" class="mat-elevation-z8">
+        <!-- Nickname Column -->
+        <ng-container matColumnDef="nickname">
+          <th mat-header-cell *matHeaderCellDef>Nickname</th>
+          <td mat-cell *matCellDef="let element">{{ element.nickname }}</td>
+        </ng-container>
 
-<div *ngIf="message" class="content">
-    <h4 class="alert-success">{{message}}</h4>
-</div>
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
 
-<div *ngIf="users" class="width80">
+        <!-- Operations Column -->
+        <ng-container matColumnDef="operations">
+          <th mat-header-cell *matHeaderCellDef>Operations</th>
+          <td mat-cell *matCellDef="let user">
+            <small *ngIf="identity._id == user._id"
+              >Only other admins can do operations with your user</small
+            >
+            <div class="rowflex" *ngIf="identity._id != user._id">
+              <div
+                *ngIf="user.role == 0"
+                (click)="grantUser(user._id, i)"
+                class="btn"
+                style="color: white; background-color: purple"
+              >
+                Grant
+              </div>
+              <div
+                *ngIf="user.role == 1"
+                (click)="revokeUser(user._id, i)"
+                class="btn"
+                style="color: white; background-color: purple"
+              >
+                Revoke
+              </div>
+              <div
+                class="btn"
+                style="color: white; background-color: peru"
+                routerLink="/profile"
+                [state]="user"
+              >
+                Edit
+              </div>
+              <div
+                (click)="seeDeleteConfirmation(user, i)"
+                class="btn"
+                style="color: white; background-color: red"
+              >
+                Delete
+              </div>
+            </div>
+          </td>
+        </ng-container>
 
-    <table class="ui celled table">
-        <thead>
-        <tr><th>Nickname</th>
-        <th>Email</th>
-        <th>Operations</th>
-        </tr></thead>
-        <tbody>
-        <tr *ngFor="let user of users; index as i;">
-            <td data-label="Nickname">{{user.nickname}}</td>
-            <td data-label="Email">{{user.email}}</td>
-            <td data-label="Operations">
-                <small *ngIf="identity._id == user._id">Only other admins can do operations with your user</small>
-                <div class="rowflex" *ngIf="identity._id != user._id">
-                    <div *ngIf="user.role == 0" (click)="grantUser(user._id, i)"
-                         class="badge-tech" style="background-color: purple;">Grant</div>
-                    <div *ngIf="user.role == 1" (click)="revokeUser(user._id, i)"
-                        class="badge-tech" style="background-color: purple;">Revoke</div>
-                    <div class="badge-tech" style="background-color: peru;" 
-                        routerLink="/profile" [state]="user" >
-                        Edit
-                    </div>
-                    <div  (click)="seeDeleteConfirmation(user, i)"
-                        class="badge-tech" style="background-color: red;" >Delete</div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+          style="text-align: center"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

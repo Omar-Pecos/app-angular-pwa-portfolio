@@ -1,136 +1,241 @@
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form width80">
-    <div class="content">
-        <button (click)="pasteJson()" style="float: right;">Paste JSON</button>
-        <button *ngIf="course._id" (click)="setMakeNew()" style="float: right;">¿Create new?</button>
-        <h1 class="header">Add new course</h1>
-        <h4 *ngIf="makeNew" class="badge-tech" style="background: plum; width: fit-content;">Creating new course from JSON</h4>
+<mat-card class="card-form" style="width: 90vw">
+  <mat-card-header class="bg-primary">
+    <h1>{{ course._id ? "Edit" : "Add" }} course</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="height: 50px">
+      <btnPasteJSON (sendItem)="receiveFromClipboard($event)"></btnPasteJSON>
+      <button *ngIf="course._id" (click)="setMakeNew()" class="btn-create-new">
+        ¿Create new?
+      </button>
+
+      <h4
+        *ngIf="makeNew && !course._id"
+        class="badge-tech creating-new-message"
+      >
+        Creating new course from JSON
+      </h4>
     </div>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
+    <Alert *ngIf="error" [message]="error" [type]="error"> </Alert>
+
+    <form
+      class="common-form"
+      style="flex-direction: revert"
+      #addCourseForm="ngForm"
+    >
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text"
+            id="coursename"
+            name="coursename"
+            placeholder="Enter name here"
+            [(ngModel)]="course.name"
+            #name="ngModel"
+            required
+          />
+
+          <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+            <p *ngIf="name.errors.required">Name is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Url</mat-label>
+          <input
+            matInput
+            type="text"
+            id="courseurl"
+            name="courseurl"
+            placeholder="Enter Url here if one"
+            [(ngModel)]="course.url"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-slide-toggle
+          color="accent"
+          [checked]="course.done"
+          name="courseDone"
+          id="courseDone"
+          [(ngModel)]="course.done"
+          #done="ngModel"
+        >
+          ¿Finished?
+        </mat-slide-toggle>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Platform</mat-label>
+          <input
+            matInput
+            type="text"
+            id="courseplatform"
+            name="courseplatform"
+            placeholder="Enter platform here"
+            [(ngModel)]="course.platform"
+            #platform="ngModel"
+            required
+          />
+
+          <mat-error
+            *ngIf="platform.invalid && (platform.dirty || platform.touched)"
+          >
+            <p *ngIf="platform.errors.required">Platform is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
+          <input
+            matInput
+            type="text"
+            id="courselanguage"
+            name="courselanguage"
+            placeholder="Enter language here"
+            [(ngModel)]="course.language"
+            #language="ngModel"
+            required
+          />
+
+          <mat-error
+            *ngIf="language.invalid && (language.dirty || language.touched)"
+          >
+            <p *ngIf="language.errors.required">Language is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Duration (min)</mat-label>
+          <input
+            matInput
+            type="number"
+            pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
+            id="courseduration"
+            name="courseduration"
+            [(ngModel)]="course.duration"
+            #duration="ngModel"
+            required
+          />
+
+          <mat-error
+            *ngIf="duration.invalid && (duration.dirty || duration.touched)"
+          >
+            <p *ngIf="duration.errors.required">Duration is required</p>
+            <p *ngIf="duration.errors.pattern">
+              Duration has to be greater than 0!
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            type="text"
+            id="profiledescription"
+            name="profiledescription"
+            placeholder="Enter description here"
+            [(ngModel)]="course.description"
+            #description="ngModel"
+            required
+          ></textarea>
+
+          <mat-error
+            *ngIf="
+              description.invalid && (description.dirty || description.touched)
+            "
+          >
+            <p *ngIf="description.errors.required">Description is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <p style="text-align: center">
+      <button (click)="seeAddTechForm = true" class="btn success-btn">
+        Add Tech
+      </button>
+    </p>
+
+    <div *ngIf="seeAddTechForm" class="see-add-skill-form">
+      <div class="rowflex">
+        <mat-form-field appearance="outline">
+          <mat-label>Tech</mat-label>
+          <mat-select
+            class="custom-select"
+            [(ngModel)]="selectedTechID"
+            name="selectedSkillID"
+            required
+          >
+            <mat-option class="tech-desktop" value="-1">Select tech</mat-option>
+            <mat-option
+              *ngFor="let tech of filterTechs()"
+              [value]="tech._id"
+              [ngClass]="'tech-' + tech.type"
+              style="color: white"
+            >
+              {{ tech.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button
+        (click)="addTech()"
+        class="btn success-btn"
+        [disabled]="selectedTechID === '-1'"
+      >
+        +
+      </button>
     </div>
 
-    <div class="content">
+    <br />
 
-        <div class="ui large form equal width stackable grid">
-
-            <form class="three column row" #addCourseForm="ngForm">
-
-
-                <div class="column field">
-                    <label for="courseName">Name *</label>
-                    <input type="text" id="coursename" name="coursename" placeholder="Enter name here"
-                        [(ngModel)]="course.name" #name="ngModel" required />
-
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
-                            <p *ngIf="name.errors.required">Name is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="courseUrl">Url</label>
-                    <input type="text" id="courseurl" name="courseurl" placeholder="Enter Url here if one"
-                        [(ngModel)]="course.url"/> 
-                </div>
-               
-                <div class="column field">
-                    <label for="courseDone">¿Finished? *</label>
-                   <select name="courseDone" id="courseDone" [(ngModel)]="course.done" #done="ngModel" required>
-                       <option value="true" selected>Done</option>
-                       <option value="false" selected>Unfinished</option>
-                   </select>
-                </div>
-                
-                <div class="column field">
-                    <label for="coursePlatform">Platform *</label>
-                    <input type="text" id="courseplatform" name="courseplatform" placeholder="Enter platform here"
-                        [(ngModel)]="course.platform" #platform="ngModel" required />
-                        
-                        <div *ngIf="platform.invalid && (platform.dirty || platform.touched)" class="alert-danger">
-                            <p *ngIf="platform.errors.required">Platform is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="courseLanguage">Language *</label>
-                    <input type="text" id="courselanguage" name="courselanguage" placeholder="Enter language here"
-                        [(ngModel)]="course.language" #language="ngModel" required />
-                        
-                        <div *ngIf="language.invalid && (language.dirty || language.touched)" class="alert-danger">
-                            <p *ngIf="language.errors.required">Language is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="courseDuration">Duration * (min)</label>
-                    <input type="number"  pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$" id="courseduration" name="courseduration"
-                        [(ngModel)]="course.duration" #duration="ngModel" required />
-                        
-                        <div *ngIf="duration.invalid && (duration.dirty || duration.touched)" class="alert-danger">
-                            <p *ngIf="duration.errors.required">Duration is required</p>
-                            <p *ngIf="duration.errors.pattern">Duration has to be greater than 0!</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="courseDesc">Description *</label>
-                    <textarea type="text" id="profiledescription" name="profiledescription" placeholder="Enter description here"
-                        [(ngModel)]="course.description" #description="ngModel" required></textarea>
-
-                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert-danger">
-                            <p *ngIf="description.errors.required">Description is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <br/>
-                        <p style="text-align: center;">
-                            <button (click)="seeAddTechForm = true" class="ui positive button">Add Tech</button>
-                        </p>
-                    <br/>
-
-                    <div *ngIf="seeAddTechForm" class="rowflex">
-                        <select placeholder="Placeholder" [(ngModel)]="selectedTechID" name="selectedTechID" style="width: 70%;" required>
-                            <option value="-1">Select tech</option>
-                            <option *ngFor="let tech of techs" [value]="tech._id">
-                                {{ tech.name }}
-                            </option>
-                        </select>
-
-                        <button (click)="addTech()" class="ui positive right floated button" [disabled]="selectedTechID == '-1'" style="margin-top: 3px;">
-                            +</button>
-                    </div>
-                </div>
-
-            </form>
-
-        </div>
-
-        <br/>
-
-        <h3 *ngIf="course.techs.length > 0" class="header">Techs</h3>
-        <div *ngIf="course.techs.length > 0" class="rowflex">
-           <div *ngFor="let tech of course.techs" style="margin-right: 5px; margin-bottom: 10px">
-               <span  class="badge-tech" [style.background]="setColor(tech.type)">
-                    {{ tech.name }}
-                    <span (click)="deleteTech( tech._id )" style="border-radius: 30px;margin-left: 5px;padding: 3px 7px;" class="alert-danger">x</span>
-               </span>
-           </div>
-        </div>
-        
+    <h3 *ngIf="course.techs.length > 0" style="text-align: center">
+      Course techs
+    </h3>
+    <div *ngIf="course.techs.length > 0" class="rowflex">
+      <div
+        *ngFor="let tech of course.techs"
+        style="margin-right: 5px; margin-bottom: 10px"
+      >
+        <span class="badge-tech" [ngClass]="'tech-' + tech.type">
+          {{ tech.name }}
+          <span (click)="deleteTech(tech._id)" class="span-close-danger">
+            x
+          </span>
+        </span>
+      </div>
     </div>
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="addCourseForm.invalid || course.techs.length == 0"
-                (click)="saveCourse()">Save</button>
-        </div>
+    <div class="rowflex">
+      <button
+        class="btn success-btn"
+        [disabled]="addCourseForm.invalid || course.techs.length == 0"
+        (click)="saveCourse()"
+      >
+        Save
+      </button>
     </div>
-</div>
+  </mat-card-content>
+</mat-card>

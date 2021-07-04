@@ -1,69 +1,110 @@
 <div class="lottie-container">
-    <ng-lottie 
-        width="300px"
-        height="200px"
-        [options]="options">
-    </ng-lottie>
+  <ng-lottie width="300px" height="200px" [options]="options"> </ng-lottie>
 </div>
 
-<div class="ui card main-form width80">
-    <div class="content">
-        <button (click)="pasteJson()" style="float: right;">Paste JSON</button>
-        <button *ngIf="tech._id" (click)="setMakeNew()" style="float: right;">¿Create new?</button>
-        <h1 class="header">Add new technology</h1>
-        <h4 *ngIf="makeNew" class="badge-tech" style="background: plum; width: fit-content;">Creating new tech from JSON</h4>
+<mat-card class="card-form">
+  <mat-card-header class="bg-primary">
+    <h1>{{ tech._id ? "Edit" : "Add" }} technology</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="height: 50px">
+      <btnPasteJSON (sendItem)="receiveFromClipboard($event)"></btnPasteJSON>
+      <button *ngIf="tech._id" (click)="setMakeNew()" class="btn-create-new">
+        ¿Create new?
+      </button>
+
+      <h4 *ngIf="makeNew && !tech._id" class="badge-tech creating-new-message">
+        Creating new tech from JSON
+      </h4>
     </div>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
+    <Alert *ngIf="error" [message]="error" [type]="error"> </Alert>
+
+    <form
+      class="common-form"
+      style="flex-direction: revert"
+      #addTechForm="ngForm"
+    >
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text"
+            id="techName"
+            name="techName"
+            placeholder="Enter name here"
+            [(ngModel)]="tech.name"
+            #name="ngModel"
+            required
+          />
+
+          <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+            <p *ngIf="name.errors.required">Name is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select
+            name="techType"
+            [(ngModel)]="tech.type"
+            class="custom-select"
+            #type="ngModel"
+            required
+          >
+            <mat-option
+              *ngFor="let t of types"
+              [value]="t"
+              [ngClass]="'tech-' + t"
+              style="color: white"
+            >
+              {{ t | onlyFirstLetterUpper }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="type.invalid && (type.dirty || type.touched)">
+            <p *ngIf="type.errors.required">Type is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Icon</mat-label>
+          <input
+            matInput
+            type="text"
+            id="techIcon"
+            name="techIcon"
+            placeholder="Enter icon url here"
+            [(ngModel)]="tech.icon"
+            #icon="ngModel"
+            required
+          />
+
+          <mat-error *ngIf="icon.invalid && (icon.dirty || icon.touched)">
+            <p *ngIf="icon.errors.required">Icon is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div *ngIf="tech.icon" class="icon-display">
+      <img [src]="tech.icon" alt="tech-icon" />
     </div>
 
-    <div class="content">
-
-        <div class="ui large form equal width stackable grid">
-
-            <form class="three column row" #addTechForm="ngForm">
-
-
-                <div class="column field">
-                    <label for="techName">Name *</label>
-                    <input type="text" id="techName" name="techName" placeholder="Enter name here"
-                        [(ngModel)]="tech.name" #name="ngModel" required />
-
-                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert-danger">
-                            <p *ngIf="name.errors.required">Name is required</p>
-                        </div>
-                </div>
-                
-                <div class="column field">
-                    <label for="techType">Type *</label>
-                    <select name="techType" class="ui fluid search selection dropdown" [(ngModel)]="tech.type" #type="ngModel" required>
-                        <option *ngFor="let t of types" class="item" [value]="t">{{ t | uppercase }}</option>
-                    </select>
-
-                        <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert-danger">
-                            <p *ngIf="type.errors.required">Type is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="techIcon">Icon *</label>
-                    <input type="text" id="techIcon" name="techIcon" placeholder="Enter icon url here"
-                        [(ngModel)]="tech.icon" #icon="ngModel" required/>
-
-                        <div *ngIf="icon.invalid && (icon.dirty || icon.touched)" class="alert-danger">
-                            <p *ngIf="icon.errors.required">Icon is required</p>
-                        </div>
-                </div>
-
-            </form>
-
-        </div>
+    <div class="rowflex">
+      <button
+        mat-flat-button
+        color="accent"
+        [disabled]="addTechForm.invalid"
+        (click)="saveTech()"
+      >
+        Save
+      </button>
     </div>
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="addTechForm.invalid"
-                (click)="saveTech()">Save</button>
-        </div>
-    </div>
-</div>
+  </mat-card-content>
+</mat-card>
