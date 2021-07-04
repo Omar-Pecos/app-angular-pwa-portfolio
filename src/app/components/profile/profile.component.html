@@ -1,69 +1,111 @@
-<div *ngIf="user" class="ui card main-form" style="margin:30px auto;">
+<mat-card *ngIf="user" style="margin: 10vw auto" class="card-form">
+  <mat-card-header class="bg-primary">
+    <h1>Edit profile</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <Alert *ngIf="error" [message]="error" type="error"> </Alert>
+    <Alert *ngIf="message" [message]="message"> </Alert>
 
-    <div *ngIf="error" class="content">
-        <h4 class="alert-danger">{{error}}</h4>
+    <form class="common-form" #editForm="ngForm">
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Nickname</mat-label>
+          <input
+            matInput
+            type="text"
+            name="nickname"
+            id="nickname"
+            placeholder="Enter your nickname"
+            [(ngModel)]="user.nickname"
+            #nickname="ngModel"
+            required
+          />
+
+          <mat-error
+            *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="nickname.errors.required">Nickname is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            [(ngModel)]="user.email"
+            #email="ngModel"
+            required
+          />
+
+          <mat-error
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert-danger"
+          >
+            <p *ngIf="email.errors.required">Email is required</p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>New password</mat-label>
+          <input
+            matInput
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter new password"
+            [(ngModel)]="user.password"
+            #password="ngModel"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Password confirmation</mat-label>
+          <input
+            matInput
+            type="password"
+            id="passwordConfirmation"
+            name="passwordConfirmation"
+            placeholder="Enter password confirmation"
+            [(ngModel)]="user.passwordConfirmation"
+            #passwordConfirmation="ngModel"
+            [disabled]="!user.password"
+            [required]="user.password"
+          />
+
+          <mat-error
+            *ngIf="
+              passwordConfirmation.invalid &&
+              (passwordConfirmation.dirty || passwordConfirmation.touched)
+            "
+            class="alert-danger"
+          >
+            <p *ngIf="passwordConfirmation.errors.required">
+              Password confirmation is required
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div class="rowflex">
+      <button
+        class="btn success-btn"
+        [disabled]="editForm.invalid"
+        (click)="edit()"
+      >
+        Edit
+      </button>
     </div>
-
-    <div *ngIf="message" class="content">
-        <h4 class="alert-success">{{message}}</h4>
-    </div>
-
-    <div class="content">
-
-        <div class="ui large form equal width stackable grid">
-            <h2 class="formTitle">Edit Profile Info</h2>
-
-            <form class="one column row" #editForm="ngForm">
-
-                <div class="column field">
-                    <label for="nickname">Nickname</label>
-                    <input type="text" name="nickname" id="nickname" placeholder="Enter your nickname"
-                        [(ngModel)]="user.nickname" #nickname="ngModel" required> 
-
-                        <div *ngIf="nickname.invalid && (nickname.dirty || nickname.touched)" class="alert-danger">
-                            <p *ngIf="nickname.errors.required">Nickname is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email"
-                        [(ngModel)]="user.email" #email="ngModel" required />
-
-                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert-danger">
-                            <p *ngIf="email.errors.required">Email is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password"
-                        [(ngModel)]="user.password" #password="ngModel" required />
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert-danger">
-                            <p *ngIf="password.errors.required">Password is required</p>
-                        </div>
-                </div>
-
-                <div class="column field">
-                    <label for="passwordConfirmation">Password Confirmation</label>
-                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="Enter password confirmation"
-                        [(ngModel)]="user.passwordConfirmation" #passwordConfirmation="ngModel" required />
-
-                        <div *ngIf="passwordConfirmation.invalid && (passwordConfirmation.dirty || passwordConfirmation.touched)" class="alert-danger">
-                            <p *ngIf="passwordConfirmation.errors.required">Password confirmation is required</p>
-                        </div>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <div class="extra content">
-        <div class="row">
-            <button class="ui positive right floated button" [disabled]="editForm.invalid"
-                (click)="edit()">Edit</button>
-        </div>
-    </div>
-
-</div>
+  </mat-card-content>
+</mat-card>
